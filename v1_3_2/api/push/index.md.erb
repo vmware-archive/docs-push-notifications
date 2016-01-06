@@ -1,0 +1,234 @@
+---
+title: Push
+---
+
+## <a id="push_create"></a> POST /v1/push ##
+
+Push a message out to a list of devices or devices targeted by platform.
+
+Authentication: HTTP Basic application\_uuid:api\_key
+
+Query Parameters: None
+
+### Request Body ###
+
+There are many possible options for the request body.  All of the
+options are listed in the JSON text example below.  Note that most of
+the individual JSON fields are optional.  The options you need to use
+are described below.
+
+The __message__ &rarr; __body__ field in the JSON request body is the
+_default_ message that is supplied in notifications to remote devices.  It
+will be overridden by any platform-specific __custom__ message body data.
+
+In particular, iOS devices will receive the __message__ &rarr; __body__
+field as their alert message unless the __custom__ &rarr; __ios__ &rarr;
+__alert__ &rarr; __body__ field is populated.  Android devices will
+receive the __message__ &rarr; __body__ field in their payload
+__message__ field unless the __custom__ &rarr; __android__ &rarr;
+__message__ field is populated.
+
+```JSON
+{
+  "message": {
+    "body": "Message body",                  # The text of the push message
+    "custom": {
+      "ios": {
+        "alert": {
+          "body": "iOS only message body",   # The body of the push message
+          "action-loc-key": "actionKey",     # (overrides body defined above)
+          "loc-key": "localizedStringKey",
+          "loc-args": [ "arg1", "arg2", ... ],
+          "title": "Title",
+          "title-loc-key": "titleKey",
+          "title-loc-args": [ "arg1", "arg2", ... ],
+          "launch-image": "Default.png"
+        },
+        "category": "SAMPLE_CATEGORY",
+        "badge": 1,
+        "sound": "default",
+        "content-available": true,
+        "extra": {}
+      },
+      "android": {
+        "collapse_key": "collapseKey"
+      },
+      "windows8": {
+        "template_name": "TileSquareBlock",
+        "template_fields": {
+          "textField1":"text1",
+          "textField2":"text2"
+        },
+        "options": {},
+        "type": "tile"
+      },
+      "windowsPhone": {
+        "template_fields": {
+          "subtitle":"text",
+          "parameter":"text"
+        },
+        "template": "toast"
+      },
+      "bb10": "BB10 only message body"
+    }
+  },
+  "target": {
+    "tags": [ "tag1", "tag2", ... ],
+    "platforms": [ "platform1", "platform2", ... ],
+    "devices": [ "device_uuid1", "device_uuid2", ... ],
+    "interactive-only": false,     # Either true or false
+    "platform": "all"              # One of the following options
+  },                               # (ios, android, windows8, windowsPhone, bb10)
+
+  "scheduleAt": 1345852800000,     # Epoch timestamp in milliseconds.
+  "scheduleIn": 0,                 # Integer (time delta in seconds)
+  "expiryTime": null               # Epoch timestamp in milliseconds.
+}
+```
+
+### Response Data, status: 200 (OK) ###
+
+The fields returned by the /v1/push POST API depend on the type of push
+notification that was requested.  If the push is given __scheduleAt__
+or __scheduleIn__ fields then the push is scheduled to be delivered in
+the future.  These pushes will return a __schedule_id__ field in the
+response data.  These __schedule_id__ values can be used in the
+[/v1/schedule](../schedules/index.html) APIs to update or cancel the scheduled push
+before it is delivered.
+
+Otherwise the push will be queued to be sent immediately.  In this case,
+the response will also contain a __schedule_id__ field that can be used
+to follow the push notification delivery status in the audit logs.
+
+```JSON
+{
+  "schedule_id": "",  # only returned if the push notification is a scheduled push
+  "receipt_id": ""    # only returned if the push is being delivered immediately.
+}
+```
+
+## <a id="targeting_selection"></a> Targeting / Audience Selection ##
+
+You can target your push notifications in many ways:
+
+ - By device UUID(s) (as returned by the device registration process in the PCF Push Client SDKs - or by the /v1/registration HTTP POST call if you are registering your devices without using the Client SDKs.
+ - By tag(s).
+ - By platform(s).
+
+```JSON
+  "target": {
+    "tags": [ "tag1", "tag2", ... ],
+    "platforms": [ "ios", "android", ... ],
+    "devices": ["device_uuid1", "device_uuid2", ... ],
+    "interactive-only": false,
+    "platform": "all"
+  },
+```
+
+* __devices__ is a list of device UUIDs to target. __devices__ will over-ride any other targeting type.  These device UUIDs are the same ones that are returned by the PCF Push Client SDKs after registration, or by the /v1/registration HTTP POST call if you are registering your devices without using the Client SDKs.
+
+* __tags__ is a list of tags (or topics) to which devices may be subscribed. Only devices subscribed to one of more of the listed tags will be targeted.  Devices select which tags to subscribe to by calling the appropriate __subscribeToTags__ methods in the client SDKs or by calling the /v1/registration HTTP POST or PUT.
+
+* __interactive-only__ restricts the targeted devices to only those devices that can accept interactive pushes, if set to 'true'. Currently this means iOS 8+ devices.
+
+* __platforms__ is a list of platforms to be targeted. Available platforms are 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled).
+
+* __platform__ is deprecated. Possible values are 'all', 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled). If 'platforms' is also populated the platform(s) selected here will be added to list of platforms.
+
+* NOTE: __tags__ and __platforms__ can be used in a complementary way to push a message to just a subset of users.
+
+## <a id="setting_expiration"></a> Setting Expiration Time on Pushes ##
+
+The "__expiryTime__" field can be used to specify a time after which a push should not be displayed. It should be an __Epoch__ timestamp integer in milliseconds (i.e.: the number of milliseconds since midnight January 1, 1970). If __expiryTime__ is not set the behavior will be the platform default. For iOS, Android and BB10 pushes will be queued for delivery if the target device is unreachable at the time of the push and delivered as soon as it is reachable. If __expiryTime__ is set and the the device becomes reachable AFTER the expiry time, the push will not be delivered.
+
+Windows 8 behavior is similar for tile and badge notifications but only one tile and one badge notification will be queued. See the [Push notification service request and response headers](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#pncodes_x_wns_cache) documentation for more information.
+
+__IMPORTANT NOTE__:
+
+* Windows 8 toast notifications are not queued and cannot have an expiry time. They will only be delivered at the time the push is sent if the target device is connected.
+* Windows Phone 7 has no expiry option. Instead pushes fall into one of three categories: immediate, up to 450 seconds, or up to 900 seconds. Depending on the time set in the "__expiryTime__" field, a push to Windows Phone 7 will be slotted into one of those categories. See the [Sending push notifications for Windows Phone](http://msdn.microsoft.com/library/windows/apps/hh202945.aspx) documentation.
+
+## <a id="scheduled_pushes"></a> Scheduled Pushes ##
+
+Pushes can be scheduled to be sent at a later time. Use the __scheduleAt__ field to specify the time when the push should be sent. As with __expiryTime__ this should be an __Epoch__ timestamp integer in milliseconds. Alternatively you can use the __scheduleIn__ field to specify the scheduled time as the number of seconds from the time the server receives the push request. NOTE: You cannot set both the __scheduleAt__ and __scheduleIn__ fields at the same time as doing this would result in an error message from the server.
+
+If the scheduled time is less than a preconfigured time in the future, the push will not be scheduled and will be sent immediately. By default this amount is 60 seconds.
+
+
+## <a id="custom_fields"></a> Custom Fields For Pushes ##
+
+### iOS ###
+
+The fields available in the custom block for iOS are described here:
+
+```JSON
+ "ios": {
+        "alert": {
+          "body": "iOS only message body",
+          "action-loc-key": "actionKey",
+          "loc-key": "localizedStringKey",
+          "loc-args": [
+            ""
+          ],
+          "title": "Title",
+          "title-loc-key": "titleKey",
+          "title-loc-args": [
+          	"arg1",
+            "arg2"
+          ],
+          "launch-image": "Default.png"
+        },
+        "category": "SAMPLE_CATEGORY",
+        "badge": 1,
+        "sound": "default",
+        "content-available": true,
+        "extra": { "freeform custom data" : "freeform custom data", ... }
+      },
+```
+* __extra__<br/> type: dictionary or null<br/> This property can be used to pass free-form arbitrary payload data to the receiving iOS device.  This data will be passed in the `userInfo` dictionary in the `application:didReceiveRemoteNotification` callback in the application's app delegate class.  It is up to the application to use this data as it needs.
+
+* __alert__<br/> type: string or dictionary<br/> If this property is included, the system displays a standard alert. You may specify a string as the value of alert or a dictionary as its value. If you specify a string, it becomes the message text of an alert with two buttons: Close and View. If the user taps View, the app is launched. Alternatively, you can specify a dictionary as the value of alert. See Table 3-2 at the [Apple Documentation](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW2) for descriptions of the keys of this dictionary.
+
+* __badge__<br/> type: number<br/> The number to display as the badge of the app icon. If this property is absent the badge is not changed. To remove the badge, set the value of this property to 0.
+
+* __sound__<br/> type: string<br/> The name of a sound file in the app bundle. The sound in this file is played as an alert. If the sound file doesn’t exist or default is specified as the value, the default alert sound is played. The audio must be in one of the audio data formats that are compatible with system sounds; see [Preparing Custom Alert Sounds](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html#//apple_ref/doc/uid/TP40008194-CH103-SW6) for details.
+
+* __content-available__<br/> type: number<br/> Provide this key with a value of 1 to indicate that new content is available. Including this key and value means that when your app is launched in the background or resumed, `application:didReceiveRemoteNotification:fetchCompletionHandler:` is called. (Newsstand apps are guaranteed to be able to receive at least one push with this key per 24-hour window.)
+
+* __title__<br/> type: string<br/> A short string describing the purpose of the notification. Apple Watch displays this string as part of the notification interface. This string is displayed only briefly and should be crafted so that it can be understood quickly. This key was added in iOS 8.2.
+
+* __body__<br/> type: string<br/> The text of the alert message.
+
+* __title-loc-key__<br/> type: string or null<br/> The key to a title string in the "Localizable.strings" file for the current localization. The key string can be formatted with `%@` and `%n$@` specifiers to take the variables specified in the __title-loc-args__ array. See [Localized Formatted Strings](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW21) for more information. This key was added in iOS 8.2.
+
+* __title-loc-args__<br/> type: array of strings or null<br/> Variable string values to appear in place of the format specifiers in title-loc-key. See [Localized Formatted Strings](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW21) for more information. This key was added in iOS 8.2.
+
+* __action-loc-key__<br/> type: string or null<br/> If a string is specified, the system displays an alert that includes the Close and View buttons. The string is used as a key to get a localized string in the current localization to use for the right button’s title instead of “View”. See [Localized Formatted Strings](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW21) for more information.
+
+* __loc-key__<br/> type: string<br/> A key to an alert-message string in a "Localizable.strings" file for the current localization (which is set by the user’s language preference). The key string can be formatted with `%@` and `%n$@` specifiers to take the variables specified in the loc-args array. See [Localized Formatted Strings](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW21) for more information.
+
+* __loc-args__<br/> type: array of strings<br/> Variable string values to appear in place of the format specifiers in __loc-key__. See [Localized Formatted Strings](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW21) for more information.
+
+* __launch-image__<br/> type: string<br/> The filename of an image file in the app bundle; it may include the extension or omit it. The image is used as the launch image when users tap the action button or move the action slider. If this property is not specified then the system either uses the previous snapshot or uses the image identified by the __UILaunchImageFile__ key in the app’s "Info.plist" file, or falls back to "Default.png". This property was added in iOS 4.0.
+
+Please check the [Apple documentation](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW2) for more detailed information.
+
+###  Android ###
+
+The custom fields for android are just a dictionary that can contain any fields required by your application. You can also specify a __collapse\_key__ in the custom fields for Android. A message with a __collapse\_key__ that has not yet been delivered may be replaced by a newer message with the same collapse key. Please see the [Google documentation on collapsable messages](https://developers.google.com/cloud-messaging/downstream#collapsible_and_non-collapsible_messages).
+
+Otherwise, you can specify any arbitrary freeform payload data to deliver to the receiving Android device.  All of the fields in this in the __android__ element in the push request will be supplied to the receiving Android device in the `Bundle` provided to `onReceiveMessage` method in the Android application's subclass of `GcmService`.  In general the push message data would be provided in a `message` JSON field but it is up to your application to use the message payload as it needs.
+
+### BB10 ###
+
+The __bb10__ custom field consists of a string which will override the message body on BlackBerry 10.  Note that PCF Push Notification Service support for Windows 8 is basic.  Pivotal does not provide any up-to-date client SDKs for BlackBerry 10 at this time.
+
+__NOTE__: The PCF Push Notification Service does not ship with BB10 support enabled due to restrictions on redistribution of BlackBerry's push libraries. If you need to enable BB10 pushes please contact [Pivotal Support](https://support.pivotal.io/hc/en-us).
+
+###  Windows 8 (WNS) ###
+
+See [this reference](windows8Fields/index.html) for a description of Windows 8 push options.  Note that PCF Push Notification Service support for Windows 8 is basic.  Pivotal does not provide any up-to-date client SDKs for Windows 8 at this time.
+
+###  Windows Phone (MPNS) ###
+
+See [this reference](windowsPhoneFields/index.html) for a description of Windows Phone push options.  Note that PCF Push Notification Service support for Windows 8 is basic.  Pivotal does not provide any up-to-date client SDKs for Windows Phone at this time.

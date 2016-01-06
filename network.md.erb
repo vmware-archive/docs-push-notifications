@@ -1,0 +1,30 @@
+---
+title: Network Setup Guide
+---
+
+## <a id="apns"></a> APNS / iOS Push
+
+### Server and Device Settings
+
+The push-api backend needs to have persistent sockets open to the Apple APNs servers.
+
+[Information from the Apple Support site] (https://support.apple.com/en-ca/HT203609)
+
+To use Apple Push Notification service (APNs) you need a direct and persistent connection to Apple's servers. Your device connects to APNs using cellular data if it's available. If there's no viable cellular connection the device switches to Wi-Fi.
+
+If you use Wi-Fi behind a firewall or a private Access Point Name (APN) for cellular data then you'll need a direct unproxied connection to the APNs servers on these ports:
+
+- TCP port 5223: For communicating with Apple Push Notification services (APNs).
+- TCP port 2195: For sending notifications to APNs.
+- TCP port 2196: For the APNs feedback service.
+- TCP port 443: For a fallback on Wi-Fi only when devices can't reach APNs on port 5223.
+
+The APNs servers use load balancing so your devices won't always connect to the same public IP address for notifications. It's best to allow access to these ports on the entire 17.0.0.0/8 address block which is assigned to Apple.
+
+## <a id="gcm"></a> GCM / Android Push
+
+### Server and Device Settings
+
+The push-api backend needs to send requests to "https://android.googleapis.com/gcm/send" (port 443).
+
+Devices will need direct unproxied connections to Google servers on port 5228.  Android 4.3 and up have fallback capabililties to use port 443.

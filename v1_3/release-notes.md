@@ -1,0 +1,104 @@
+---
+title: Push Notification Service v1.3.0 Release Notes
+---
+
+The Push Notification services allows application developers to publish push notifications to devices on various platforms. Integration is done through provided SDKs which implement the device registration flow.
+
+##Dependencies
+
+#### On PCF 1.4
+ - Pivotal MySQL Service 1.4.0+
+ - Pivotal Redis Service 1.4.x
+ - Pivotal RabbitMQ Service 1.4.0
+
+####  On PCF 1.5
+ - Pivotal MySQL Service 1.5.0+
+ - Pivotal Redis Service 1.4.x
+ - Pivotal RabbitMQ Service 1.4.0
+
+##Known issues
+
+* On AWS, this version supports deployments in the US-East region. Multi-region support is coming in a future release.
+* The experimental HTTPS-only feature in Elastic Runtime 1.5 may cause issues with this version of the product. Full support for HTTPS-only traffic is coming in a future release.
+
+<p class="note"><strong>Note</strong>: BOSH Stemcell 2989 is required for installation on Ops Manager 1.5.x and above.</p>
+
+## List of Changes
+
+####Location based notifications
+- Android and iOS support (SDKs)
+- Dashboard support
+	- Maps
+	- Saved locations and groups of locations
+	- Active geofences view
+
+## List of Known issues
+
+## Upgrading from version 1.2
+
+There is no automated upgrade path from version 1.2 to version 1.3 however it is possible to migrate data from
+an 1.2 intallation to a 1.3 installation with the following steps:
+
+###Backup data
+
+  - In the developer console in the "system" org go to the "push-notifications" space and the "push-notifications" app
+  - Go to services
+  - click show credentials for mysql
+  - get username, password and database name
+  - ssh into the proxy for your pivotal cf environment
+  - From the proxy run 
+  	
+  		mysqldump -h hostname -p -u username database_name > push_db.sql
+
+###Backup encryption key
+
+   - In the developer console go to the push-notifictions app and go to the "Env Variables" tab
+   - Get and record the value for 'crypto_applicationKey'. You will need this during the v1.3 install.
+
+###Backup Redis
+  - See [redis backup instructions ](../redis-backup.html) 
+    
+###Uninstall push 1.2
+
+- Delete Push Notification Service v 1.2.x in Ops Manager
+
+###Install push 1.3
+
+- Upload the pivotal package for Push Notification Service v 1.3.0 to Ops Manager
+- Under security settings be sure to enter the encryption key from the previous installation.  This is very important as portions of the exported data is encrypted.
+- Apply changes and wait for the install to complete
+
+###Restore data
+
+- From the developer console in the "push notifications" space through the "system" org, stop the "push" and "push-api" applications
+
+#####From the push-api app
+- Go to services
+- Click show credentials for mysql
+- Get username, password and database name
+- ssh into the proxy for your pivotal cf environment
+- Delete data from push 1.3 install (this should just be empty data)
+	- From the proxy run 
+
+    		mysql -h hostname -p -u username name -e "drop database database_name; create database database_name;"
+
+ - Import data from old install
+  	- from the proxy run 
+  	
+  			mysql -h hostname -p -u username database_name > push_db.sql
+
+- Enable migrations
+	- In the developer console, find the "push-api" application and go to the "Env Variables" tab 
+	- Edit 'liquibase_runMitrations' and set it to 'true'
+
+- Start the "push-api" and "push" applications
+
+- Disable migrations
+	- In the developer console, find the "push-api" application and go to the "Env Variables" tab 
+	- Edit 'liquibase_runMitrations' and set it to 'false'
+	- Restart the "push-api" application
+
+###Bind depricated api url for existing apps (if you are using the old route)
+
+- In the developer console, find the "push-api" application, and go to the Routes tab 
+- Click 'Map A Route' add a route named 'push-notifications'

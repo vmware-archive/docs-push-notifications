@@ -1,0 +1,97 @@
+---
+title: Troubleshooting
+---
+
+### Downloading Problems
+
+#### I can't download the Push Notification Service
+
+Make sure you have an account on http://network.pivotal.io, and then find the tile with Push Notification Service on it. From there you will be able to download the latest Push release.
+
+### Installation Problems
+
+### Stemcells
+##### Missing stemcell
+The Push Notification package for Pivotal Cloud Foundry has been optimized to work with the latest PCF. Installing the Push tile on an older version of PCF will cause Ops Manager prompt the user for the BOSH stemcell of ubuntu-trusty. Simply upload the correct version of the required stemcell to resolve this issue.
+
+#### Wrong stemcell
+If the wrong version of a stemcell has been uploaded for a product (eg. uploading bosh-stemcell-3100-aws-xen-ubuntu-trusty-go_agent.tgz instead of light-bosh-stemcell-3100-aws-xen-hvm-ubuntu-trusty-go_agent.tgz), the product will have to be removed and re-added to Ops Manager. Then upload the correct stemcell.
+
+### SDK Problems
+#### <a id="androidSDK"></a>Android ####
+
+- If your app is not able to register with the PCF Push API server successfully then either:
+  - Ensure that you have the correct URL for the **API** server in your `pivotal.push.serviceUrl` parameter in your `pivotal.properties` file.  Ensure that it is not set to the same URL as the PCF Push Dashboard server -- they are different servers.
+  - Ensure that you have good network connectivity on your test device.
+  - If you are testing on an Android emulator device then make sure that it is targeting the "Google APIs". The "Android" targetted emulators to not support receiving push notifications.
+  - Ensure that you are using an Android 4.0+ device.
+  - Ensure that your PCF Push API Server is publicly accessible (i.e.: it is not running on a private VPN that is not visible to your test device).
+
+- If your app is receiving push notifications but you do not see analytics events being generated and uploaded to the server then either:
+  - Ensure you have push analytics disabled (ensure that `pivotal.push.areAnalyticsEnabled` is set to `YES` in your `pivotal.properties` file)
+  - Ensure that the PCF Push API server is generating push notifications with the `receiptId` field populated.
+  - Ensure that the PCF Push API server is running at least version 1.3.2.
+
+- If push analytics data is not being produced when you open push notifications then ensure that you are calling the `logOpenedNotification` method in the `Push` class after the user touches a push notification.
+
+#### <a id="iosSDK"></a> iOS ####
+
+- If your app is not able to register with the PCF Push API server successfully then either:
+  - Ensure that you have the correct URL for the **API** server in your `pivotal.push.serviceUrl` parameter in your `Pivotal.plist` file.  Ensure that it is not set to the same URL as the PCF Push Dashboard server -- they are different servers.
+  - Ensure that you have good network connectivity on your test device.
+  - Ensure that you are using a physical test device.  The iOS simulator does NOT support push notifications.
+  - Ensure that you are using an iOS 7.0+ device.
+  - Ensure that your PCF Push API Server is publicly accessible (i.e.: it is not running on a private VPN that is not visible to your test device).
+
+- If your app is receiving push notifications but you do not see analytics events being generated and uploaded to the server then either:
+  - Ensure you have push analytics disabled (ensure that `pivotal.push.areAnalyticsEnabled` is set to `YES` in your `pivotal.plist` file)
+  - Ensure that the PCF Push API server is generating push notifications with the `receiptId` field populated.
+  - Ensure that you are calling the `PCFPush didReceiveRemoteNotification` method after you receive remote notifications in your application delegate `didReceiveRemoteNotification` method (example below).
+  - Ensure that the PCF Push API server is running at least version 1.3.2.
+
+- If you are creating geofences and the app is not monitoring them OR if push analytics data is not being produced then ensure that you are calling the `PCFPush didReceiveRemoteNotification` method after you receive remote notifications in your application delegate `didReceiveRemoteNotification` method.  e.g.:
+
+```objective_c
+    // This method is called when APNS sends a push notification to the application when the application is
+    // not running (e.g.: in the background).  Requires the application to have the Remote Notification Background Mode Capability.
+    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+    {
+        [self handleRemoteNotification:userInfo];
+
+        // IMPORTANT: Inform PCF Push Notification Service that this message has been received.
+        [PCFPush didReceiveRemoteNotification:userInfo completionHandler:^(BOOL wasIgnored, UIBackgroundFetchResult fetchResult, NSError *error) {
+
+            if (completionHandler) {
+                completionHandler(fetchResult);
+            }
+        }];
+    }
+```
+
+- If you are having problems registering devices with your servers using HTTPS then you may need to configure custom SSL validation using the `pivotal.push.sslCertValidationMode` parameter in your `Pivotal.plist` file.  Please see the [iOS SDK documentation](./ios/#ssl_authentication) for more information.
+
+- If you are not able to make HTTP network requests on devices running iOS 9.0+ and you see the error `The resource could not be loaded because the App Transport Security policy requires the use of a secure connection` then you will need to configure App Transport Security.  Please see the [iOS SDK documentation](./ios/#ssl_authentication) for more information.
+
+### Backend Problems
+
+#### After deploying, the backend has a 500 error
+
+If the error looks like `There was an unexpected error (type=Internal Server Error, status=500)`, this could be due to migrations that haven't run when the backend was deployed and started up.
+
+Add the environment variable `liquibase_runMigrations` to the push-api app, set it to true, and then restart the app.
+
+### Dashboard Problems
+
+#### The Dashboard says 'Something has gone amiss', what should I do?
+
+The dashboard now requires a Tenant Id in the URL. A Tenant Id will be created once an instance of the Push Notification Service has been provisioned. This service will include a "Manage" link that should be used to access the dashboard for a given tenant.
+
+#### The Dashboard says 'Server Temporarily Unavailable', what does this mean?
+
+Whenever an error message at the top of the dashboard appears and says 'Server Temporarily Unavailable', this alludes to the healthcheck returning an error with one of the three services it monitors.
+
+The healthcheck for the dashboard gets pinged every 30 seconds, and monitors the Push Analytics server, the MySQL service, and the RabbitMQ service. So one of those three components is either not running or not found.
+
+#### The map isn't loading
+
+Right now for any maps on the dashboard we use an open source, free tile provider. With this we only have a certain number of requests to the tile provider per month.

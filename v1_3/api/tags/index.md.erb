@@ -1,0 +1,105 @@
+---
+title: Tags
+---
+
+A tag(or topic) is a keyword users can subscribe to, to receive pushes sent to the same tag
+
+<a name="tag_create"></a>
+### POST /v1/tags/:tag
+
+Create a tag with the text :tag if not already created.
+
+Authentication: HTTP Basic app_uuid:api_key
+
+
+Params: None
+
+#### Request Body: None
+
+#### Response: {tag}, status: 200 (OK)
+
+
+------------------
+
+<a name="tags_subscribe_batch"></a>
+### POST /v1/tags/batch
+
+User tags subscriptions in batches.
+
+Authentication: HTTP Basic app_uuid:api_key
+
+Params: None
+
+### Request Body:
+
+```ruby
+[
+  {
+    "registration_token": "token1",
+    "tags": ["tag1","tag2"]
+  },
+  {
+    "registration_token": "token2",
+    "tags": ["tag1","tag2"]
+  },
+  {
+    "device_uuid": "device_uuid1",
+    "tags": ["tag1","tag2"]
+  },
+  {
+    "device_uuid": "device_uuid2",
+    "tags": ["tag1","tag2"]
+  }
+]
+```
+
+### Error Response: 400
+
+```ruby
+[
+  {
+    "registration_token": "token",
+    "error": "error description"
+  },
+  {
+    "device_uuid": "device_uuid",
+    "error": "error description"
+  }
+]
+```
+
+---
+<a name="tags_delete"></a>
+### delete /v1/tags/:tag
+
+Delete a tag
+
+Authentication: HTTP Basic app_uuid:api_key
+
+Params: None
+
+#### Response: status: 200 (OK)
+
+----
+
+### GET /v1/tags/count/:platformId/:tagId
+
+Returns the number of registration subscribed to this specific tagId under a contain platform
+
+Authentication: HTTP Basic app_uuid:api_key
+
+Params: None
+
+#### Response: status: 200 (OK)
+
+----
+
+### GET /v1/tags/count/:tagId
+
+Returns the number of registration subscribed to this specific tagId across all platforms
+
+Authentication: HTTP Basic app_uuid:api_key
+
+Params: None
+
+#### Response: status: 200 (OK)

@@ -1,0 +1,262 @@
+---
+title: Schedule
+---
+
+Endpoints for managing scheduled pushes.
+
+<a name="schedule_get_all"></a>
+### GET /v1/schedules
+
+Get all scheduled pushes for an app
+
+Authentication: HTTP Basic app_uuid:api_key
+
+Params: None
+
+#### Request Body: None
+
+#### Response:
+
+```ruby
+[
+  {
+    "schedule_id": "fc226fbc1443ebfe",
+    "scheduled_for": 1423513994000,                    # EPOCH Timestamp in milliseconds
+    "push": {
+      "scheduleAt": 1423513994000,                     # EPOCH Timestamp in milliseconds
+      "scheduleIn": 0,
+      "expiryTime": null,
+      "message": {
+        "custom": {
+          "windows8": {
+            "options": "object",
+            "template_name": "",
+            "template_fields": "object",
+            "type": ""
+          },
+          "windowsPhone": {
+            "template_fields": "object",
+            "template": ""
+          },
+          "ios": {
+            "extra": "object",
+            "category": "",
+            "badge": 0,
+            "sound": "",
+            "content-available": false,
+            "alert": {
+              "body": "",
+              "loc-key": "",
+              "action-loc-key": "",
+              "loc-args": [
+                ""
+              ],
+              "launch-image": ""
+            }
+          },
+          "bb10": "",
+          "android": "object"
+        },
+        "body": ""
+      },
+      "target": {
+        "interactive-only": false,
+        "platform": "",
+        "platforms": [
+          ""
+        ],
+        "devices": [
+          ""
+        ],
+        "tags": [
+          ""
+        ]
+      }
+    }
+  }
+]
+```
+
+----------------
+
+<a name="schedule_get_single"></a>
+### GET /v1/schedules/:schedule_id
+
+Get a single scheduled push for an app
+
+Authentication: HTTP Basic app_uuid:api_key
+
+Params: None
+
+#### Request Body: None
+
+#### Response:
+
+```ruby
+{
+  "schedule_id": "fc226fbc1443ebfe",
+  "scheduled_for": 1423513994000,                    # EPOCH Timestamp in milliseconds
+  "push": {
+    "scheduleAt": 1423513994000,                     # EPOCH Timestamp in milliseconds
+    "scheduleIn": 0,
+    "expiryTime": null,
+    "message": {
+      "custom": {
+        "windows8": {
+          "options": "object",
+          "template_name": "",
+          "template_fields": "object",
+          "type": ""
+        },
+        "windowsPhone": {
+          "template_fields": "object",
+          "template": ""
+        },
+        "ios": {
+          "extra": "object",
+          "category": "",
+          "badge": 0,
+          "sound": "",
+          "content-available": false,
+          "alert": {
+            "body": "",
+            "loc-key": "",
+            "action-loc-key": "",
+            "loc-args": [
+              ""
+            ],
+            "launch-image": ""
+          }
+        },
+        "bb10": "",
+        "android": "object"
+      },
+      "body": ""
+    },
+    "target": {
+      "interactive-only": false,
+      "platform": "",
+      "platforms": [
+        ""
+      ],
+      "devices": [
+        ""
+      ],
+      "tags": [
+        ""
+      ]
+    }
+  }
+}
+```
+
+----------------
+
+<a name="schedule_update"></a>
+### PUT /v1/schedules/:schedule_id
+
+Update a scheduled push for an app
+
+Authentication: HTTP Basic app_uuid:api_key
+
+Params: None
+
+#### Request Body:
+
+```ruby
+{
+  "scheduleAt": 1345852800000,                       # Epoch timestamp in milliseconds.
+  "message": {
+    "custom": {
+      "android": "object"
+    },
+    "body": ""
+  },
+  "target": {
+    "interactive-only": false,
+    "platform": "",
+    "platforms": [
+      ""
+    ],
+    "devices": [
+      ""
+    ]
+  }
+}
+```
+
+#### Response:
+
+```ruby
+{
+  "schedule_id": "fc226fbc1443ebfe",
+  "scheduled_for": 1345852800000,                    # EPOCH Timestamp in milliseconds
+  "push": {
+    "scheduleAt": 1345852800000,
+    "scheduleIn": 0,
+    "expiryTime": null,
+    "message": {
+      "custom": {
+        "windows8": {
+          "options": "object",
+          "template_name": "",
+          "template_fields": "object",
+          "type": ""
+        },
+        "windowsPhone": {
+          "template_fields": "object",
+          "template": ""
+        },
+        "ios": {
+          "extra": "object",
+          "category": "",
+          "badge": 0,
+          "sound": "",
+          "content-available": false,
+          "alert": {
+            "body": "",
+            "loc-key": "",
+            "action-loc-key": "",
+            "loc-args": [
+              ""
+            ],
+            "launch-image": ""
+          }
+        },
+        "bb10": "",
+        "android": "object"
+      },
+      "body": ""
+    },
+    "target": {
+      "interactive-only": false,
+      "platform": "",
+      "platforms": [
+        ""
+      ],
+      "devices": [
+        ""
+      ],
+      "tags": [
+        ""
+      ]
+    }
+  }
+}
+```
+
+----------------
+
+<a name="schedule_cancel"></a>
+### DELETE /v1/schedules/:schedule_id
+
+
+Cancel a scheduled push for an app
+
+Authentication: HTTP Basic app_uuid:api_key
+
+Params: None
+
+#### Request Body: None
+
+#### Response: 204 (no content)

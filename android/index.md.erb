@@ -1,0 +1,611 @@
+---
+title: Android Push Client SDK
+---
+
+## <a id="version"></a> Version ##
+
+This document covers the Android Push Client SDK v1.4.0.
+
+Old documentation:
+
+* [Version 1.3.3](1.3.3/index.html)
+* [Version 1.3.2](1.3.2/index.html)
+* [Version 1.3.1](1.3.1/index.html)
+* [Version 1.3.0](1.3.0/index.html)
+* [Version 1.0.4](1.0.4/index.html)
+
+## <a id="features"></a> Features ##
+
+The Android Push Client SDK is a light-weight library that will help your application:
+
+1. Register for push notifications with Google Cloud Messaging (GCM) and an instance of the [Pivotal Cloud Foundry Mobile Services](https://network.pivotal.io/products/pcf-mobile-services) Push Notification Server.
+
+1. Receive push messages sent via the same frameworks.
+
+1. Monitor geofences that have been configured from a central server.
+
+## <a id="device_requirements"></a> Device Requirements ##
+
+The Push SDK requires **Android API level 16** or greater.  Note that support for Android 14 and 15 was dropped as of Push SDK version 1.4.0.
+
+The **Google Play Services** application must be installed on the device before you can register your device or receive push messages. Typically, the user will need to be logged into a Google account as well. Most devices should already have
+this application installed, but some odd ones may not. You should be able to receive push notifications on a Android emulated device if it has the **Google APIs** installed.
+
+## <a id="getting_started"></a> Getting Started ##
+
+### Step 1 - Google Developers Console ###
+
+In order to receive push messages from the PCF Push Notification Service
+in your Android application, you will need to create a project within
+the Google Developers Console.  Refer to [instructions below] (#google).
+
+### Step 2 - PCF Push Notification Service Dashboard ###
+
+Set up your application and an **Android platform** on the PCF Push Notification Service Dashboard. This task
+is beyond the scope of this document, but please note that you will need the two parameters (**Project Number** and **API Key**)
+from Google Cloud Console above. After setting up your Android platform in PCF Mobile Services, make sure to note the
+**Platform UUID** and **Platform Secret** parameters. You will need them below.  At this time, the Android push software
+makes no distinction between developer and production modes.
+
+You can find steps on how to create your application and platforms on PCF Mobile Services Push Dashboard notes:
+[Push Dashboard Document] (/mobile/push/dashboard-user-guide.html)
+
+### Step 3 - Link to PCF Push SDK ###
+
+Download the PCF Mobile Service Push Client SDK for Android from [Pivotal Network]
+(https://network.pivotal.io/products/p-push-notifications).  The Client SDK is delivered as an Android Library
+(i.e.: an "AAR" file). Copy the AAR file into the `libs` directory of your project and ensure that the following line
+line is in the `dependencies` section of your module-level `build.gradle` file:
+
+```groovy
+    repositories {
+        mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
+    }
+```
+
+Additionally, add the following dependency to the `dependencies` section of your module-level `build.gradle` file:
+
+```groovy
+    dependencies {
+        compile(name:'PCFPush-1.4.0', ext:'aar')
+        compile 'com.google.code.gson:gson:2.4'
+        compile 'com.google.android.gms:play-services-location:8.1.0'
+        compile 'com.google.android.gms:play-services-gcm:8.1.0'
+        compile 'com.android.support:support-annotations:23.1.1'
+    }
+```
+
+### Step 4 - Set up your AndroidManifest.xml file ###
+
+You will need to define and use the following `permission` element in the `manifest` element of your application's
+`AndroidManifest.xml` file. Ensure that the base of the **permission name** is your application's **package name**:
+
+```xml
+    <permission
+        android:name="[YOUR.PACKAGE.NAME].permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="[YOUR.PACKAGE.NAME].permission.C2D_MESSAGE" />
+```
+
+You will need to add the following `receiver` to the `application` element of your application's `AndroidManifest.xml`
+file. Ensure that you set the **category name** to your application's **package name**:
+
+```xml
+    <receiver
+        android:name="io.pivotal.android.push.receiver.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+        <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            <category android:name="[YOUR.PACKAGE.NAME]"/>
+        </intent-filter>
+    </receiver>
+```
+
+### Step 5 - Set up your pivotal.properties file ###
+
+Create a **pivotal.properties** file in your project's `src/main/assets` or `src/main/res/raw` directory. The following properties are required:
+
+   Property                                 | Required | Description
+   ---                                      | ---      | ---
+   pivotal.push.serviceUrl                  | YES      | The URL of the PCF Push Server.
+   pivotal.push.platformUuid                | YES      | The platform UUID of your push platform on the PCF Push server.
+   pivotal.push.platformSecret              | YES      | The platform secret of your push platform on the PCF Push server.
+   pivotal.push.gcmSenderId                 | YES      | The project number assigned by Google Cloud Console.
+   pivotal.push.sslCertValidationMode       | NO       | Can be set to `default`, `trustall`, `pinned`, or `callback`. More details below in the [SSL Authentication](#ssl_authentication) section.
+   pivotal.push.pinnedSslCertificateNames   | NO       | If using `pinned` SSL validation mode then this property should be a list of SSL certificates in the `DER` format stored in the assets directory. The list is space separated.
+   pivotal.push.areAnalyticsEnabled         | NO       | Set to `false` to disable the capture of push analytics data.  Defaults to `true`.
+
+   * None of the above values may be `null`.  None of the above values may be empty.
+
+   * The `pivotal.push.platformUuid` and `pivotal.push.platformSecret` parameters should be
+   the **platform UUID** and **secret** values from the Push Dashboard. These values may not be empty or `null`.
+
+   * For instructions on how to convert your `PEM` certificate files to `DER` please see the [OpenSSL documentation](http://openssl.org/docs/apps/rsa.html).
+
+   * Note that the `pivotal.push.trustAllSslCertificates` property was removed in PCF Push Client SDK 1.3.3.
+
+### Step 6 - Initialize the Push SDK ###
+
+It is recommended that you initialize the Push Client SDK in your application's primary `Activity` subclass' `onCreate`
+method.
+
+Add the following lines of code to the initialization section of your application. You will need a `Context` object to
+pass to the `getInstance` method, so you should try to add this code to your `Activity` class.  In the example below the
+`Context` is the `this` object passed to the `getInstance` method (assuming that we're in an Activity):
+
+```java
+    try {
+        // RegistrationListener is optional and may be `null`.
+        Push.getInstance(this).startRegistration(DEVICE_ALIAS, TAGS, ARE_GEOFENCES_ENABLED, new RegistrationListener() {
+
+            @Override
+            public void onRegistrationComplete() {
+                Log.i("MyLogTag", "Registration with PCF Push successful.");
+            }
+
+            @Override
+            public void onRegistrationFailed(String reason) {
+                Log.e("MyLogTag", "Registration with PCF Push failed: " + reason);
+            }
+        });
+    } catch (Exception e) {
+        Log.e("MyLogTag", "Registration with PCF Push failed: " + e);
+    }
+```
+
+The **DEVICE\_ALIAS** is a custom field that you can use to differentiate this device from others and is intended for
+future use.  If you don't want to use the device alias then you can set this argument to `null` or an empty string.
+
+The **TAGS** parameter is a `Set<String>` of tags that your application would like to subscribe to. There are many
+possible uses of tags but they are dependent on your particular use cases. Always ensure that you provide all of the
+tags that you'd like to be subscribed to; if you omit tags in future calls to the register method then the SDK will
+think that you are trying to unsubscribe from those tags.  If there are no tags that you want to register to then you
+can set this argument to `null`.
+
+The **ARE\_GEOFENCES\_ENABLED** is a `boolean` value that turns the geofences feature on and off (described
+[below](#geofences)).  Please note that if you want to use geofences in your application you will need to request
+permission to read the device location.  If you want to support Android Marshmallow you will need to write extra code to
+request the device location.  This extra code is described in the [geofences](#geofences) section below.
+
+You should only have to call `startRegistration` once in the lifetime of your process -- but calling it more times
+is not harmful. The `startRegistration` method is asynchronous and will return before registration is complete. If you
+need to know when registration is complete (or if it fails), then provide a `RegistrationListener` as the second argument.
+
+### Step 7 - Receiving Push Notifications ###
+
+To receive push notifications in your application you will need to add a custom `Service` to your application that
+extends the `GcmService` provided in the SDK. The intent that GCM sends is passed to your service's `onReceiveMessage` method.
+Here is a simple example:
+
+```java
+    public class MyPushService extends GcmService {
+
+        @Override
+        public void onReceiveMessage(Bundle payload) {
+            if (payload.containsKey("message")) {
+                final String message = payload.getString("message");
+                handleMessage(message);
+            }
+        }
+
+        private void handleMessage(String msg) {
+            // Your code here. Display the message
+            // on the device's bar as a notification.
+        }
+    }
+```
+
+Finally, you will need to declare your service in your **AndroidManifest.xml** file.
+
+```xml
+     <service android:name=".MyPushService" android:exported="false" />
+```
+
+### Step 8 - Enable or disable push analytics (OPTIONAL) ###
+
+Version 1.3.3 of the PCF Push Client SDK supports the collection of some simple push analytics data:
+
+   - Receiving push notifications
+   - Opening push notifications
+   - Triggering geofences
+
+Analytics are enabled by default.  You can disable it by setting the `pivotal.push.areAnalyticsEnabled` parameter in
+your `pivotal.properties` file to `false`.  Ensure that you have an up-to-date version of the PCF Push API server and
+that it is generating `receiptId` data in the remote notifications that it generates.
+
+Since the notification capabilities on Android are very diverse the SDK doesn't do any work to help applications display
+them.  It relies on your application to decide how to display and handle all push notifications.  As such, there is no
+way for the SDK to know when the user touches a notification and opens your application.  If you want to collect metrics
+about how many users are opening the notifications in your app then the SDK relies on your app to inform it.  You need
+to call the `logOpenedNotification` method in the `Push` class with the same `Bundle` that was delivered in the push
+notification.
+
+Please note that the capturing push analytics data requires version 1.3.2 of the Push API server.  The SDK will check the
+server version before capturing any analytics data.  If the server version is too old then no analytics data will be recorded.
+The SDK will check the server version once every 24 hours in release builds and every 5 minutes in debug builds.
+
+e.g.:
+
+Let's say that you use this code to display a push notification in your subclass of `GcmService`:
+
+```java
+    @Override
+    public void onReceiveMessage(Bundle payload) {
+        final String message = payload.getString("message");
+
+        final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        final Intent intent = new Intent(this, MyAppsMainActivity.class);
+        intent.setAction("YOUR_CUSTOM_NOTIFICATION_ACTION_NAME");
+        intent.putExtras(payload);
+        final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+            .setSmallIcon(R.drawable.ic_your_app_logo)
+            .setContentTitle(getString(R.string.app_name))
+            .setContentIntent(contentIntent)
+            .setContentText(msg);
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+    }
+```
+
+Then you can use the following code in the opened activity to report that the notification has been opened:
+
+```java
+    public class MyAppsMainActivity extends Activity {
+    ...
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final Intent i = getIntent();
+        if (i.getAction().equals("YOUR_CUSTOM_NOTIFICATION_ACTION_NAME")) {
+            Push.getInstance(this).logOpenedNotification(i.getExtras());
+        }
+    }
+```
+
+Note that it is important to pass the entire remote notification payload `Bundle` into the `logOpenedNotification`
+method.  This example accomplishes this requirement by saving the payload `Bundle` in the `Intent` `Extras` in the
+`PendingIntent` passed to the notification.
+
+## <a id="geofences"></a>  Geofences ##
+
+Geofences are newly supported in version 1.3.0 of the Push Notification Service.  Using this service you will be able to
+register push notifications that your app users will see when they enter or exit certain geographic regions that you
+define on the Push Notification Service Dashboard.
+
+In order to set up your app to receive geofence notifications please follow these steps.
+
+### Step 1 - Set up your AndroidManifest.xml file ###
+
+Add these two permissions to the `application` element of your **AndroidManifest.xml** file.
+
+```xml
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+```
+
+### Step 2 - Set up your Push Service ###
+
+You will need to override the following two methods in your application's custom `Service` (see Step 7 above).
+
+```java
+    @Override
+    public void onGeofenceEnter(Bundle payload) {
+        Log.i("My Log Tag", "Entered geofence " + payload.getString("message"));
+		    // Process geofence enter event
+    }
+
+    @Override
+    public void onGeofenceExit(Bundle payload) {
+        Log.i("My Log Tag", "Exited geofence " + payload.getString("message"));
+		    // Process geofence exit event
+    }
+```
+
+### Step 3 - Receive Geofence Status Updates (OPTIONAL) ###
+
+The PCF Push Notification Service server will push updated geofences to user devices via push notifications.  You don't
+need to do any more work to process these updates or monitor these geofences.  You can read the geofence status object
+to find out if any problems occur during these background updates.  These errors can be reported directly to your
+application if you create a `BroadcastReceiver` that listens to `io.pivotal.android.push.geofence.UPDATE` intents.
+
+Example:
+
+Create a class called `MyGeofenceUpdateBroadcastReceiver`:
+
+```java
+    public class MyGeofenceUpdateBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final GeofenceStatus status = Push.getInstance(context).getGeofenceStatus(); // Read geofence status
+            if (status != null) {
+                if (status.isError()) {
+                    Toast.makeText(context, status.getErrorReason(), Toast.LENGTH_LONG).show();
+                }
+                Toast.makeText(context, "Number of currently monitoring geofences: " + status.getNumberCurrentlyMonitoringGeofences(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+```
+
+You can configure your `BroadcastReceiver` class to listen to geofence updates by adding the following element in your
+`AndroidManifest.xml`:
+
+```xml
+    <receiver
+        android:name=".MyGeofenceUpdateBroadcastReceiver" android:exported="false" >
+        <intent-filter>
+            <action android:name="io.pivotal.android.push.geofence.UPDATE"/>
+        </intent-filter>
+    </receiver>
+```
+
+### Step 4 - Request device location permission (Android 6.0 Marshmallow and up) ###
+
+Android 6.0 Marshmallow introduced a new system for obtaining user permission for "dangerous" operations.  If you want
+to use geofences in your application then you need to request the permission to read the device location at runtime.
+Prior to Android 6.0 Marshmallow it was sufficient to simply add a `uses-permission` element to your
+`AndroidManifest.xml` file in order to request permission as described in Step 1 above.  In Android 6.0 Marshmallow you
+must still add the `uses-permission` element to your `AndroidManifest.xml` file but you must also request permission
+from the user directly at runtime.  We've added a helper method to the Push SDK to help you with this task but you
+still need to do some of the work yourself in your app.
+
+In one of your application's primary `Activity` classes you will need to add the following code to your `onCreate` method
+BEFORE you initialize the Push SDK.  The dialog box must contain a message that explains to your user why your
+application needs to read the device location.  You may style or theme this dialog box any way that you would like to.
+You only need to give the dialog box one button: "OK".
+
+```java
+    if (ARE_GEOFENCES_ENABLED) {
+
+        // If you want to use geofences and are targetting Android Marshmallow or greater, then you must specifically
+        // ask the user for permission to read the device location.  The following Dialog class is used to explain
+        // to the user why your app is requesting permission to read the device location.
+
+        final Dialog dialog = new AlertDialog.Builder(this)
+                .setMessage("This application needs permission to read the device location in order to send you notifications when you enter certain locations.")
+                .setPositiveButton("OK", null)
+                .create();
+
+        final boolean werePermissionsAlreadyGranted = Push.getInstance(this).requestPermissions(this, REQUEST_PERMISSION_FOR_GEOFENCES_RESPONSE_CODE, dialog);
+
+        if (werePermissionsAlreadyGranted) {
+
+            // If Push.requestPermissions returns true then ACCESS_FINE_LOCATION permission has already been granted
+            // and we can immediately begin push registration.
+
+            startPushRegistrationWithGeofencesEnabled(true);
+        }
+
+    } else {
+        startPushRegistrationWithGeofencesEnabled(false);
+    }
+```
+
+If the permission to read the device location has not yet been granted then Google will show a system dialog box to
+request permission.  It may also show your user-defined dialog box.  After the user presses "Allow" or "Deny" then
+Google will call the `onRequestPermissionsResult` callback in the same activity:
+
+```java
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        // This callback is invoked by Android after the user decides to allow or deny permission for ACCESS_FINE_LOCATION.
+        // If Push.requestPermissions returns false then you need to wait for this callback before attempting
+        // to register for pushes.
+
+        if (requestCode == REQUEST_PERMISSION_FOR_GEOFENCES_RESPONSE_CODE && permissions[0].equals(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startPushRegistrationWithGeofencesEnabled(true);
+            } else {
+                startPushRegistrationWithGeofencesEnabled(false);
+            }
+        }
+    }
+```
+
+The `REQUEST_PERMISSION_FOR_GEOFENCES_RESPONSE_CODE` value is a unique integer that is echoed back to the
+`onRequestPermissionsResult` method after the user allows or denies the permission.  You can select any integer that you
+would like.
+
+```java
+    // Request code when requesting permission to use geofences.
+    private static final int REQUEST_PERMISSION_FOR_GEOFENCES_RESPONSE_CODE = 27; // Your favourite integer
+```
+
+### Step 5 - Enable geofences ###
+
+In order to enable geofences at runtime you will need to pass `true` to the `areGeofencesEnabled` argument when you call the
+`startRegistration` method in your application main activity. If this parameter is set to `false` then no geofences features
+will be available at runtime. Any geofences that may have been monitored before will be cleared and will no longer be
+monitored.
+
+The `startPushRegistrationWithGeofencesEnabled` method in the above example will finally initialize the Push SDK.  If
+the device location permission was not granted then you should disable geofences.  Note that the user is able to allow
+or revoke this permission at any other time in the future.  It is important to request this permission EVERY TIME you
+initialize your Push SDK:
+
+```java
+    private void startPushRegistrationWithGeofencesEnabled(boolean areGeofencesEnabled) {
+
+        Push.getInstance(this).startRegistration(DEVICE_ALIAS, TAGS, areGeofencesEnabled, new RegistrationListener() {
+
+            @Override
+            public void onRegistrationComplete() {
+                printMessage("Registration successful.");
+            }
+
+            @Override
+            public void onRegistrationFailed(String reason) {
+                printMessage("Registration failed. Reason: " + reason);
+            }
+        });
+    }
+```
+
+## <a id="tags"></a> Tags ##
+
+If any of your tags change during the lifetime of your process (e.g.: your application wants to change the list of
+tags that it has subscribed to) then call `subscribeToTags` with your new set of parameters. Example:
+
+```java
+    // The SubscribeToTagsListener is optional and may be `null`.
+    Push.getInstance(this).subscribeToTags(TAGS, new SubscribeToTagsListener() {
+       @Override
+       public void onSubscribeToTagsComplete() {
+           Log.i("MyLogTag", "Successfully subscribed to tags with PCF Push.");
+       }
+
+       @Override
+       public void onSubscribeToTagsFailed(String reason) {
+           Log.e("MyLogTag", "Failed to subscribe to tags with PCF Push:" + reason);
+       }
+    });
+```
+
+## <a id="unregistration"></a> Unregistration ##
+
+If you want to unregister from push notifications then you can call the `startUnregistration` method:
+
+```java
+    // The UnregistrationListener is optional and may be `null`.
+    Push.getInstance(this).startUnregistration(new UnregistrationListener() {
+        @Override
+        public void onUnregistrationComplete() {
+            Log.i("MyLogTag", "Successfully unregistered from PCF Push.");
+        }
+
+        @Override
+        public void onUnregistrationFailed(String reason) {
+            Log.e("MyLogTag", "Failed to unregister from PCF Push: " + reason);
+        }
+    });
+```
+
+## <a id="deviceUuid"></a> Reading the Device UUID ##
+
+In order to target individual devices for remote notifications using the PCF Push Notification Service you will need to
+target the Device UUID assigned to each device by the service. You can read the Device UUID at run time any time after a
+successful registration with the service by calling the `getDeviceUuid` method. This method will return `null` if the
+device is not currently registered with the PCF Push Notification Service.
+
+Example:
+
+```java
+    Push.getInstance(this).startRegistration(deviceAlias, subscribedTags, areGeofencesEnabled, new RegistrationListener() {
+
+        @Override
+        public void onRegistrationComplete() {
+            Log.i("MyLogTag", "Device Uuid: " + Push.getInstance(this).getDeviceUuid());
+        }
+
+        @Override
+        public void onRegistrationFailed(String reason) {
+            Log.e("MyLogTag", "Failed to unregister from PCF Push: " + reason);
+        }
+    });
+```
+
+## <a id="ssl_authentication"></a> SSL Authentication (optional) ##
+
+The property `pivotal.push.sslCertValidationMode` allows the application to accept the following supported SSL Authentication modes:
+
+1. __default__ : When the service URL is not HTTPS or when using a server trusted certificate this mode should be set.
+
+1. __trustall__ : When using a development environment there is the ability to trust all certificates while using a HTTPS service URL.  This mode replaces the previous property (prior to v1.3.3) `pivotal.push.trustAllSslCertificates`.
+
+1. __pinned__ : To ensure no man in the middle attacks this mode should be set.  The server certificate will be verified with the local copy of the certificate referred to as Certificate Pinning authentication.  When this mode is set the local copy of the certificate(s) should be provided with a space-separated list in the `pivotal.push.pinnedSslCertificateNames` property.  All certificates provided will be stored in the assets folder of the application in a __DER__ format.
+
+1. __callback__ : When a custom SSL authentication schema is required this mode can be set whereby the specific authentication logic would be added inside the application as a callback to the SDK.  You will need to create your own implementation of a class extending the `CustomSslProvider` interface and declare it in your manifest file in a `<meta-data>` element in your `<application>` element.  The name of the meta-data is "io.pivotal.android.push.CustomSslProvider" and the value of the meta-data should be the name of your custom SSL provider class (with its full package name).  This class must have a default (empty) constructor and will be instantiated at runtime when network requests are made to HTTPS service endpoints.
+
+  example CustomSslProvider implementation:
+
+```java
+    public class MyCustomSslProvider implements CustomSslProvider {
+
+        public MyCustomSslProvider() { /* default constructor is required */ }
+
+        @Override
+        public SSLSocketFactory getSSLSocketFactory() throws NoSuchAlgorithmException, KeyManagementException {
+
+            TrustManager[] trustAllCerts = new TrustManager[] { FILL ME IN };
+
+            SSLContext context = SSLContext.getInstance("TLS"); // or "SSL" - please look at the Java documentation
+            context.init(null, trustAllCerts, null);
+
+            return context.getSocketFactory();
+        }
+
+        @Override
+        public HostnameVerifier getHostnameVerifier() {
+            return new HostnameVerifier() {
+                public boolean verify(String hostname, SSLSession session) { FILL ME IN }
+            };
+        }
+    }
+```
+
+  example AndroidManifest.xml:
+
+```xml
+    <application>
+
+        ...
+
+        <meta-data
+            android:name="io.pivotal.android.push.CustomSslProvider"
+            android:value="YOUR PACKAGE NAME.MyCustomSslProvider"/>
+
+        ...
+
+    </application>
+```
+
+## <a id="request_headers"></a> Setting custom HTTP request headers ##
+
+In order to inject custom headers into any HTTP requests made by the Push SDK you should call the `setRequestHeaders`
+method in the `Push` class with a `Map<String, String>` of the required HTTP header values.  Note that you can not
+provide any 'Authorization' or 'Content-Type' headers via this method; they will be ignored by the Push SDK.
+
+In order for this method to take effect you will need to call it *before* `startRegistration`,
+`subscribeToTags`, or any other methods that will make network requests.
+
+## <a id="google"></a> Google Developers Console ##
+
+1. Log into [Google Developers Console](https://console.developers.google.com/project).  You will need a Google account.
+
+1. Click the `Create Project` button.
+
+1. Enter a `Project Name` and leave the auto-generated `Project ID` field untouched.  Click the `Create` button.
+
+1. Wait until the project is completed, this might take a couple of minutes.  Once this step is done you will be on the
+   project page.
+
+1. Note at the top your `Project Number`.  This value should be in light gray text.  Make note of this value as we will
+   need it later. Make sure you use the numeric project number.  Do not use the project ID with the words.
+
+1. On the left find the ***`APIs & Auth`*** section and click the `APIs` link.
+
+1. In the `Browse APIs` textbox enter `Google Cloud Messaging` and ensure that `Google Cloud Messaging for Android` is
+   enabled by clicking `Enable API`.
+
+1. On the left click the `Credentials` link which is directly below the `APIs` link.
+
+1. Find `Public API Access` on the page and click the `Create new Key` button below.  Click `Server key` when the dialog
+   pops up.
+
+1. In the textarea inside the dialog box enter `0.0.0.0/0` and click the `Create` button.
+
+1. Make note of the `API KEY` value as you will need it later.
+
+## <a id="troubleshooting"></a> Troubleshooting ##
+
+Please see our [troubleshooting guide](../troubleshooting.html#androidSDK)

@@ -1,0 +1,209 @@
+---
+title: iOS Push Client SDK
+---
+
+#Version#
+
+This document covers the iOS Push Client SDK v1.0.4
+
+#Features#
+
+The [Pivotal Cloud Foundry Mobile Services](https://network.pivotal.io/products/pcf-mobile-services) Push Client SDK is a light-weight library that will help your application
+register with the [PCF Mobile Services Push Notifications](https://network.pivotal.io/products/push-notification-service) server.
+
+The SDK does not provide any code for registering with APNS or for handling remote push notifications.
+
+#Device Requirements#
+
+The Push SDK requires iOS 7.0 or greater.
+
+#Getting Started#
+
+In order to receive push messages from the Push Server in your iOS application, you will need to follow these steps:
+
+1. Follow the steps in the document [iOS Developer Library - Configuring Push Notifications]
+   (https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/ConfiguringPushNotifications/ConfiguringPushNotifications.html#//apple_ref/doc/uid/TP40012582-CH32-SW1)
+   in order to create an **Explicit App Id with Push Notifications enabled**.
+
+   * Note that you can NOT use a Wildcard App ID in an application with push notifications.
+
+1. Set up your application and platforms on the PCF Mobile Services Push Dashboard. You will need two platforms --
+   one for **development** mode and one for **production**. Each of these two platforms will need their own Apple Push
+   Notification Service (APNS) SSL certificates; the development platform needs a **sandbox** SSL certificate and the
+   production platform needs a **production** SSL certificate. You will need to export both of these certificates and their
+   associated private signing keys as **P12 files** using your **Keychain Access** program. This task is beyond the scope of
+   this document (please see the documentation for the PCF Mobile Services Push Dashboard).  After setting up your
+   platforms in the administration console make sure to note the **Platform UUID** and **Platform Secret** parameters for
+   both platforms. You will need them below.
+
+1. Download the project framework from Pivotal Network and add it to your project in Xcode. You can drag and drop the
+   .framework file into your project in the Project Navigator view. Make sure to enable **Copy items if needed**.
+
+1. Go to the Build Settings in Xcode.  Go to the General tab.  Add the PCFPush framework to the list of **Embedded Binaries**.
+
+1. Go to Build Settings in Xcode, then navigate down to the **Linking** section and add **-ObjC** to **Other Linker Flags**.
+
+1. Create a **Pivotal.plist** file in your project's root directory. The following keys are required:
+
+   Key                                      | Type   | Description
+   ---                                      | ---    | ---
+   pivotal.push.serviceUrl                  | String | The URL of the PCF Push Server.
+   pivotal.push.platformUuidDevelopment     | String | The platform UUID of your push development platform.
+   pivotal.push.platformSecretDevelopment   | String | The platform secret of your push development platform.
+   pivotal.push.platformUuidProduction      | String | The platform UUID of your push production platform.
+   pivotal.push.platformSecretProduction    | String | The platform secret of your push production platform.
+
+   * None of the above values may be `nil`.  None of the above values may be empty.
+
+   * The `pivotal.push.platformUuidDevelopment` and `pivotal.push.platformSecretDevelopment` parameters should be
+   the **development platform UUID** and **secret** values from the Push Dashboard. The Push Client SDK uses this platform
+   if it detects that the APNS Sandbox environment is being used at runtime.  These values may not be empty or `nil`.
+
+   * The `pivotal.push.platformUuidProduction` and `pivotal.push.platformSecretProduction` parameters should be
+   the **production platform UUID** and **secret** values from the Push Dashboard.  Note that if you are just trying the
+   Push Client SDK out and don't have an actual production environment set up then you can put dummy data in these fields.
+   These values may not be empty or `nil`.
+
+1. You will need to register your app for push notifications with APNS. Add the following code to your
+   `application:didFinishLaunchingWithOptions:` method in your application delegate.
+
+        - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+        {
+            // Register for push notifications with the Apple Push Notification Service (APNS).
+            //
+            // On iOS 8.0+ you need to provide your user notification settings by calling
+            // [UIApplication.sharedDelegate registerUserNotificationSettings:] and then
+            // [UIApplication.sharedDelegate registerForRemoteNotifications];
+            //
+            // On < iOS 8.0 you need to provide your remote notification settings by calling
+            // [UIApplication.sharedDelegate registerForRemoteNotificationTypes:].  There are no
+            // user notification settings on < iOS 8.0.
+            //
+            // If this line gives you a compiler error then you need to make sure you have updated
+            // your Xcode to at least Xcode 6.0:
+            //
+            if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+
+                // iOS 8.0 +
+                UIUserNotificationType notificationTypes = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
+                UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
+                [application registerUserNotificationSettings:settings];
+                [application registerForRemoteNotifications];
+
+            } else {
+
+                // < iOS 8.0
+                UIRemoteNotificationType notificationTypes = UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound;
+                [application registerForRemoteNotificationTypes:notificationTypes];
+            }
+
+            return YES;
+        }
+
+   * The notification types are described in the [UIApplication Class Reference]
+   (https://developer.apple.com/library/ios/documentation/uikit/reference/UIApplication_Class/Reference/Reference.html#//apple_ref/doc/c_ref/UIRemoteNotificationType).
+
+   * Note that the OS will display a dialog box on the screen at runtime to confirm the requested notification types
+   to the user when the app attempts to register for push notifications the first time.
+
+1. Include the following header in your application delegate class:
+
+        #import <PCFPush/PCFPush.h>
+
+1. In your application delegate's `application:didRegisterforRemoteNotifications:` method put the following code:
+
+        // This method is called when APNS registration succeeds.
+        - (void) application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+        {
+            NSLog(@"APNS registration succeeded!");
+
+            // APNS registration has succeeded and provided the APNS device token.  Start registration with PCF Mobile Services
+            // and pass it the APNS device token.
+            //
+            // Required: Create a file in your project called "Pivotal.plist" in order to provide parameters for registering with
+            // PCF Mobile Services.
+            //
+            // Optional: You can also provide a set of tags to subscribe to.
+            //
+            // Optional: You can also provide a device alias.  The use of this device alias is application-specific.  In general,
+            // you can pass the device name.
+            //
+            // Optional: You can pass blocks to get callbacks after registration succeeds or fails.
+            //
+            [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken tags:YOUR_TAGS deviceAlias:YOUR_DEVICE_ALIAS success:^{
+                NSLog(@"CF registration succeeded!");
+            } failure:^(NSError *error) {
+                NSLog(@"CF registration failed: %@", error);
+            }];
+        }
+
+   * The `YOUR_TAGS` parameter is a parameter that provides a set of the tags that you'd like the application to subscribe
+   to. This parameter should be an `NSSet` object containing a set of `NSString` objects.  If you pass in tags via this
+   register method then you need to provide ALL tags that the user has subscribed to each time registration is called.  To
+   manage your tags you can also call the `[PCFPush subscribeToTags:success:failure:]` method (described below).
+
+   * The `YOUR_DEVICE_ALIAS` parameter is a custom parameter that you can use to identify a user's device (eg: a user may
+   have multiple devices) - this is for future use.  We suggest that you use the user's device name to populate this field
+   (e.g.: `UIDevice.currentDevice.name`).
+
+   * All of the `deviceAlias`, `tags`, `success`, and `failure` parameters are optional and may be set to `nil`.
+
+   * You can call the `[PCFPush registerForPCFPushNotificationsWithDeviceToken:tags:deviceAlias:success:failure:]` method
+   whenever your parameterization changes during runtime (e.g.: when you want to update the device alias).  It is not
+   harmful to call this method several times during the lifetime of a process.
+
+1. The `[PCFPush subscribeToTags:success:failure:]` method allows you to manage your tags after registration has
+   completed.  If you call this method before registration is complete then an error will occur.  This parameter should be
+   an `NSSet` object containing a set  of `NSString` objects.
+
+   * In general, an application should keep track of all of the tags it is currently subscribed to.  Whenever you call
+   `[PCFPush registerForPCFPushNotificationsWithDeviceToken:tags:deviceAlias:success:failure:]` or `[PCFPush
+   subscribeToTags:success:failure:] you need to pass **ALL** of the tags that the application is currently subscribed to.
+   If you want to add new tags you must provide them along side the tags you are currently subscribed to.  If you omit
+   some tags then the SDK will think that you want to **unsubscribe** from those tags.
+
+1. The `[PCFPush unregisterFromPCFPushNotificationsWithSuccess:failure:]` method allows you to unregister from push
+   notifications from PCF.
+
+1. The library is not set up, at this time, to receive push messages for you since Apple has provided straightforward
+   boilerplate code that you can copy into your application. In order to receive messages in your application please
+   follow the instructions [iOS Developer Library - Local and Remote Notification Programming Guide]
+   (https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html#//apple_ref/doc/uid/TP40008194-CH103-SW4).
+
+1. To receive push notifications you can implement the following code in your UIApplicationDelegate class:
+
+        // This method is called when APNS sends a push notification to the application.
+        - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+        {
+            [self handleRemoteNotification:userInfo];
+        }
+
+        // This method is called when APNS sends a push notification to the application when the application is
+        // not running (e.g.: in the background).  Requires the application to have the Remote Notification Background Mode Capability.
+        - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+        {
+            [self handleRemoteNotification:userInfo];
+            if (completionHandler) {
+                completionHandler(UIBackgroundFetchResultNoData);
+            }
+        }
+
+        // This method is called when the user touches one of the actions in a notification when the application is
+        // not running (e.g.: in the background).  iOS 8.0+ only.
+        - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler
+        {
+            NSLog(@"Handling action %@ for message %@", identifier, userInfo);
+            if (completionHandler) {
+                completionHandler();
+            }
+        }
+
+        - (void) handleRemoteNotification:(NSDictionary*) userInfo
+        {
+            if (userInfo) {
+                NSLog(@"Received push message: %@", userInfo);
+            } else {
+                NSLog(@"Received push message (no userInfo).");
+            }
+        }
+

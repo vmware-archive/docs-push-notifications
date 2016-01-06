@@ -1,0 +1,84 @@
+---
+title: Push Notification Service Android and iOS Client SDKs v1.3.2 Release Notes
+---
+
+The Push Notification services allows application developers to publish push notifications to devices on various platforms. Integration is done through provided SDKs which implement the device registration flow.
+
+##SDK Documentation and Setup Guides
+
+ - [iOS](../ios/index.html)
+ - [Android](../android/index.html)
+
+##Dependencies
+
+ - iOS 7.0+ with Xcode 6.2+
+ - Android 4.0+ with Android Studio 1.2+
+ - PCF Push Notification Service 1.3.0+ (if you are using geofences)
+ - PCF Push Notification Service 1.2.0+ (if you are not using geofences)
+
+##Known issues
+
+### iOS
+
+ - The iOS SDK only supports 20 geofences monitored at one time.
+ - The iOS SDK is not compatible with any other library or app trying to monitor geofences in the same app at the same time. If there are other geofences being monitored by an app then the Push Client SDK will delete them.
+ - The iOS SDK will not always trigger a geofence if the device is currently inside of it at the same time that the geofence is registered (or when the geofence's tag is subscribed to).
+ - Tags can't be created on the dashboard until some device has subscribed to the tag.
+
+### Android
+
+ - The Android SDK only supports 100 geofences monitored at one time.
+ - The Android SDK is not compatible with any other library or app trying to monitor geofences in the same app at the same time. If there are other geofences being monitored by an app then the Push Client SDK will delete them.
+ - Geofences are not monitored after the user turns Location Services off and on again.
+ - Tags can't be created on the dashboard until some device has subscribed to the tag.
+
+## List of Changes
+
+ - Enabled and disable geofences at runtime.
+ - Added a method to read the device UUID at runtime.
+
+## iOS Upgrade Notes
+
+- There is one **breaking change** when upgrading to the 1.3.2 Push SDK.  A new argument was added to the `[PCFPush registerForPCFPushNotificationsWithDeviceToken ...` method: `areGeofencesEnabled`.
+  This argument is a `BOOL` value and controls whether or not the SDK will attempt to download and monitor geofences at
+  runtime.  You **must** add this argument to your call to `[PCFPush registerForPCFPushNotificationsWithDeviceToken
+  ...`, but you can set it to `NO` if you do not need to use geofences.  Note that geofences require version 1.3.0+ of the
+  PCF Push Notification Service.
+
+  Example:
+
+```objective_c
+    [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken
+                                                       tags:tags
+                                                deviceAlias:UIDevice.currentDevice.name
+                                        areGeofencesEnabled:ARE_GEOFENCES_ENABLED
+                                                    success:^{
+        PCFPushLog(@"CF registration succeeded. The Device UUID is \"%@\".", [PCFPush deviceUuid]);
+    } failure:^(NSError *error) {
+        PCFPushLog(@"CF registration failed: %@", error);
+    }];
+```
+
+## Android Upgrade Notes
+
+- There is one **breaking change** when upgrading to the 1.3.2 Push SDK.  A new argument was added to the `startRegistration` method: `areGeofencesEnabled`.
+  This argument is a `boolean` value and controls whether or not the SDK will attempt to download and monitor geofences at
+  runtime.  You **must** add this argument to your call to `startRegistration` but you can set it to `false` if you do not need to use geofences.
+  Note that geofences require version 1.3.0+ of the PCF Push Notification Service.
+
+  Example:
+
+```java
+    Push.getInstance(this).startRegistration("alias", null, ARE_GEOFENCES_ENABLED, new RegistrationListener() {
+
+        @Override
+        public void onRegistrationComplete() {
+            Log.i("MyLogTag", "Registration successful.");
+        }
+
+        @Override
+        public void onRegistrationFailed(String reason) {
+            Log.e("MyLogTag", "Registration failed. Reason is '" + reason + "'.");
+        }
+    });
+```

@@ -1,0 +1,70 @@
+---
+title: Geofences
+---
+
+<a name="geofences"></a>
+### GET /v1/geofences
+
+Get updated geofences since a timestamp
+
+Authentication: HTTP basic variant_uuid:variant_secret
+
+Params:
+
+    timestamp: long  	 // timestamp in milliseconds
+    platform: string  	 // scope to platform (all, android, ios)
+
+#### Request Body: None
+
+#### Response:
+
+
+    {
+      "num": 3,
+      "deleted_geofence_ids": [1, 2],
+      "geofences": [
+        {
+          "id": 5,
+          "expiry_time": 1424443201000,
+          "trigger_type": "enter",
+          "updated_at": 1423513994000,
+          "created_at": 1423513994000,
+          "data": {
+            "ios": {
+               "alertBody": "alert body",
+               "alertAction": "AlertAction",
+               "alertTitle": "AlertTitle",
+               "alertLaunchImage": "sample1.jpg",
+               "hasAction": true,
+               "category": "category",
+               "applicationBadgeNumber": 1,
+               "soundName": "sample_sound",
+               "userInfo": {
+                 "customField": "customValue"
+               }
+            },
+            "android": {
+               "message": "message",
+               "customField": "customValue"
+            }
+          },
+          "tags": ["tag1"],
+          "locations": [
+            {
+              "name": "sample",
+              "id": 1,
+              "lat": "0.0",
+              "long": "0.0",
+              "rad": 100,
+              "updated_at": 1423513994000,
+              "created_at": 1423513994000
+            }
+          ]
+        }
+      ],
+      "last_modified": 1423513994000
+    }
+
+
+
+---------------

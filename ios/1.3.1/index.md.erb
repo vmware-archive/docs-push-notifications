@@ -1,0 +1,399 @@
+---
+title: iOS Push Client SDK
+---
+
+#Version#
+
+This document covers the Pivotal Cloud Foundry Push Notification Service iOS Push Client SDK v1.3.1.
+
+Old documentation:
+
+* [Version 1.3.0](../1.3.0/index.html)
+* [Version 1.0.4](../1.0.4/index.html)
+
+#Features#
+
+The [Pivotal Cloud Foundry Mobile Services](https://network.pivotal.io/products/pcf-mobile-services) Push Client SDK is
+a light-weight library that will help your application register with the [PCF Mobile Services Push
+Notifications](https://network.pivotal.io/products/push-notification-service) server.
+
+The SDK does not provide any code for registering with APNS or for handling remote push notifications.
+
+#Device Requirements#
+
+The Push SDK requires iOS 7.0 or greater.
+
+#Getting Started#
+
+In order to receive push messages from the Push Server in your iOS application, you will need to follow these steps:
+
+## Step 1 - Configure iOS Push Notifications on Apple Developer ##
+
+Follow the steps in the document [iOS Developer Library - Configuring Push Notifications]
+(https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/ConfiguringPushNotifications/ConfiguringPushNotifications.html#//apple_ref/doc/uid/TP40012582-CH32-SW1)
+in order to create an **Explicit App Id with Push Notifications enabled**.
+
+* Note that you can NOT use a Wildcard App ID in an application with push notifications.
+
+## Step 2 - Configure iOS Push Notifications on the Push Dashboard ##
+
+Create your application and platforms on the PCF Mobile Services Push Dashboard. You will need two platforms -- one
+for **development** mode and one for **production**. Each of these two platforms will need their own Apple Push
+Notification Service (APNS) SSL certificates; the development platform needs a **sandbox** SSL certificate and the
+production platform needs a **production** SSL certificate. You will need to export both of these certificates and
+their associated private signing keys as **P12 files** using the **Keychain Access** program on our Mac OS machine.
+This task is beyond the scope of this document (please see the documentation for the Push Notification Service
+Dashboard).  After setting up your platforms in the administration console make sure to note the **Platform UUID**
+and **Platform Secret** parameters have been defined under Configuration for both platforms. You will need them below.
+
+You can find steps on how to create your application and platforms on PCF Mobile Services Push Dashboard notes:
+[Push Dashboard Document] (/mobile/push/dashboard-user-guide.html)
+
+## Step 3 - Link to the Framework ##
+
+1. Download the project framework from Pivotal Network and add it to your project in Xcode. You can drag and drop the
+   .framework file into your project in the Project Navigator view. Make sure to enable **Copy items if needed**.
+
+1. Go to the Build Settings in Xcode.  Go to the General tab.  Remove PCFPush.framework from the **Linked Frameworks And
+   Libraries**. Add PCFPush.framework to the list of **Embedded Binaries**.
+
+1. Go to Build Settings in Xcode, then navigate down to the **Linking** section and add **-ObjC** to **Other Linker Flags**.
+
+## Step 4 - Set up your Pivotal.plist file ##
+
+Create a **Pivotal.plist** file in your project's root directory. The following keys are required:
+
+Key                                      | Type    | Required? | Description
+---                                      | ---     | ---       | ---
+pivotal.push.serviceUrl                  | String  | YES       | The URL of the PCF Push Notification Service API Server.
+pivotal.push.platformUuidDevelopment     | String  | YES       | The platform UUID of your push development platform.
+pivotal.push.platformSecretDevelopment   | String  | YES       | The platform secret of your push development platform.
+pivotal.push.platformUuidProduction      | String  | YES       | The platform UUID of your push production platform.
+pivotal.push.platformSecretProduction    | String  | YES       | The platform secret of your push production platform.
+pivotal.push.geofencesEnabled            | Boolean | NO        | Set to 'YES' in order to use geofences (described below).
+pivotal.push.trustAllSslCertificates     | Boolean | NO        | Set to 'YES' in order to ignore SSL certificate
+                                         |         |           | validation (not safe in production!).
+pivotal.push.pinnedSslCertificateNames   | Array   | NO        | A list of SSL certificates in the der format stored in
+                                                               | the application bundle that are used during pinned SSL
+                                                               | authentication.
+
+* None of the above values may be `nil`.  None of the above values may be empty.
+
+* The `pivotal.push.platformUuidDevelopment` and `pivotal.push.platformSecretDevelopment` parameters should be
+the **development platform UUID** and **secret** values from the Push Dashboard. The Push Client SDK uses this platform
+if it detects that the APNS Sandbox environment is being used at runtime.  These values may not be empty or `nil`.
+
+* The `pivotal.push.platformUuidProduction` and `pivotal.push.platformSecretProduction` parameters should be
+the **production platform UUID** and **secret** values from the Push Dashboard.  Note that if you are just trying the
+Push Client SDK out and don't have an actual production environment set up then you can put dummy data in these fields.
+These values may not be empty or `nil`.
+
+* Order of SSL Authentication:
+  1. If `pivotal.push.trustAllSslCertificates` is set to 'YES' then all SSL certificates will be trusted implicitly.
+  2. If `pivotal.push.pinnedSslCertificateNames` is set and contains any items then 'pinned' SSL certification will be
+     used.  Each entry in this list is compared against the certificate on the remote server for authentication.
+  3. If neither of the above two parameters is set then the system default SSL authentication will be used (i.e.: the
+     server's SSL certificate will be verified against a third-party certificate authority).
+
+## Step 5 - Register for Push Notifications with APNS ##
+
+You will need to register your app for push notifications with APNS. Add the following code to your
+`application:didFinishLaunchingWithOptions:` method in your application delegate.
+
+    - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+    {
+        // Register for push notifications with the Apple Push Notification Service (APNS).
+        //
+        // On iOS 8.0+ you need to provide your user notification settings by calling
+        // [UIApplication.sharedDelegate registerUserNotificationSettings:] and then
+        // [UIApplication.sharedDelegate registerForRemoteNotifications];
+        //
+        // On < iOS 8.0 you need to provide your remote notification settings by calling
+        // [UIApplication.sharedDelegate registerForRemoteNotificationTypes:].  There are no
+        // user notification settings on < iOS 8.0.
+        //
+        // If this line gives you a compiler error then you need to make sure you have updated
+        // your Xcode to at least Xcode 6.0:
+        //
+        if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+
+            // iOS 8.0 +
+            UIUserNotificationType notificationTypes = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
+            UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
+            [application registerUserNotificationSettings:settings];
+            [application registerForRemoteNotifications];
+
+        } else {
+
+            // < iOS 8.0
+            UIRemoteNotificationType notificationTypes = UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound;
+            [application registerForRemoteNotificationTypes:notificationTypes];
+        }
+
+        return YES;
+    }
+
+   * The call to '[self.locationManager requestAlwaysAuthorization]` is described below.  It is only required if using
+   geofences.
+
+   * The notification types for < iOS 8.0 are described in the [UIApplication Class Reference]
+   https://developer.apple.com/library/ios/documentation/uikit/reference/UIApplication_Class/Reference/Reference.html#//apple_ref/doc/c_ref/UIRemoteNotificationType).
+
+   * Note that the OS will display a dialog box on the screen at runtime to confirm the requested notification types
+   to the user when the app attempts to register for push notifications the first time.
+
+## Step 6 - Register for Push Notifications with Pivotal Cloud Foundry ##
+
+Include the following header in your application delegate class:
+
+    #import <PCFPush/PCFPush.h>
+
+In your application delegate's `application:didRegisterforRemoteNotifications:` method put the following code:
+
+    // This method is called when APNS registration succeeds.
+    - (void) application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+    {
+        NSLog(@"APNS registration succeeded!");
+
+        // APNS registration has succeeded and provided the APNS device token.  Start registration with PCF Mobile Services
+        // and pass it the APNS device token.
+        //
+        // Required: Create a file in your project called "Pivotal.plist" in order to provide parameters for registering with
+        // PCF Mobile Services.
+        //
+        // Optional: You can also provide a set of tags to subscribe to.
+        //
+        // Optional: You can also provide a device alias.  The use of this device alias is application-specific.  In general,
+        // you can pass the device name.
+        //
+        // Optional: You can pass blocks to get callbacks after registration succeeds or fails.
+        //
+        [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken tags:YOUR_TAGS deviceAlias:YOUR_DEVICE_ALIAS success:^{
+            NSLog(@"CF registration succeeded!");
+        } failure:^(NSError *error) {
+            NSLog(@"CF registration failed: %@", error);
+        }];
+    }
+
+   * The `YOUR_TAGS` parameter is a parameter that provides a set of the tags that you'd like the application to subscribe
+   to. This parameter should be an `NSSet` object containing a set of `NSString` objects.  If you pass in tags via this
+   register method then you need to provide ALL tags that the user has subscribed to each time registration is called.  To
+   manage your tags you can also call the `[PCFPush subscribeToTags:success:failure:]` method (described below).
+
+   * The `YOUR_DEVICE_ALIAS` parameter is a custom parameter that you can use to identify a user's device (eg: a user may
+   have multiple devices) - this is for future use.  We suggest that you use the user's device name to populate this field
+   (e.g.: `UIDevice.currentDevice.name`).
+
+   * All of the `deviceAlias`, `tags`, `success`, and `failure` parameters are optional and may be set to `nil`.
+
+   * You can call the `[PCFPush registerForPCFPushNotificationsWithDeviceToken:tags:deviceAlias:success:failure:]` method
+   whenever your parameterization changes during runtime (e.g.: when you want to update the device alias).  It is not
+   harmful to call this method several times during the lifetime of a process.
+
+# Receiving Push Notifications #
+
+To receive push notifications you can implement the following code in your application delegate class.
+
+* **VERY IMPORTANT:** You must call the `[PCFPush didReceiveRemoteNotification:completionHandler:]` method in your
+application delegate `application:didReceiveRemoteNotification:fetchCompletionHandler` method, as demonstrated below.
+
+    // This method is called when APNS sends a push notification to the application.
+    - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+    {
+        [self handleRemoteNotification:userInfo];
+    }
+
+    // This method is called when APNS sends a push notification to the application when the application is
+    // not running (e.g.: in the background).  Requires the application to have the Remote Notification Background Mode Capability.
+    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+    {
+        [self handleRemoteNotification:userInfo];
+
+        // IMPORTANT: Inform PCF Push Notification Service that this message has been received.
+        [PCFPush didReceiveRemoteNotification:userInfo completionHandler:^(BOOL wasIgnored, UIBackgroundFetchResult fetchResult, NSError *error) {
+
+            if (completionHandler) {
+                completionHandler(fetchResult);
+            }
+        }];
+    }
+
+    // This method is called when the user touches one of the actions in a notification when the application is
+    // not running (e.g.: in the background).  iOS 8.0+ only.
+    - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler
+    {
+        NSLog(@"Handling action %@ for message %@", identifier, userInfo);
+        if (completionHandler) {
+            completionHandler();
+        }
+    }
+
+    - (void) handleRemoteNotification:(NSDictionary*) userInfo
+    {
+        if (userInfo) {
+            NSLog(@"Received push message: %@", userInfo);
+        } else {
+            NSLog(@"Received push message (no userInfo).");
+        }
+    }
+
+# Geofences #
+
+Geofences are newly supported in version 1.3.0 of the Push Notification Service.  Using this service you will be able to
+register push notifications that your app users will see when they enter or exit certain geographic regions that you
+define on the Push Notification Service Dashboard.
+
+In order to set up your app to receive geofence notifications please follow these steps.
+
+## Step 1 - Set your background modes ##
+
+Ensure your **location updates** and **remote notifications** background modes have been set for your project target
+capabilities.
+
+![Background modes](./1.3.0/assets/plist-background-modes.png)
+
+## Step 2 - Set required device capabilities ##
+
+Add **location-services** and **gps** to your application Info.plist file under "Required device capabilities".
+
+![Info.plist Required device capabilities](./1.3.0/assets/plist-device-capabilities.png)
+
+## Step 3 - Set your location usage description ##
+
+If this is the first time that your app is using any location services then you will need to set the text that is
+displayed on iOS 8.0+ when the app first requests the permission to read your current device location.  You can set this
+text by setting the `NSLocationAlwaysUsageDescription` key in your app's **Info.plist** file (contained in Supporting
+Files folder by default).  e.g.: "Your App Name would like to read your current location and monitor geofences (if
+enabled)."
+
+![Location Usage Description](./1.3.0/assets/plist-location-usage-description.png)
+
+## Step 4 - Link to Core Location ##
+
+Ensure that your app is linked to the Core Location framework.  In Xcode, go to your app targets build phases screen and
+add `CoreLocation.framework` to the **Link Binary With Libraries** build phase.
+
+![Include Core Location](./1.3.0/assets/include-core-location.png)
+
+## Step 5 - Enable geofences ##
+
+Add the following boolean parameter to your Pivotal.plist file and set it to 'YES': `pivotal.push.geofencesEnabled`.
+The `pivotal.push.geofencesEnabled` parameter is considered optional and must be set to 'YES' in order to enabled
+geofences.  If this parameter is omitted or set to false then no geofences features will be available at runtime.
+
+NOTE: At this time it is only possible to enable or disable geofences at compile-time using this above parameter.  It is
+planned to add a run-time parameter to enable or disable geofences in a future release.
+
+## Step 6 - Authorize location services ##
+
+If using geofences on iOS 8.0+ devices you will need to add the method call to request permission from the user to read
+the current device location.  A good place for that is in your application delegate
+`application:didFinishLaunchingWithOptions` method.  This call will show an alert dialog box to the user that shows the
+`NSLocationAlwaysUsageDescription` text in your plist file.
+
+    - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+    {
+        // Register for push notifications with the Apple Push Notification Service (APNS).
+        //
+        // On iOS 8.0+ you need to provide your user notification settings by calling
+        // [UIApplication.sharedDelegate registerUserNotificationSettings:] and then
+        // [UIApplication.sharedDelegate registerForRemoteNotifications];
+        //
+        // On < iOS 8.0 you need to provide your remote notification settings by calling
+        // [UIApplication.sharedDelegate registerForRemoteNotificationTypes:].  There are no
+        // user notification settings on < iOS 8.0.
+        //
+        // If this line gives you a compiler error then you need to make sure you have updated
+        // your Xcode to at least Xcode 6.0:
+        //
+        if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+
+            // iOS 8.0 +
+            UIUserNotificationType notificationTypes = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
+            UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
+            [application registerUserNotificationSettings:settings];
+            [application registerForRemoteNotifications];
+
+            // NOTE: add this block to enable location services for geofences
+            if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+               self.locationManager = [[CLLocationManager alloc] init];
+               [self.locationManager requestAlwaysAuthorization]; // iOS 8.0+ only
+            }
+
+        } else {
+
+            // < iOS 8.0
+            UIRemoteNotificationType notificationTypes = UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound;
+            [application registerForRemoteNotificationTypes:notificationTypes];
+        }
+
+        return YES;
+    }
+
+## Step 7 - Add property to application delegate ##
+
+Required only if you are using geofences:  add a property to your application delegate class (AppDelegate.h) as follows:
+
+    @property (strong, nonatomic) CLLocationManager *locationManager;
+
+You will also need to include the following header to the same file:
+
+    #import <CoreLocation/CoreLocation.h>
+
+## Step 8 - Receiving Local Notifications (OPTIONAL) ##
+
+If you follow the above steps then your application will be able to show geofences when they are triggered.  Geofences
+are delivered as local notifications to your app.  Similar to remote notifications, local notifications will be
+automatically displayed when your application is in the background but you will need to add your own code in order to
+display them when your app is in the foreground.
+
+If you need to know if the geofence was triggered via an 'enter' or 'exit' condition then look at the
+'pivotal.push.geofence_trigger_condition' key in the userInfo dictionary provided with the location notification.  You
+can also use this userInfo field to distinguish geofence local notifications from other kinds of local notifications.
+
+As an example, if you want to print a log message when a local notification is received:
+
+    - (void) application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+    {
+        NSLog(@"Received %@ local notification '%@'", notification.userInfo[@"pivotal.push.geofence_trigger_condition"], notification.alertBody);
+    }
+
+## Step 9 - Receive Geofence Status Updates (OPTIONAL) ##
+
+The PCF Push Notification Service server will push updated geofences to user devices via push notifications.  You don't
+need to do any more work to process these updates or monitor these geofences.  You can read the geofence status object
+to find out if any problems occur during these background updates.  These errors can be reported directly to your
+application if you create a `BroadcastReceiver` that listens to `io.pivotal.android.push.geofence.UPDATE` intents.
+
+Example:
+
+You can subscribe to the geofence update notification with the following code in your program.  You could put it in your
+one of your view controllers or your application delegate, as you see fit.
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(geofenceStatusChanged:) name:PCF_PUSH_GEOFENCE_STATUS_UPDATE_NOTIFICATION object:nil];
+
+The above method call will cause the `geofenceStatusChanged` method to be called.  You will need to define this method
+yourself:
+
+    - (void) geofenceStatusChanged:(NSNotification*)notification
+    {
+        PCFPushGeofenceStatus *status = [PCFPush geofenceStatus];
+        NSLog(@"%@", status);
+    }
+
+# Subscribing to Tags #
+
+The `[PCFPush subscribeToTags:success:failure:]` method allows you to manage your tags after registration has
+completed.  If you call this method before registration is complete then an error will occur.  This parameter should be
+an `NSSet` object containing a set  of `NSString` objects.
+
+* In general, an application should keep track of all of the tags it is currently subscribed to.  Whenever you call
+`[PCFPush registerForPCFPushNotificationsWithDeviceToken:tags:deviceAlias:success:failure:]` or `[PCFPush
+subscribeToTags:success:failure:] you need to pass **ALL** of the tags that the application is currently subscribed to.
+If you want to add new tags you must provide them alongside the tags you are currently subscribed to.  If you omit
+some tags then the SDK will think that you want to **unsubscribe** from those tags.
+
+# Unregistering from Pivotal Cloud Foundry Push Notification Service #
+
+The `[PCFPush unregisterFromPCFPushNotificationsWithSuccess:failure:]` method allows you to unregister from push
+notifications from PCF.

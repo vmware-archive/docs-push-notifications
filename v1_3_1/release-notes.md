@@ -1,0 +1,39 @@
+---
+title: Push Notification Service v1.3.1 Release Notes
+---
+
+The Push Notification services allows application developers to publish push notifications to devices on various platforms. Integration is done through provided SDKs which implement the device registration flow.
+
+##Dependencies
+
+#### On PCF 1.4
+ - Pivotal MySQL Service 1.4.0+
+ - Pivotal Redis Service 1.4.x
+ - Pivotal RabbitMQ Service 1.4.x
+
+####  On PCF 1.5
+ - Pivotal MySQL Service 1.5.0+
+ - Pivotal Redis Service 1.4.x
+ - Pivotal RabbitMQ Service 1.4.x
+
+##Known issues
+
+* On AWS, this version supports deployments in the US-East region. Multi-region support is coming in a future release.
+
+<p class="note"><strong>Note</strong>: BOSH Stemcell 2989 is required for installation on Ops Manager 1.5.x and above.</p>
+
+## List of Changes
+
+  - Support for RabbitMQ Service versions 1.4.0 and higher
+
+  - Tag management added to dashboard
+
+  - Ability to regenerate push api keys
+
+  - Minor improvements to installation
+
+  - Allow certificate checks to be disabled in cf environments that use self signed certificates
+
+
+
+

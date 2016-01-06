@@ -1,0 +1,17 @@
+---
+title: Push Notification Service v1.0.1.0 Release Notes
+---
+
+The Push Notification services allows application developers to publish push notifications to devices on various platforms. Integration is done through provided SDKs which implement the device registration flow.
+
+## List of Changes
+- Push Dashboard now requires authentication
+- Changed the database connector from MySQL to MariaDB
+- Can now send up a payload of up to 2048 bytes to iOS devices
+- Upgraded Spring Boot to the 1.1.8.Release version and upgraded all dependencies
+- Improved logging
+- Performance updates
+- Bugfixes
+
+## List of Known issues
+- Rabbit healthcheck requires admin credentials (not available on CF)

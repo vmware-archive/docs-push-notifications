@@ -1,0 +1,88 @@
+---
+title: Push Notification Service v1.1.0.0 Push API
+---
+
+<a name="push_create"></a>
+
+### POST /v1/push
+
+Push a message out to a list of devices or devices targetted by platform
+
+Authentication: HTTP Basic application_uuid:api_key
+
+Params: None
+
+#### Request Body:
+
+    {
+      "message": {
+        "body": "",							// The text of the push message
+        "custom": {
+          "ios": {
+            "alert": {
+              "action-loc-key": "",
+              "loc-key": "",
+              "loc-args": [
+                ""
+              ],
+              "body": "",					// The body of the push message (overrides body defined above)
+              "launch-image": ""
+            },
+            "category": "",
+            "badge": 0,
+            "sound": "",
+            "content-available": false,
+            "extra": {}
+          },
+          "android": {},
+          "windows8": {
+            "template_name": "",
+            "template_fields": {},
+            "options": {},
+            "type": ""
+          },
+          "windowsPhone": {
+            "template_fields": {},
+            "template": ""
+          },
+          "bb10": ""
+        }
+      },
+      "target": {
+        "tags": [],
+        "platforms": [],
+        "devices": [],
+        "interactive-only": true|false,
+        "platform": "ios"|"android"|"windows8"|"windowsPhone"|"bb10"
+      }
+    }
+
+* A Note about targetting
+    - The device list takes precedence of platform targetting, ie. if there is a device list platform targetting will be ignored
+
+#### Response: 200
+
+        The response will contain a UUID that can be used to audit the results of the push
+
+### Custom Fields For Pushes
+
+#### iOS
+
+The fields available in the custom block for iOS are described here: <a href=https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW2>https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW2</a>
+
+####  Android
+
+The custom fields for android depend on the application to which you are sending notifications.
+
+#### BB10
+
+The bb10 custom field consists of a string which will override the message body on BB10
+
+####  Windows8 (WNS)
+
+See <a href="windows8Fields/index.html">this reference</a>
+
+
+####  Windows Phone (MPNS)
+
+See <a href="windowsPhoneFields/index.html">this reference</a>

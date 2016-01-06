@@ -1,0 +1,113 @@
+---
+title: Push
+---
+
+<a name="push_create"></a>
+
+### POST /v1/push
+
+Push a message out to a list of devices or devices targeted by platform
+
+Authentication: HTTP Basic _application\_uuid_:_api\_key_
+
+Params: None
+
+#### Request Body:
+
+```ruby
+{
+  "message": {
+    "body": "",                         # The text of the push message
+    "custom": {
+      "ios": {
+        "alert": {
+          "action-loc-key": "",
+          "loc-key": "",
+          "loc-args": [
+            ""
+          ],
+          "body": "",                   # The body of the push message (overrides body defined above)
+          "launch-image": ""
+        },
+        "category": "",
+        "badge": 0,
+        "sound": "",
+        "content-available": false,
+        "extra": {}
+      },
+      "android": {
+        "collapse_key": ""
+      },
+      "windows8": {
+        "template_name": "",
+        "template_fields": {},
+        "options": {},
+        "type": ""
+      },
+      "windowsPhone": {
+        "template_fields": {},
+        "template": ""
+      },
+      "bb10": ""
+    }
+  },
+  "target": {
+    "tags": [],
+    "platforms": [],
+    "devices": [],
+    "interactive-only": true,           # Either true or false
+    "platform": "ios"                   # One of the following options (ios, android, windows8, windowsPhone, bb10)
+  },
+  "scheduleAt": 1345852800000,          # Epoch timestamp in milliseconds.
+  "scheduleIn": 0,                      # Integer (time delta in seconds)
+  "expiryTime": null                    # Epoch timestamp in milliseconds.
+}
+```
+
+* A note about targetting
+    - The device list takes precedence of platform targetting, ie. if there is a device list platform targetting will be ignored
+
+#### Response: 200
+
+        The response will contain a UUID that can be used to audit the results of the push
+
+### Setting Expiration Time on Pushes
+
+The "__expiryTime__" field can be used to specify a time after which a push should not be displayed. It should be an __Epoch__ timestamp integer in milliseconds. If __expiryTime__ is not set the behaviour will be the platform default. For ios, android and bb10 pushes will be queued for delivery if the target device is unreachable at the time of the push and delivered as soon as it is reachable. If __expiryTime__ is set and the the device becomes reachable AFTER the expiry time, the push will not be delivered.
+
+Windows 8 behaviour is similar for tile and badge notifications but only one tile and one badge notification will be queued. See <a href="http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#pncodes_x_wns_cache">http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#pncodes_x_wns_cache</a>.
+
+__IMPORTANT NOTE__:
+
+* Windows 8 toast notifications are not queued and cannot have an expiry time. They will only be delivered at the time the push is sent if the target device is connected.
+* Windows Phone 7 has no expiry option. Instead pushes fall into one of three categories: immediate, up to 450 seconds, or upto 900 seconds. Depending on the time set in the "__expiryTime__" field, a push to Windows Phone 7 will be slotted into one of those categories. See <a href="http://msdn.microsoft.com/library/windows/apps/hh202945(v=vs.105).aspx">http://msdn.microsoft.com/library/windows/apps/hh202945(v=vs.105).aspx</a>
+
+### Scheduled Pushes
+
+Pushes can be scheduled to be sent at a later time. Use the __scheduleAt__ field to specify the time when the push should be sent. As with __expiryTime__ this should be an __Epoch__ timestamp integer in milliseconds. Alternatively you can use the __scheduleIn__ field to specify the scheduled time as the number of seconds from the time the server recieves the push request. NOTE: You cannot set both the __scheduleAt__ and __scheduleIn__ fields at the same time as doing this would result in an error message from the server.
+
+If the scheduled time is less than a preconfigured time in the future, the push will not be scheduled and will be sent immediately. By default this amount is 60 seconds.
+
+
+### Custom Fields For Pushes
+
+#### iOS
+
+The fields available in the custom block for iOS are described here: <a href=https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW2>https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW2</a>
+
+####  Android
+
+The custom fields for android depend on the application to which you are sending notifications. You can also specify a collapse_key in the custom fields for android. See <a href="http://developer.android.com/google/gcm/server.html#collapsible">http://developer.android.com/google/gcm/server.html#collapsible</a> for details about collapse keys.
+
+#### BB10
+
+The bb10 custom field consists of a string which will override the message body on BB10
+
+####  Windows8 (WNS)
+
+See <a href="windows8Fields/index.html">this reference</a>
+
+
+####  Windows Phone (MPNS)
+
+See <a href="windowsPhoneFields/index.html">this reference</a>
