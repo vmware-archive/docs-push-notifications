@@ -46,7 +46,7 @@ Once you have completed these configurations click "Save".
 
 #### Upload Stemcell
 
-Ops Manager versions greater than 1.5 will require that you upload the stemcell that the Push Notification Service uses. You can aquire this stemcell from the [Bosh Stemcell Directory](https://bosh.io/stemcells). Once you have the stemcell, upload it to Ops Manager via the "Stemcell" tab in the Push Notification Services configuration page.
+Ops Manager versions greater than 1.5 will require that you upload the stemcell that the Push Notification Service uses. You can acquire this stemcell from the [Bosh Stemcell Directory](https://bosh.io/stemcells). Once you have the stemcell, upload it to Ops Manager via the "Stemcell" tab in the Push Notification Services configuration page.
 
 #### Apply Changes
 
