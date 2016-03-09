@@ -2,7 +2,7 @@
 title: Push Notification Service Release Notes
 ---
 
-## [1.4.2](v1_4_0/release-notes.html)
+## 1.4.2
 **Release Date: February 2016**
  - Security release requiring stemcell 3146.8.
 
