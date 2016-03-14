@@ -2,6 +2,9 @@
 title: Using the Dashboard V1.4.0
 ---
 
+## Dashboard guide for other versions
+
+<a href="/push/dashboard-user-guide.html">Version List</a>
 
 ##Application
 An application in the Push Dashboard represents a mobile application from the perspective of the application author, including all supported platforms. Applications are listed in the dropdown at the top of the sidebar.
