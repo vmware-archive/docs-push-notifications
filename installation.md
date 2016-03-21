@@ -52,6 +52,24 @@ Ops Manager versions greater than 1.5 will require that you upload the stemcell 
 
 Once the security settings and MySQL configuration are complete you can click "Installation Dashboard" to return to the Ops Manager dashboard and then click "Apply Changes" to complete the installation.
 
+### Creating a Tenant
+
+Since version 1.4, the PCF Push Notification Service supports multiple tenants. Each tenant in the PCF Push Notification Service can have its own set of applications. In order to set up a new
+tenant, you will need to create a new space in your PCF Apps Manager. You can use any org that is appropriate for your needs.
+
+The applications for the Push Notification Service itself are in the "push-notifications" space in the "system" org. Please don't use this space for your own tenant. Please create a new space
+instead.
+
+Once you have selected your space you can create your Push service instance by clicking the "Add Service" button. Select the "PCF Push Notification Service" service from the Marketplace. Select the
+default (free) plan. Give the service a name and add it to your space.
+
+Please only create one instance of the Push Notification Service per space.
+
+Once the service instance is created you can click the "Manage" link on the service instance to show the Dashboard for the Push Notification Service.
+
+You can control access to the Push Dashboard by using the using Cloud Controller. Any users with access to see the space will also have access to use the Push Notification Dashboard. You will need
+to be logged in to the Apps Manager before you can access the Push Dashboard.
+
 ### Dashboard setup
 
 After the service has been added, verify the successful installation by viewing the dashboard.
