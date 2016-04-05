@@ -2,12 +2,6 @@
 title: Push Notification Service Release Notes
 ---
 
-## 1.5.0
-**Release Date: March 2016**
-
- - New Heartbeat Application is deployed with the Push Notifications Service
-   - Heartbeat Monitor App available on iOS and Android
-
 ## 1.4.3
 **Release Date: March 2016**
  - Security release requiring stemcell 3146.10.
