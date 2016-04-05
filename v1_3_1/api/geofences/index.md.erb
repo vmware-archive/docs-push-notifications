@@ -243,7 +243,7 @@ Params:
 
 Get updated geofences since a timestamp. This endpoint is used by devices to fetch an updated list of geofences to monitor.
 
-Authentication: HTTP basic variant\_uuid:variant\_secret
+Authentication: HTTP basic platform\_uuid:platform\_secret
 
 Params:
 
@@ -257,7 +257,7 @@ Params:
 ```json
     {
       "num": 3,
-      "deleted_geofence_ids": [1,2],   
+      "deleted_geofence_ids": [1,2],
        "geofences": [
         {
           "id": 5,
