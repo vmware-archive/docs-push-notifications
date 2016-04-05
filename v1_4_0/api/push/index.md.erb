@@ -125,17 +125,65 @@ You can target your push notifications in many ways:
   },
 ```
 
-* __devices__ is a list of device UUIDs to target. __devices__ will over-ride any other targeting type.  These device UUIDs are the same ones that are returned by the PCF Push Client SDKs after registration, or by the /v1/registration HTTP POST call if you are registering your devices without using the Client SDKs.
+Key              | Description
+---              | ---
+devices          | A list of device UUIDs to target. These device UUIDs are the same ones that are returned by the PCF Push Client SDKs after registration or by the __/v1/registration__ HTTP POST call if you are registering your devices without using the Client SDKs.
+tags             | A list of tags (or topics) to which devices may be subscribed. Only devices subscribed to one of more of the listed tags will be targeted. Devices select which tags to subscribe to by calling the appropriate __subscribeToTags__ methods in the client SDKs or by calling the /v1/registration HTTP POST or PUT.
+platforms        | A list of platforms to be targeted. Available platforms are 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled).
+platform         | DEPRECATED. Possible values are 'all', 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled). If 'platforms' is also populated the platform(s) selected here will be added to list of platforms.
+interactive-only | If set to __true__ then only those devices that can accept interactive pushes are targetted. At this time only iOS 8+ or Android 4.1+ devices are considered to support interactive pushes.
 
-* __tags__ is a list of tags (or topics) to which devices may be subscribed. Only devices subscribed to one of more of the listed tags will be targeted.  Devices select which tags to subscribe to by calling the appropriate __subscribeToTags__ methods in the client SDKs or by calling the /v1/registration HTTP POST or PUT.
+### NOTES
 
-* __interactive-only__ restricts the targeted devices to only those devices that can accept interactive pushes, if set to 'true'. Currently this means iOS 8+ devices.
+* At least one of __devices__, __tags__, __platforms__, or __platform__ is required.
 
-* __platforms__ is a list of platforms to be targeted. Available platforms are 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled).
+* __devices__ will override any other targeting type. Any __tags__, __platforms__, or __platform__ targetting key will be ignored if there is a __devices__ key.
 
-* __platform__ is deprecated. Possible values are 'all', 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled). If 'platforms' is also populated the platform(s) selected here will be added to list of platforms.
+* __tags__ and __platforms__ can be used in a complementary way to push a message to just a subset of users. (See example below).
 
-* NOTE: __tags__ and __platforms__ can be used in a complementary way to push a message to just a subset of users.
+### Examples
+
+* Sending push messages to three specific devices (specified by their device UUIDs):
+
+```JSON
+  "target": {
+    "devices": ["device_uuid1", "device_uuid2", "device_uuid3" ]
+  },
+```
+
+* Sending pushes to all devices (regardless of platform) subscribed to two specific tags:
+
+```JSON
+  "target": {
+    "tags": [ "exciting_topic", "pedantic_topic" ]
+  },
+```
+
+* Sending pushes to all "iOS" devices:
+
+```JSON
+  "target": {
+    "platforms": [ "ios" ]
+  },
+```
+
+* Sending pushes to all "Android" devices subscribed to one specific tag:
+
+```JSON
+  "target": {
+    "platforms": [ "android" ],
+    "tags": [ "best_tag_ever" ]
+  },
+```
+
+* Sending pushes to interactive only devices:
+
+```JSON
+  "target": {
+    "platforms": [ "android", "ios" ],
+    "interactive-only": true
+  },
+```
 
 ## <a id="setting_expiration"></a> Setting Expiration Time on Pushes ##
 
