@@ -31,7 +31,7 @@ Params: None
             "category": "",
             "badge": 0,
             "sound": "",
-            "content-available": false,
+            "content-available": false, // Note: the Push API expects this field to be a boolean. (see below)
             "extra": {}
           },
           "android": {},
@@ -69,6 +69,8 @@ Params: None
 #### iOS
 
 The fields available in the custom block for iOS are described here: <a href=https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW2>https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW2</a>
+
+Note: The Push API expects the `content-available` field to be a boolean (`true` or `false`). The Push API will translate the value of this field to `1` or `0` before sending it to APNS.
 
 ####  Android
 
