@@ -2,6 +2,24 @@
 title: DevOps
 ---
 
+## Uninstalling
+
+**IMPORTANT**
+
+It is advised that you do **NOT UNINSTALL** the Push tile in order to
+solve problems with binding or communicating with other services. The
+Push team will provide instructions on how to manually restore these
+connections.
+
+Deleting the tile will cause all of the user data stored in the MySQL,
+Redis, and RabbitMQ services to be **DELETED** as well.
+
+If you need to delete the Push tile or delete any of its connections to
+the above services then you will need to **BACKUP** and **RESTORE** all
+of the user data in these services.
+
+Instructions for backing up and restore the user data is provided below.
+
 ## Troubleshooting common problems
 
 For solutions to common problems, please see our [troubleshooting guide](troubleshooting.html).
