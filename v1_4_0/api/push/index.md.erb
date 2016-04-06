@@ -15,7 +15,7 @@ Query Parameters: None
 There are many possible options for the request body.  All of the
 options are listed in the JSON text example below.  Note that most of
 the individual JSON fields are optional.  The options you need to use
-are described below.
+are described below.  Several examples are illustrated below.
 
 The __message__ &rarr; __body__ field in the JSON request body is the
 _default_ message that is supplied in notifications to remote devices.  It
@@ -27,6 +27,8 @@ __alert__ &rarr; __body__ field is populated.  Android devices will
 receive the __message__ &rarr; __body__ field in their payload
 __message__ field unless the __custom__ &rarr; __android__ &rarr;
 __message__ field is populated.
+
+#### All options in request body ####
 
 ```JSON
 {
@@ -89,31 +91,45 @@ __message__ field is populated.
 ### Response Data, status: 200 (OK) ###
 
 The fields returned by the /v1/push POST API depend on the type of push
-notification that was requested.  If the push is given __scheduleAt__
-or __scheduleIn__ fields then the push is scheduled to be delivered in
-the future.  These pushes will return a __schedule_id__ field in the
-response data.  These __schedule_id__ values can be used in the
-[/v1/schedule](../schedules/index.html) APIs to update or cancel the scheduled push
-before it is delivered.
+notification that was requested: _scheduled_ or _immediate_.
 
-Otherwise the push will be queued to be sent immediately.  In this case,
-the response will also contain a __schedule_id__ field that can be used
+If the push is given __scheduleAt__ or __scheduleIn__ fields then the push is
+_scheduled_ to be delivered in the future.  These pushes will return a
+__schedule_id__ field in the response data.  These __schedule_id__ values can
+be used in the [/v1/schedule](../schedules/index.html) APIs to update or cancel
+the scheduled push before it is delivered.
+
+
+Otherwise the push will be queued to be sent _immediately_.  In this case,
+the response will also contain a __receipt_id__ field that can be used
 to follow the push notification delivery status in the audit logs.
 
+#### Response Data ####
+#
 ```JSON
 {
   "schedule_id": "",  # only returned if the push notification is a scheduled push
   "receipt_id": ""    # only returned if the push is being delivered immediately.
 }
 ```
+_Scheduled_ pushes are described further [below](#scheduled_pushes).
 
 ## <a id="targeting_selection"></a> Targeting / Audience Selection ##
 
 You can target your push notifications in many ways:
 
- - By device UUID(s) (as returned by the device registration process in the PCF Push Client SDKs - or by the /v1/registration HTTP POST call if you are registering your devices without using the Client SDKs.
- - By tag(s).
- - By platform(s).
+ - By platform(s). e.g.: "ios", "android".
+
+ - By device UUID(s):
+   * Devices UUIDs are determined by:
+     + the device registration process in the PCF Push Client SDKs. See the documentation for the [iOS](../../../ios/#device_uuid) or [Android](../../../android/#deviceUuid) SDKs.
+     + or by the [/v1/registration POST/PUT APIs](../registration/index.html) if you are registering your devices without using the Client SDKs.
+
+ - By tag(s):
+   * Tags are created:
+     + implicitly when devices subscribed to them. See the [/v1/registration POST/PUT APIs](../registration/index.html).
+     + or when the [/v1/tags POST API](../tags/#tag_create) is used.
+
 
 Key              | Description
 ---              | ---
@@ -129,50 +145,62 @@ interactive-only | If set to __true__ then only those devices that can accept in
 
 * __devices__ will override any other targeting type. Any __tags__, __platforms__, or __platform__ targetting key will be ignored if there is a __devices__ key.
 
-* __tags__ and __platforms__ can be used in a complementary way to push a message to just a subset of users. (See example below).
+* __tags__ and __platforms__ can be used in a complementary way to push a message to just a subset of users (See example below).
 
-### Examples
+* Devices only need to be subscribed to at least one of the tags in the targetting data in order to receive the message (See example below). There is no way using the Push API to send a message to a device that is subscribed to _all_ of the tags in a list.
+
+### Target Examples
 
 * Sending push messages to three specific devices (specified by their device UUIDs):
 
 ```JSON
+  ...
   "target": {
-    "devices": ["device_uuid1", "device_uuid2", "device_uuid3" ]
-  },
+    "devices": [ "device_uuid1", "device_uuid2", "device_uuid3" ]
+  }
+  ...
 ```
 
-* Sending pushes to all devices (regardless of platform) subscribed to two specific tags:
+* Sending pushes to all devices (regardless of platform) subscribed to one of two specific tags (a device only needs to be subscribed to one of the tags in the list of tags in order to receive the message).
 
 ```JSON
+  ...
   "target": {
     "tags": [ "exciting_topic", "pedantic_topic" ]
-  },
+  }
+  ...
 ```
 
-* Sending pushes to all "iOS" devices:
+* Sending pushes to all iOS devices:
 
 ```JSON
+  ...
   "target": {
     "platforms": [ "ios" ]
-  },
+  }
+  ...
 ```
 
 * Sending pushes to all "Android" devices subscribed to one specific tag:
 
 ```JSON
+  ...
   "target": {
     "platforms": [ "android" ],
     "tags": [ "best_tag_ever" ]
-  },
+  }
+  ...
 ```
 
 * Sending pushes to interactive only devices:
 
 ```JSON
+  ...
   "target": {
     "platforms": [ "android", "ios" ],
     "interactive-only": true
-  },
+  }
+  ...
 ```
 
 ## <a id="setting_expiration"></a> Setting Expiration Time on Pushes ##
@@ -192,10 +220,25 @@ Pushes can be scheduled to be sent at a later time. Use the __scheduleAt__ field
 
 If the scheduled time is less than a preconfigured time in the future, the push will not be scheduled and will be sent immediately. By default this amount is 60 seconds.
 
+### Scheduled Pushes Examples
 
-## <a id="custom_fields"></a> Custom Fields For Pushes ##
+* Scheduling a push message to be delivered for February 2, 2016 at 8 AM (UTC):
 
-### iOS ###
+```JSON
+  ...
+  "scheduleAt": 1454313600000
+  ...
+```
+
+* Scheduling a push message to be delivered two hours from now:
+
+```JSON
+  ...
+  "scheduleIn": 7200000
+  ...
+```
+
+## <a id="custom_ios_fields"></a>Custom Fields for iOS Pushes ##
 
 The fields available in the custom block for iOS are described here:
 
@@ -251,11 +294,15 @@ The fields available in the custom block for iOS are described here:
 
 Please check the [Apple documentation](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW2) for more detailed information.
 
-###  Android ###
+## <a id="custom_android_fields"></a>Custom Fields for Android Pushes ##
 
-The custom fields for android are just a dictionary that can contain any fields required by your application. You can also specify a __collapse\_key__ in the custom fields for Android. A message with a __collapse\_key__ that has not yet been delivered may be replaced by a newer message with the same collapse key. Please see the [Google documentation on collapsable messages](https://developers.google.com/cloud-messaging/downstream#collapsible_and_non-collapsible_messages).
+The custom fields for android are a dictionary that can contain any fields required by your application. You can also specify a __collapse\_key__ in the custom fields for Android. A message with a __collapse\_key__ that has not yet been delivered may be replaced by a newer message with the same collapse key. Please see the [Google documentation on collapsable messages](https://developers.google.com/cloud-messaging/downstream#collapsible_and_non-collapsible_messages).
 
 Otherwise, you can specify any arbitrary freeform payload data to deliver to the receiving Android device.  All of the fields in this in the __android__ element in the push request will be supplied to the receiving Android device in the `Bundle` provided to `onReceiveMessage` method in the Android application's subclass of `GcmService`.  In general the push message data would be provided in a `message` JSON field but it is up to your application to use the message payload as it needs.
+
+Note that the "message" &rarr; "body" field in the Push request body, if present, will be delivered in the "message" field of the GCM push notification payload.
+
+## <a id="custom_other_platforms_fields"></a>Custom Fields for Other Platforms ##
 
 ### BB10 ###
 
@@ -270,3 +317,76 @@ See [this reference](windows8Fields/index.html) for a description of Windows 8 p
 ###  Windows Phone (MPNS) ###
 
 See [this reference](windowsPhoneFields/index.html) for a description of Windows Phone push options.  Note that PCF Push Notification Service support for Windows 8 is basic.  Pivotal does not provide any up-to-date client SDKs for Windows Phone at this time.
+
+## <a id="examples"></a> Complete Examples ##
+
+Unlike the above examples, these examples will show the complete Push request body.
+
+* Send a message to all users subscribed to the "local_seminars" tags to alert them to an important community meeting.  This message expires on the morning of Friday April 1, 2016.
+
+```JSON
+{
+  "message": {
+    "body": "Town Hall This Thursday: Forging, Cheese, And You"
+  },
+  "target": {
+    "tags": [ "local_seminars" ]
+  },
+  "expiryTime": 1459468800000
+}
+```
+
+* Send a push to all iOS and Android devices that are subscribed to one (or more) of the "breaking_news", "local", or "dairy" tags. Provide some custom fields that apps can use to deep link to article data.  This message is scheduled to be delivered in two hours.
+
+```JSON
+{
+  "message": {
+    "custom": {
+      "ios": {
+        "alert": {
+          "body": "Breaking News: World's Biggest Cheese Forged At Local Bakery"
+        },
+        "content-available": true,
+        "extra": { "story_url": "https://my_server/article/123456789" }
+      },
+      "android": {
+        "message": "Breaking News: World's Biggest Cheese Forged At Local Bakery",
+        "story_url": "https://my_server/article/123456789"
+      }
+  },
+  "target": {
+    "tags": [ "breaking_news", "local", "dairy" ],
+    "platforms": [ "ios", "android" ]
+  },
+  "scheduleIn": 7200000
+}
+```
+
+* Send a push to one particular device informating the user that they have one new email notification.  The badge on the app icon will be set to "1" and a sound will be played. Some of the email metadata is provided in the message extras so that the application can show a preview of the message. The message is given the "new_email" category so that iOS 8.0+ devices can provide appropriate action buttons for the user.
+
+```JSON
+{
+  "message": {
+    "custom": {
+      "ios": {
+        "alert": {
+          "body": "You've got mail!",
+        },
+        "category": "new_email",
+        "badge": 1,
+        "sound": "new_email",
+        "content-available": true,
+        "extra": {
+          "from": "Your Local Bakery",
+          "to": "You",
+          "subject": "Special Deal on Cheese",
+          "message_body": "Please come to your local bakery before Friday to sample a piece of the world's biggest cheese."
+        }
+      }
+    }
+  },
+  "target": {
+    "devices": [ "111-222-333444" ]
+  }
+}
+```
