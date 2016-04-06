@@ -115,16 +115,6 @@ You can target your push notifications in many ways:
  - By tag(s).
  - By platform(s).
 
-```JSON
-  "target": {
-    "tags": [ "tag1", "tag2", ... ],
-    "platforms": [ "ios", "android", ... ],
-    "devices": ["device_uuid1", "device_uuid2", ... ],
-    "interactive-only": false,
-    "platform": "all"
-  },
-```
-
 Key              | Description
 ---              | ---
 devices          | A list of device UUIDs to target. These device UUIDs are the same ones that are returned by the PCF Push Client SDKs after registration or by the __/v1/registration__ HTTP POST call if you are registering your devices without using the Client SDKs.
