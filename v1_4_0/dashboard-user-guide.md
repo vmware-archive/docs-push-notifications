@@ -6,7 +6,7 @@ title: Using the Dashboard V1.4.0
 
 <a href="/push/dashboard-user-guide.html">Version List</a>
 
-##Application
+##<a id="Applications"></a>Applications
 An application in the Push Dashboard represents a mobile application from the perspective of the application author, including all supported platforms. Applications are listed in the dropdown at the top of the sidebar.
 
 <img src="assets/dug-summary.png" width="800"/>
@@ -29,7 +29,7 @@ To delete an application, click on the `Configuration` link in the sidebar menu 
 
 <img src="assets/dug-actions-delete.png" width="800"/>
 
-##Platform
+##<a id="Platforms"></a>Platforms
 A platform configures platform specific attributes to send push messages. For example, this would include a certificate necessary to send messages to Apple's APNS, or a token necessary to send messages to Google's GCN. A platform has many devices.
 
 <img src="assets/dug-configuration.png" width="800"/>
@@ -55,7 +55,7 @@ On the Configuration page, click on the trash icon link next to the platform you
 
 <img src="assets/dug-delete-platform.png" width="800"/>
 
-##Devices
+##<a id="Devices"></a>Devices
 A device is given a unique identifier which represents a user opting in to receive push notifications. This identifier is not necessarily unique to a device since it might change if the user reinstalls the mobile application, or unsubscribes and resubscribes.
 
 <img src="assets/dug-configuration-view-devices.png" width="800"/>
@@ -67,7 +67,7 @@ Click on 'Devices' in the sidebar menu. Click on the `Test Push` button next to 
 
 <img src="assets/dug-test-push.png" width="800"/>
 
-##Sending a push message
+###Sending a Push Message
 Click on `Push Notifications` in the sidebar menu, and click the button `Create Push Notification`.
 
 <img src="assets/dug-create-push.png" width="800"/>
@@ -90,12 +90,18 @@ On the Create Push Message page, fill in the form and click `Send Push Notificat
 
 `Target Platform` will target all devices of the selected platform. Adding tags to the `Tag(s)` field will refine the target list down, adding only those devices subscribed to one of the listed tags. 
 
-##Tags
+##<a id="Tags"></a>Tags
 A tag allows push notifications to be sent to all devices that have explicitly subscribed to it as opposed to all users that have the application installed. This allows an application to send targeted push notifications to a subset of devices. Devices can subscribe to tags via the <a href="api/registration/">registrations api</a>. Available tags are listed in the targetting section of the Create Notification form.
 
 <img src="assets/dug-create-with-tags.png" width="800"/>
 
-##Locations
+##<a id="Locations"></a>Locations
+
+Locations allow you to send push notifications to a subset of users who are within (or enter) the radius of a specified area.
+
+
+###Adding a Location Group
+
 Click `Locations` on the left sidebar and then click the `Add Location` button.
 
 <img src="assets/gw-step2.png" width="800"/>
@@ -104,7 +110,7 @@ Fill in the Name of the location. You may type in a Latitude and Longitude pair,
 
 <img src="assets/gw-step3.png" width="800"/>
 
-##Location Groups
+###Adding a Location Group
 Click on the `Location Group` tab, and then on the `Add Location Group` button.
 
 <img src="assets/gw-step4.png" width="800"/>
@@ -113,12 +119,12 @@ Fill in the Name and Description of the Location Group. In the Target Location f
 
 <img src="assets/gw-step5.png" width="800"/>
 
-##Geofence Push Notifications
+###Geofence Push Notifications
 Fill in the details of the Push Notification, such as Message, Platform, and Schedule. Select from the `Target Location` drop-down either a Location or a Location Group. Trigger Type field will appear upon the addition of Location/Location Group. Select either Enter or Exit, depending on how you want the Geofence to activate. Once all the details are set, click the `Send Push Notification` button.
 
 <img src="assets/gw-step7.png" width="800"/>
 
-##Logs
+##<a id="Logs"></a>Logs
 The Logs page displays any logged events that occur while the Logs page is open. Clicking the "Download Logs" button will copy the logs displayed into a text file onto your local machine.
 
 <img src="assets/dug-logs.png" width="800"/>

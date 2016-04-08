@@ -2,21 +2,21 @@
 title: Installation
 ---
 
-### Dependencies
+##<a id="Dependencies"></a>Dependencies##
 
 The Push Notification service depends on MySQL (optionally [MySQL for Pivotal CF](https://network.pivotal.io/products/p-mysql)), [RabbitMQ for Pivotal CF](https://network.pivotal.io/products/pivotal-rabbitmq-service), and [Redis for Pivotal CF](https://network.pivotal.io/products/p-redis)  being successfully installed on [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf).
 
-### Download the Product
+##<a id="Download"></a>Download the Product##
 
 Download the Push Notification software from [Pivotal Network](http://network.pivotal.io/)
 
-### Adding the Product
+##<a id="Adding"></a>Adding the Product##
 
 To get started with Push, you need to [add the product](http://docs.pivotal.io/pivotalcf/customizing/add-delete.html) with Pivotal Ops Manager.
 
 Before you can complete the installation you must provide some configuration.
 
-#### Set Encryption Key
+### Set Encryption Key
 
 From Ops Manager click on the Pivotal Push Notification Service tile and go to the "Security Settings" section. Generate an encryption key by running the following command in terminal (you should set your own password here):
 
@@ -24,7 +24,7 @@ From Ops Manager click on the Pivotal Push Notification Service tile and go to t
 
 This will produce a salt, key, and initialization vector. Copy the key into the "Encryption Key" field on Ops Manager and click "Save". This key is used for symmetric encryption of push certificates and API keys.
 
-#### Configure MySQL
+### Configure MySQL
 
 From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use the [Pivotal MySQL service](https://network.pivotal.io/products/p-mysql). If you select this option you must install the Pivotal MySQL service as well. Enter a service plan name into the "[Service Plan](http://docs.pivotal.io/p-mysql/index.html#settings)" field (ex. "100mb-dev").
 
@@ -32,7 +32,7 @@ To use an external (user provided) MySQL server select "External" and fill in th
 
 Once you have completed this configuration click "Save".
 
-#### Configure Redis for Analytics and Logs
+### Configure Redis for Analytics and Logs
 
 From Ops Manager click on the Push Notification Service tile and go to the "Analytics Redis Settings" section.  Select the Redis service to use [Pivotal Redis service](https://network.pivotal.io/products/p-redis).  If you select this option you must install the Pivotal Redis service as well.  Select from the drop-down the type of service plan to use. See more information about the [Pivotal Redis service](http://docs.pivotal.io/redis/index.html)
 
@@ -44,15 +44,15 @@ The same steps will apply to set the "Logs Redis Settings" section as above.
 
 Once you have completed these configurations click "Save".
 
-#### Upload Stemcell
+### Upload Stemcell
 
 Ops Manager versions greater than 1.5 will require that you upload the stemcell that the Push Notification Service uses. You can acquire this stemcell from the [Bosh Stemcell Directory](https://bosh.io/stemcells). Once you have the stemcell, upload it to Ops Manager via the "Stemcell" tab in the Push Notification Services configuration page.
 
-#### Apply Changes
+### Apply Changes
 
 Once the security settings and MySQL configuration are complete you can click "Installation Dashboard" to return to the Ops Manager dashboard and then click "Apply Changes" to complete the installation.
 
-### Creating a Tenant
+##<a id="Tenant"></a>Creating a Tenant##
 
 Since version 1.4, the PCF Push Notification Service supports multiple tenants. Each tenant in the PCF Push Notification Service can have its own set of applications. In order to set up a new
 tenant, you will need to create a new space in your PCF Apps Manager. You can use any org that is appropriate for your needs.
@@ -70,16 +70,16 @@ Once the service instance is created you can click the "Manage" link on the serv
 You can control access to the Push Dashboard by using the using Cloud Controller. Any users with access to see the space will also have access to use the Push Notification Dashboard. You will need
 to be logged in to the Apps Manager before you can access the Push Dashboard.
 
-### Dashboard setup
+##<a id="Dashboard"></a>Dashboard setup##
 
 After the service has been added, verify the successful installation by viewing the dashboard.
 
-#####Note:
+####Note:
 The Push Notification service is a CF Service that is installed in the "System" org and "push-notifications" space. You will see it in the Marketplace. Each instance of the Push Notifications Service will have its own dashboard URL.
 
 Login as "admin" to the CF console and go to that org and space. To access the Push Dashboard, click on the "Manage" link for the "push-service-instance" service.
 
-### Installation Verification
+##<a id="Verification"></a>Installation Verification##
 
 There are two different ways to manually verify the installation was successful.
 
@@ -127,7 +127,7 @@ The listing of applications show the status, the name, the url to access the app
 
 The listing of services show the name, the plan, and how many apps are bound to it. Some services have extra options, such as managing the service, or looking up documentation on the service.
 
-#### Notes
+##<a id="Notes"></a>Notes##
 
 There is no automated upgrade path from version 1.2.x to version 1.3.0. Steps are available to backup and restore data between these versions.
 

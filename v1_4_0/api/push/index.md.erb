@@ -211,8 +211,8 @@ Windows 8 behavior is similar for tile and badge notifications but only one tile
 
 __IMPORTANT NOTE__:
 
-* If omitted, the default expiry time used for Apple devices is Integer.MAX_VALUE (i.e.: sometime in the year 2038).
-* If omitted, the default expiry time used on GCM is 4 weeks (2,419,200).  The maximum time-to-live for messages delivered on GCM is 4 weeks.
+* If omitted, the default expiry time used for Apple devices is `Integer.MAX_VALUE` seconds (i.e.: sometime in the year 2038).
+* If omitted, the default expiry time used on GCM is 4 weeks (2,419,200 seconds).  The maximum time-to-live for messages delivered on GCM is also 4 weeks.
 * Windows 8 toast notifications are not queued and cannot have an expiry time. They will only be delivered at the time the push is sent if the target device is connected.
 * Windows Phone 7 has no expiry option. Instead pushes fall into one of three categories: immediate, up to 450 seconds, or up to 900 seconds. Depending on the time set in the "__expiryTime__" field, a push to Windows Phone 7 will be slotted into one of those categories. See the [Sending push notifications for Windows Phone](http://msdn.microsoft.com/library/windows/apps/hh202945.aspx) documentation.
 
