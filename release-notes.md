@@ -3,7 +3,7 @@ title: Push Notification Service Release Notes
 ---
 
 ## 1.5.0
-**Release Date: March 2016**
+**Release Date: May 2016**
 
  - New Heartbeat Application is deployed with the Push Notifications Service
    - Heartbeat Monitor App available on iOS and Android
