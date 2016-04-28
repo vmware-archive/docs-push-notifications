@@ -2,10 +2,9 @@
 title: iOS Push Client SDK
 ---
 
-## <a id="sample_app"></a>Sample Apps ##
+## <a id="sample_app"></a>Sample App ##
 
-You can two sample apps at <a href="https://github.com/cfmobile/push-ios-samples">on Github</a>.
-There is one full-featured test application in Objective-C and a simpler test application in Swift. 
+You can find the iOS Sample App <a href="https://github.com/cfmobile/push-ios-samples">on github</a>
 
 ## <a id="version"></a> Version ##
 
@@ -13,20 +12,17 @@ This document covers the Pivotal Cloud Foundry Push Notification Service iOS Pus
 
 Old documentation:
 
-* [Version 1.4.0](1.4.0/index.html)
 * [Version 1.3.3](1.3.3/index.html)
 * [Version 1.3.2](1.3.2/index.html)
 * [Version 1.3.1](1.3.1/index.html)
 * [Version 1.3.0](1.3.0/index.html)
 * [Version 1.0.4](1.0.4/index.html)
 
-Please note that there was no release of the Push iOS SDK for 1.5.0.
-
 ## <a id="features"></a> Features ##
 
-The [PCF Push Notification Service](https://network.pivotal.io/products/push-notification-service) Push Client SDK is
-a light-weight library that will help your application register with the PCF Mobile Services Push
-Notifications service.
+The [Pivotal Cloud Foundry Mobile Services](https://network.pivotal.io/products/pcf-mobile-services) Push Client SDK is
+a light-weight library that will help your application register with the [PCF Mobile Services Push
+Notifications](https://network.pivotal.io/products/push-notification-service) server.
 
 The SDK does not provide any code for registering with APNS or for handling remote push notifications.
 
@@ -34,11 +30,11 @@ The SDK does not provide any code for registering with APNS or for handling remo
 
 The Push SDK requires iOS 7.0 or greater.  The Push SDK supports iOS 9.0 as of version 1.4.0.
 
-## <a id="getting_started"></a> Getting Started (Required) ##
+## <a id="getting_started"></a> Getting Started ##
 
 In order to receive push messages from the Push Server in your iOS application, you will need to follow these steps:
 
-### Configure iOS Push Notifications on Apple Developer ###
+### Step 1 - Configure iOS Push Notifications on Apple Developer ###
 
 If you are not familiar with the steps to set up an application on Apple Developer Member Center and set it up for push
 notifications, please see the [instructions below](#apple).
@@ -47,7 +43,7 @@ You will need to create an **Explicit App Id with Push Notifications enabled**.
 
 Note that you can NOT use a Wildcard App ID in an application with push notifications.
 
-### Configure iOS Push Notifications on the Push Dashboard ###
+### Step 2 - Configure iOS Push Notifications on the Push Dashboard ###
 
 Create your application and platforms on the PCF Mobile Services Push Dashboard. You will need two platforms -- one
 for **development** mode and one for **production**. Each of these two platforms will need their own Apple Push
@@ -61,8 +57,7 @@ and **Platform Secret** parameters have been defined under Configuration for bot
 You can find steps on how to create your application and platforms on PCF Mobile Services Push Dashboard notes:
 [Push Dashboard Document] (../dashboard-user-guide.html)
 
-
-## <a id="linking"></a> Link to the Framework (Required) ##
+### Step 3 - Link to the Framework ###
 
 1. Download the project framework from Pivotal Network and add it to your project in Xcode. You can drag and drop the
    .framework file into your project in the Project Navigator view. Make sure to enable **Copy items if needed**.
@@ -75,7 +70,7 @@ You can find steps on how to create your application and platforms on PCF Mobile
 NOTE: if you are targeting iOS 7.0 then you will have to compile and link the SDK from source.  iOS 7.0 does not support
 iOS 8.0 frameworks.
 
-## <a id="pivotal_plist_file"></a> Set up your Pivotal.plist file (Required) ##
+### Step 4 - Set up your Pivotal.plist file ###
 
 Create a **Pivotal.plist** file in your project's root directory. The following keys are required:
 
@@ -105,7 +100,7 @@ These values may not be empty or `nil`.
 
 * Note that the `pivotal.push.trustAllSslCertificates` property was removed in PCF Push Client SDK 1.3.3.
 
-## <a id="apns_registration"></a> Register for Push Notifications with APNS (Required) ##
+### Step 5 - Register for Push Notifications with APNS ###
 
 You will need to register your app for push notifications with APNS. Add the following code to your
 `application:didFinishLaunchingWithOptions:` method in your application delegate.
@@ -153,7 +148,7 @@ You will need to register your app for push notifications with APNS. Add the fol
    * Note that the OS will display a dialog box on the screen at runtime to confirm the requested notification types
    to the user when the app attempts to register for push notifications the first time.
 
-## <a id="pivotal_registration"> Register for Push Notifications with Pivotal CF (Required) ##
+### Step 6 - Register for Push Notifications with Pivotal Cloud Foundry ###
 
 Include the following header in your application delegate class:
 
@@ -175,8 +170,6 @@ In your application delegate's `application:didRegisterforRemoteNotifications:` 
         // Required: Create a file in your project called "Pivotal.plist" in order to provide parameters for registering with
         // PCF Push Notification Service
         //
-        // Optional: You can provide a custom user ID to associate your device with its user.
-        //
         // Optional: You can also provide a set of tags to subscribe to.
         //
         // Optional: You can also provide a device alias.  The use of this device alias is application-specific.  In general,
@@ -187,7 +180,6 @@ In your application delegate's `application:didRegisterforRemoteNotifications:` 
         [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken
                                                            tags:YOUR_TAGS
                                                     deviceAlias:YOUR_DEVICE_ALIAS
-                                                   customUserId:YOUR_CUSTOM_USER_ID
                                             areGeofencesEnabled:ARE_GEOFENCES_ENABLED
           success:^{
             NSLog(@"CF registration succeeded!");
@@ -206,96 +198,15 @@ In your application delegate's `application:didRegisterforRemoteNotifications:` 
    have multiple devices) - this is for future use.  We suggest that you use the user's device name to populate this field
    (e.g.: `UIDevice.currentDevice.name`).
 
-   * The `YOUR_CUSTOM_USER_ID` parameter is another custom parameter that you can use to associate this device with the user.
-   It is possible to target push notifications to custom user IDs.  If you don't want to use the custom user ID then you can
-   set this argument to `nil` or an empty string.  Custom user IDs are treated as case-sensitive.
-
    * The `ARE_GEOFENCES_ENABLED` is a `BOOL` value that turns the geofences feature on and off (described [below](#geofences)).
 
    * All of the `deviceAlias`, `tags`, `success`, and `failure` parameters are optional and may be set to `nil`.
 
-   * You can call the `[PCFPush registerForPCFPushNotificationsWithDeviceToken:tags:deviceAlias:customUserId:areGeofencesEnabled:success:failure:]` method
+   * You can call the `[PCFPush registerForPCFPushNotificationsWithDeviceToken:tags:deviceAlias:areGeofencesEnabled:success:failure:]` method
    whenever your parameterization changes during runtime (e.g.: when you want to update the device alias).  It is not
    harmful to call this method several times during the lifetime of a process.
 
-### <a id="registration_examples"></a> Registration Examples ###
-
-#### Example 1: Registering for Push Notifications with no options, tags, and without geofences.
-
-```objective_c
-    - (void) application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-    {
-        [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken
-                                                           tags:nil
-                                                    deviceAlias:nil
-                                                   customUserId:nil
-                                            areGeofencesEnabled:NO
-                                            success:^{ NSLog(@"CF registration succeeded!"); }
-                                            failure:^(NSError *error) { NSLog(@"CF registration failed: %@", error); }];
-    }
-```
-
-#### Example 2: Registering for Push Notifications with a customer user ID using the user's account name (for example).
-
-```objective_c
-    - (void) application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-    {
-        [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken
-                                                           tags:nil
-                                                    deviceAlias:nil
-                                                   customUserId:@"test@example.net" // User's account name
-                                            areGeofencesEnabled:NO
-                                            success:^{ NSLog(@"CF registration succeeded!"); }
-                                            failure:^(NSError *error) { NSLog(@"CF registration failed: %@", error); }];
-    }
-```
-
-#### Example 3: Removing the registration for the custom user ID (which will prevent the user from being targeted by their custom user ID).
-
-```objective_c
-    - (void) application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-    {
-        [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken
-                                                           tags:nil
-                                                    deviceAlias:nil
-                                                   customUserId:@"" // Remove the user's account name. Can use nil or empty string.
-                                            areGeofencesEnabled:NO
-                                            success:^{ NSLog(@"CF registration succeeded!"); }
-                                            failure:^(NSError *error) { NSLog(@"CF registration failed: %@", error); }];
-    }
-```
-
-#### Example 4: Subscribing to several topics on a news service.
-
-```objective_c
-    - (void) application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-    {
-        [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken
-                                                           tags:[NSSet setWithArray:@[@"breaking_news", @"local_news"]]
-                                                    deviceAlias:nil
-                                                   customUserId:nil
-                                            areGeofencesEnabled:NO
-                                            success:^{ NSLog(@"CF registration succeeded!"); }
-                                            failure:^(NSError *error) { NSLog(@"CF registration failed: %@", error); }];
-    }
-```
-
-#### Example 5: Unsubscribing from the "breaking\_news" tag while remaining subscribed to the "local\_news" tag.
-
-```objective_c
-    - (void) application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-    {
-        [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken
-                                                           tags:[NSSet setWithObject:@"local_news"]
-                                                    deviceAlias:nil
-                                                   customUserId:nil
-                                            areGeofencesEnabled:NO
-                                            success:^{ NSLog(@"CF registration succeeded!"); }
-                                            failure:^(NSError *error) { NSLog(@"CF registration failed: %@", error); }];
-    }
-```
-
-## <a id="receiving_push_notifications"></a> Receiving Push Notifications (Required) ##
+## <a id="receiving_push_notifications"></a> Receiving Push Notifications ##
 
 To receive push notifications you can implement the following code in your application delegate class.
 
@@ -347,7 +258,7 @@ application delegate `application:didReceiveRemoteNotification:fetchCompletionHa
 If you do not call `[PCFPush didReceiveRemoteNotification:completionHandler:]` then the SDK will not be able to fetch
 geofence updates nor will it be able to capture push analytics data.
 
-## <a id="analytics"></a> Enable or disable push analytics (Optional) ##
+### Step 7 - Enable or disable push analytics (OPTIONAL) ###
 
 Version 1.3.3 of the PCF Push Client SDK supports the collection of some simple push analytics data:
 
@@ -372,50 +283,7 @@ the notification then there will be no analytics event logged for receiving the 
 the background (since iOS does not call the application for the remote notifications in the background without
 `"content-available":1`).
 
-## <a id="subscribing_to_tags"></a> Subscribing to Tags (Optional) ##
-
-The `[PCFPush subscribeToTags:success:failure:]` method allows you to manage your tags after registration has
-completed.  If you call this method before registration is complete then an error will occur.  This parameter should be
-an `NSSet` object containing a set  of `NSString` objects.
-
-In general, an application should keep track of all of the tags it is currently subscribed to.  Whenever you call
-`[PCFPush registerForPCFPushNotificationsWithDeviceToken:tags:deviceAlias:customUserId:areGeofencesEnabled:success:failure:]` or `[PCFPush
-subscribeToTags:success:failure:]` you need to pass **ALL** of the tags that the application is currently subscribed to.
-If you want to add new tags you must provide them alongside the tags you are currently subscribed to.  If you omit
-some tags then the SDK will think that you want to **unsubscribe** from those tags.
-
-## <a id="unregistration"></a> Unregistering from Pivotal Cloud Foundry Push Notification Service (Optional) ##
-
-The `[PCFPush unregisterFromPCFPushNotificationsWithSuccess:failure:]` method allows you to unregister from push
-notifications from PCF.  After unregistering PCF will stop sending the device any notifications.
-
-## <a id="device_uuid"></a> Reading the Device UUID (Optional) ##
-
-In order to target individual devices for remote notifications using the PCF Push Notification Service you will need to
-target the **Device UUID** assigned to each device by the service.  You can read the Device UUID at run time any time
-after a successful registration with the service by calling the `[PCFPush deviceUuid]` method.  This method will return
-`nil` if the device is not currently registered with the PCF Push Notification Service.
-
-Example:
-
-```objective_c
-    [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken
-                                                       tags:nil
-                                                deviceAlias:UIDevice.currentDevice.name
-                                               customUserId:nil
-                                        areGeofencesEnabled:YES
-                                        success:
-    ^{
-        PCFPushLog(@"The Device UUID is \"%@\".", [PCFPush deviceUuid]);
-
-        // Note: add code to transmit the deviceUuid to your middleware server.
-
-    } failure:^(NSError *error) {
-        PCFPushLog(@"CF registration failed: %@", error);
-    }];
-```
-
-## <a id="geofences"></a> Geofences (Optional) ##
+## <a id="geofences"></a> Geofences ##
 
 Geofences are newly supported in version 1.3.0 of the Push Notification Service.  Using this service you will be able to
 register push notifications that your app users will see when they enter or exit certain geographic regions that you
@@ -522,7 +390,7 @@ You will also need to include the following header to the same file:
     #import <CoreLocation/CoreLocation.h>
 ```
 
-### Step 8 - Receiving Local Notifications (Optional) ###
+### Step 8 - Receiving Local Notifications (OPTIONAL) ###
 
 If you follow the above steps then your application will be able to show geofences when they are triggered.  Geofences
 are delivered as local notifications to your app.  Similar to remote notifications, local notifications will be
@@ -542,7 +410,7 @@ As an example, if you want to print a log message when a local notification is r
     }
 ```
 
-### Step 9 - Receive Geofence Status Updates (Optional) ###
+### Step 9 - Receive Geofence Status Updates (OPTIONAL) ###
 
 The PCF Push Notification Service server will push updated geofences to user devices via push notifications.  You don't
 need to do any more work to process these updates or monitor these geofences.  You can read the geofence status object
@@ -570,7 +438,49 @@ yourself in the same class (or in whatever object instance you passed to `NSNoti
     }
 ```
 
-## <a id="ssl_authentication"></a> SSL Authentication (Optional) ##
+## <a id="subscribing_to_tags"></a> Subscribing to Tags ##
+
+The `[PCFPush subscribeToTags:success:failure:]` method allows you to manage your tags after registration has
+completed.  If you call this method before registration is complete then an error will occur.  This parameter should be
+an `NSSet` object containing a set  of `NSString` objects.
+
+In general, an application should keep track of all of the tags it is currently subscribed to.  Whenever you call
+`[PCFPush registerForPCFPushNotificationsWithDeviceToken:tags:deviceAlias:success:failure:]` or `[PCFPush
+subscribeToTags:success:failure:]` you need to pass **ALL** of the tags that the application is currently subscribed to.
+If you want to add new tags you must provide them alongside the tags you are currently subscribed to.  If you omit
+some tags then the SDK will think that you want to **unsubscribe** from those tags.
+
+## <a id="unregistration"></a> Unregistering from Pivotal Cloud Foundry Push Notification Service ##
+
+The `[PCFPush unregisterFromPCFPushNotificationsWithSuccess:failure:]` method allows you to unregister from push
+notifications from PCF.
+
+## <a id="device_uuid"></a> Reading the Device UUID ##
+
+In order to target individual devices for remote notifications using the PCF Push Notification Service you will need to
+target the **Device UUID** assigned to each device by the service.  You can read the Device UUID at run time any time
+after a successful registration with the service by calling the `[PCFPush deviceUuid]` method.  This method will return
+`nil` if the device is not currently registered with the PCF Push Notification Service.
+
+Example:
+
+```objective_c
+    [PCFPush registerForPCFPushNotificationsWithDeviceToken:deviceToken
+                                                       tags:nil
+                                                deviceAlias:UIDevice.currentDevice.name
+                                        areGeofencesEnabled:YES
+                                        success:
+    ^{
+        PCFPushLog(@"The Device UUID is \"%@\".", [PCFPush deviceUuid]);
+
+        // Note: add code to transmit the deviceUuid to your middleware server.
+
+    } failure:^(NSError *error) {
+        PCFPushLog(@"CF registration failed: %@", error);
+    }];
+```
+
+## <a id="ssl_authentication"></a> SSL Authentication (optional) ##
 
 The property `pivotal.push.sslCertValidationMode` allows the application to accept the following supported SSL Authentication modes:
 
@@ -671,15 +581,13 @@ example:
     ...
     [PCFPush registerForPCFPushNotificationsWithDeviceToken:@"My-Device-Token" ... ...];
 
-## <a id="appendix"> Appendix ##
-
-### <a id="apple"></a> Setting up your app on Apple Developer Member Center ###
+## <a id="apple"></a> Setting up your app on Apple Developer Member Center ##
 
 If you are not familiar with how to create an application on the Apple Developer Member Center then please follow the
 steps below.  This information is subject to change and you may find more up-to-date information at [App Distribution Guide]
 (https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/ConfiguringPushNotifications/ConfiguringPushNotifications.html#//apple_ref/doc/uid/TP40012582-CH32-SW1).
 
-#### Generating an App ID ####
+### Generating an App ID ###
 
 1. Log into your Apple Developer Account.
 
@@ -698,7 +606,7 @@ steps below.  This information is subject to change and you may find more up-to-
 
 1. You should now see your `App ID` in the list on the `iOS App IDs` page.
 
-#### Push Sandbox SSL Certificate ####
+### Push Sandbox SSL Certificate ###
 
 1. Click on your newly created `App ID` and click the `Edit` button.
 
@@ -713,17 +621,17 @@ steps below.  This information is subject to change and you may find more up-to-
   - Save the certificate to disk and Reveal in Finder.
 
 1. Go back to your web browser to the `About Creating a Certificate Signing Request (CSR)` page and click `Continue`.
-   Choose the certificate signing request that you just saved to disk and click `Generate`.
-   You will need to download this file and open it.  `Keychain Access` should open this file.  If prompted, add it to the `login` keychain.  You should be able to see this certificate if you navigate to the `My Certificates` section in `Keychain Access`.
+	- Choose the certificate signing request that you just saved to disk and click `Generate`.
+	- You will need to download this file and open it.  `Keychain Access` should open this file.  If prompted, add it to the `login` keychain.  You should be able to see this certificate if you navigate to the `My Certificates` section in `Keychain Access`.
 
 1. Export your certificate as a `p12` file with a password.
-  - Navigate to your `My Certificates` section in `Keychain Access`
-  - Expand your certificate and select both items. ![](./assets/keychain_access_certificates.png)
-  - Right click on the certificate and select `Export 2 items...`
-  - Name this certificate with your `Bundle ID` and append `Sandbox` to the end, and ensure that the File Format is `Personal Information Exchange (.p12)`
-  - Select a password to protect this certificate with, you will need this password when you setup the PCF Push server though the PCF Push Dashboard.  Save this `.p12` file in a location you will remember.
+	- Navigate to your `My Certificates` section in `Keychain Access`
+	- Expand your certificate and select both items. ![](./assets/keychain_access_certificates.png)
+	- Right click on the certificate and select `Export 2 items...`
+	- Name this certificate with your `Bundle ID` and append `Sandbox` to the end, and ensure that the File Format is `Personal Information Exchange (.p12)`
+	- Select a password to protect this certificate with, you will need this password when you setup the PCF Push server though the PCF Push Dashboard.  Save this `.p12` file in a location you will remember.
 
-#### Generate your provisioning profile ####
+### Generate your provisioning profile ###
 
 1. Go to the `Provisioning Profiles` on the left and click the `Development` link.
 
@@ -743,6 +651,6 @@ steps below.  This information is subject to change and you may find more up-to-
 
 1. In Xcode, make sure you are on the `Build Settings` tab and navigate down to `Provisioning Profile`.  Select the provisioning profile that you just created.  This profile will only show up if you opened the file from the previous step.
 
-### <a id="troubleshooting"></a> Troubleshooting ###
+## <a id="troubleshooting"></a> Troubleshooting ##
 
 Please see our [troubleshooting guide](../troubleshooting.html#iosSDK)
