@@ -42,7 +42,9 @@ push messages. Typically, the user will need to be logged into a Google account 
 have this application installed, but some odd ones may not. You should be able to receive push notifications on a
 Android emulated device if it has the **Google APIs** installed.
 
-## <a id="getting_started"></a> Getting Started (Required) ##
+## <a id="required_setup"></a> Required Setup ##
+
+### <a id="getting_started"></a> Getting Started ###
 
 In order to receive push messages from the PCF Push Notification Service in your Android application, you will need to
 create a project within the Google Developers Console.  Refer to [instructions below] (#google).
@@ -56,7 +58,7 @@ between developer and production modes.
 You can find steps on how to create your application and platforms on Pivotal Push Dashboard notes:
 [Push Dashboard Document] (../dashboard-user-guide.html)
 
-## <a id="Building"></a> Link to PCF Push SDK (Required) ###
+### <a id="Building"></a> Link to PCF Push SDK ####
 
 Download the PCF Push Client SDK for Android from [Pivotal Network]
 (https://network.pivotal.io/products/p-push-notifications).  The Client SDK is delivered as an Android Library
@@ -109,7 +111,7 @@ file. Ensure that you set the **category name** to your application's **package 
     </receiver>
 ```
 
-## <a id="configuration"></a> Configuration: Set up your pivotal.properties file (Required) ##
+### <a id="configuration"></a> Configuration: Set up your pivotal.properties file ###
 
 Create a **pivotal.properties** file in your project's `src/main/assets` or `src/main/res/raw` directory. The following properties are required:
 
@@ -132,7 +134,7 @@ Create a **pivotal.properties** file in your project's `src/main/assets` or `src
 
    * Note that the `pivotal.push.trustAllSslCertificates` property was removed in PCF Push Client SDK 1.3.3.
 
-## <a id="registration"></a> Registration (Required) ##
+### <a id="registration"></a> Registration ###
 
 It is recommended that you initialize the Push Client SDK in your application's primary `Activity` subclass' `onCreate`
 method.
@@ -186,27 +188,27 @@ need to know when registration is complete (or if it fails), then provide a `Reg
 
 ### <a id="registration_examples"></a> Registration Examples ###
 
-#### Example 1: Registering for Push Notifications with no options, tags, without geofences and with no callback.
+Example 1: Registering for Push Notifications with no options, tags, without geofences and with no callback.
 
 ```java
 	Push.getInstance(this).startRegistration(null, null, null, false, null);
 ```
 
-#### Example 2: Registering for Push Notifications with a customer user ID using the user's account name (for example).
+Example 2: Registering for Push Notifications with a customer user ID using the user's account name (for example).
 
 ```java
 	final String customUserId = "test@example.net"; // Your user's account name
 	Push.getInstance(this).startRegistration(null, customUserId, null, false, null);
 ```
 
-#### Example 3: Removing the registration for the custom user ID (which will prevent the user from being targeted by their custom user ID).
+Example 3: Removing the registration for the custom user ID (which will prevent the user from being targeted by their custom user ID).
 
 ```java
 	final String customUserId = ""; // Can use null or empty string to remove the custom user ID
 	Push.getInstance(this).startRegistration(null, customUserId, null, false, null);
 ```
 
-#### Example 4: Subscribing to several topics on a news service.
+Example 4: Subscribing to several topics on a news service.
 
 ```java
 	final Set<String> tags = new HashSet<>();
@@ -215,7 +217,7 @@ need to know when registration is complete (or if it fails), then provide a `Reg
 	Push.getInstance(this).startRegistration(null, null, tags, false, null);
 ```
 
-#### Example 5: Unsubscribing from the "breaking\_news" tag while remaining subscribed to the "local\_news" tag.
+Example 5: Unsubscribing from the "breaking\_news" tag while remaining subscribed to the "local\_news" tag.
 
 ```java
 	final Set<String> tags = new HashSet<>();
@@ -223,7 +225,7 @@ need to know when registration is complete (or if it fails), then provide a `Reg
 	Push.getInstance(this).startRegistration(null, null, tags, false, null);
 ```
 
-## <a id="receiving"></a> Receiving Push Notifications (Required) ##
+### <a id="receiving"></a> Receiving Push Notifications ###
 
 To receive push notifications in your application you will need to add a custom `Service` to your application that
 extends the `GcmService` provided in the SDK. The intent that GCM sends is passed to your service's `onReceiveMessage` method.
@@ -253,7 +255,9 @@ Finally, you will need to declare your service in your **AndroidManifest.xml** f
      <service android:name=".MyPushService" android:exported="false" />
 ```
 
-## <a id="analytics"></a> Push Analytics (Optional) ##
+## <a id="optional_setup"></a> Optional Items ##
+
+### <a id="analytics"></a> Push Analytics ###
 
 Version 1.3.3 of the PCF Push Client SDK supports the collection of some simple push analytics data:
 
@@ -323,7 +327,7 @@ Note that it is important to pass the entire remote notification payload `Bundle
 method.  This example accomplishes this requirement by saving the payload `Bundle` in the `Intent` `Extras` in the
 `PendingIntent` passed to the notification.
 
-## <a id="tags"></a> Tags (Optional) ##
+### <a id="tags"></a> Tags ###
 
 If any of your tags change during the lifetime of your process (e.g.: your application wants to change the list of
 tags that it has subscribed to) then call `subscribeToTags` with your new set of parameters. Example:
@@ -343,7 +347,7 @@ tags that it has subscribed to) then call `subscribeToTags` with your new set of
     });
 ```
 
-## <a id="unregistration"></a> Unregistration (Optional) ##
+### <a id="unregistration"></a> Unregistration ###
 
 If you want to unregister from push notifications then you can call the `startUnregistration` method:
 
@@ -362,7 +366,7 @@ If you want to unregister from push notifications then you can call the `startUn
     });
 ```
 
-## <a id="deviceUuid"></a> Reading the Device UUID (Optional) ##
+### <a id="deviceUuid"></a> Reading the Device UUID ###
 
 In order to target individual devices for remote notifications using the PCF Push Notification Service you will need to
 target the Device UUID assigned to each device by the service. You can read the Device UUID at run time any time after a
@@ -386,7 +390,7 @@ Example:
     });
 ```
 
-## <a id="ssl_authentication"></a> SSL Authentication (Optional) ##
+### <a id="ssl_authentication"></a> SSL Authentication ###
 
 The property `pivotal.push.sslCertValidationMode` allows the application to accept the following supported SSL Authentication modes:
 
@@ -441,7 +445,7 @@ The property `pivotal.push.sslCertValidationMode` allows the application to acce
     </application>
 ```
 
-## <a id="request_headers"></a> Setting Custom HTTP Request Headers (Optional) ##
+### <a id="request_headers"></a> Setting Custom HTTP Request Headers ###
 
 In order to inject custom headers into any HTTP requests made by the Push SDK you should call the `setRequestHeaders`
 method in the `Push` class with a `Map<String, String>` of the required HTTP header values.  Note that you can not
@@ -450,7 +454,7 @@ provide any 'Authorization' or 'Content-Type' headers via this method; they will
 In order for this method to take effect you will need to call it *before* `startRegistration`,
 `subscribeToTags`, or any other methods that will make network requests.
 
-## <a id="geofences"></a>  Geofences (Optional) ##
+### <a id="geofences"></a>  Geofences ###
 
 Geofences are newly supported in version 1.3.0 of the Push Notification Service.  Using this service you will be able to
 register push notifications that your app users will see when they enter or exit certain geographic regions that you
@@ -458,7 +462,7 @@ define on the Push Notification Service Dashboard.
 
 In order to set up your app to receive geofence notifications please follow these steps.
 
-### Step 1 - Set up your AndroidManifest.xml file ###
+#### Step 1 - Set up your AndroidManifest.xml file ####
 
 Add these two permissions to the `application` element of your **AndroidManifest.xml** file.
 
@@ -467,7 +471,7 @@ Add these two permissions to the `application` element of your **AndroidManifest
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 ```
 
-### Step 2 - Set up your Push Service ###
+#### Step 2 - Set up your Push Service ####
 
 You will need to override the following two methods in your application's custom `Service` (see Step 7 above).
 
@@ -485,7 +489,7 @@ You will need to override the following two methods in your application's custom
     }
 ```
 
-### Step 3 - Receive Geofence Status Updates (OPTIONAL) ###
+#### Step 3 - Receive Geofence Status Updates (OPTIONAL) ####
 
 The PCF Push Notification Service server will push updated geofences to user devices via push notifications.  You don't
 need to do any more work to process these updates or monitor these geofences.  You can read the geofence status object
@@ -524,7 +528,7 @@ You can configure your `BroadcastReceiver` class to listen to geofence updates b
     </receiver>
 ```
 
-### Step 4 - Request device location permission (Android 6.0 Marshmallow and up) ###
+#### Step 4 - Request device location permission (Android 6.0 Marshmallow and up) ####
 
 Android 6.0 Marshmallow introduced a new system for obtaining user permission for "dangerous" operations.  If you want
 to use geofences in your application then you need to request the permission to read the device location at runtime.
@@ -597,7 +601,7 @@ would like.
     private static final int REQUEST_PERMISSION_FOR_GEOFENCES_RESPONSE_CODE = 27; // Your favourite integer
 ```
 
-### Step 5 - Enable geofences ###
+#### Step 5 - Enable geofences ####
 
 In order to enable geofences at runtime you will need to pass `true` to the `areGeofencesEnabled` argument when you call the
 `startRegistration` method in your application main activity. If this parameter is set to `false` then no geofences features
@@ -627,7 +631,7 @@ initialize your Push SDK:
     }
 ```
 
-## <a id="appendix"> Appendix ##
+## <a id="appendix"></a> Appendix ##
 
 ### <a id="google"></a> Google Developers Console ###
 
