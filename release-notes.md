@@ -2,11 +2,10 @@
 title: Push Notification Service Release Notes
 ---
 
-## 1.5.0
+## 1.4.5
 **Release Date: May 2016**
-
- - New Heartbeat Application is deployed with the Push Notifications Service
-   - Heartbeat Monitor App available on iOS and Android
+ - PCF 1.7 compatibility.
+ - Please update to this version of push _before_ updating to PCF 1.7.0
 
 ## 1.4.3
 **Release Date: March 2016**
