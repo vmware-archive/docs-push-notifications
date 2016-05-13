@@ -90,6 +90,11 @@ title: DevOps
 
 ### Backup MySQL data
 
+  It is highly recommended that you enable [ automatic backups ](http://docs.pivotal.io/p-mysql/backup.html#automated-backups) with your MySQL Tile (Requires an Amazon s3 Bucket). Additionally, you should always backup 
+  your MySQL tile if you are planning on removing Push Notification Service or MySQL. You can perform a manual backup by following the directions found here: [ MySQL Manual Backup ](http://docs.pivotal.io/p-mysql/backup.html#manual-process)
+
+  Follow these instructions to backup _solely_ the Push Notification database.
+
   - In the Apps Manager console in the "system" org go to the "push-notifications" space and the "push-analytics" app.
   - Go to the "Services" tab.
   - Click "&blacktriangleright; Show credentials" for the MySQL service.
