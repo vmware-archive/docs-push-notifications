@@ -7,7 +7,7 @@ It is possible to create a backup of a redis instance manually by following thes
 
 ###Get Redis Instance Credentials
 
-  1. In the developer console in the "system" org go to the "push-notifications" space and the "push-api" app
+  1. In the developer console in the "system" org go to the "push-notifications" space and the "push-analytics" app
   1. Go to services
   1. click show credentials for push-notifications-redis; note the host, password, and port
   <img src="assets/redis-credentials.png" />

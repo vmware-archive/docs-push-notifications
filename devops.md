@@ -90,7 +90,7 @@ title: DevOps
 
 ### Backup MySQL data
 
-  - In the Apps Manager console in the "system" org go to the "push-notifications" space and the "push-api" app.
+  - In the Apps Manager console in the "system" org go to the "push-notifications" space and the "push-analytics" app.
   - Go to the "Services" tab.
   - Click "&blacktriangleright; Show credentials" for the MySQL service.
   - Get "username", "password" and "database name".
