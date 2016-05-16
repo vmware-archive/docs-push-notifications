@@ -139,6 +139,13 @@ platforms        | A list of platforms to be targeted. Available platforms are '
 platform         | DEPRECATED. Possible values are 'all', 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled). If 'platforms' is also populated the platform(s) selected here will be added to list of platforms.
 interactive-only | If set to __true__ then only those devices that can accept interactive pushes are targetted. At this time only iOS 8+ or Android 4.1+ devices are considered to support interactive pushes.
 
+### LIMITS
+
+Pushing to multiple targets is bounded by the following limits per request:
+
+- Devices: 255
+- Tags: 255
+
 ### NOTES
 
 * At least one of __devices__, __tags__, __platforms__, or __platform__ is required.
