@@ -1,0 +1,246 @@
+---
+title: Schedule
+---
+
+This document decscibes the endpoints for managing scheduled pushes.
+
+Pushes can be scheduled for delivery in the future by providing the
+schedule information in the [/v1/push POST
+API](../push/index.html#push_create).  These pushes return a
+__schedule_id__ field that can be used as the identify for the
+/v1/schedule APIs that are descibed below.
+
+## <a id="schedule_get_all"></a> GET /v1/schedules ##
+
+Get all scheduled pushes for an application.
+
+Authentication: HTTP Basic app\_uuid:api\_key
+
+Query Params: None
+
+### Request Body
+
+None.
+
+### Response Data, status: 200 (OK)
+
+```JSON
+[
+  {
+    "schedule_id": "fc226fbc1443ebfe",
+    "scheduled_for": 1423513994000,    # Epoch Timestamp in milliseconds
+    "push": {
+      "scheduleAt": 1423513994000,     # Epoch Timestamp in milliseconds
+      "scheduleIn": 0,
+      "expiryTime": null,
+      "message": {
+        "custom": {
+          "windows8": {
+            "options": "object",
+            "template_name": "",
+            "template_fields": "object",
+            "type": ""
+          },
+          "windowsPhone": {
+            "template_fields": "object",
+            "template": ""
+          },
+          "ios": {
+            "alert": {
+                  "body": "",          # The body of the push message (overrides body defined above)
+                  "action-loc-key": "",
+                  "loc-key": "",
+                  "loc-args": [ "arg1", "arg2", ... ],
+                  "title": "",
+                  "title-loc-key": "",
+                  "title-loc-args": [ "arg1", "arg2", ... ],
+                  "launch-image": ""
+            },
+            "category": "",
+            "badge": 0,
+            "sound": "",
+            "content-available": false,
+            "extra": {}
+          },
+          "bb10": "",
+          "android": "object"
+        },
+        "body": ""
+      },
+      "target": {
+        "tags": [ "tag1", "tag2", ... ],
+        "platforms": [ "platform1", "platform2", ... ],
+        "devices": [ "device_uuid1", "device_uuid2", ... ],
+        "interactive-only": false,
+        "platform": "",
+      }
+    }
+  }
+]
+```
+
+----------------
+
+
+## <a id="schedule_get_single"></a> GET /v1/schedules/:schedule_id ##
+
+Get a single scheduled push for an application.
+
+Authentication: HTTP Basic app\_uuid:api\_key
+
+Query Params: None
+
+### Request Body
+
+None
+
+### Response Data, status: 200 (OK)
+
+```JSON
+{
+  "schedule_id": "fc226fbc1443ebfe",
+  "scheduled_for": 1423513994000,                    # Epoch Timestamp in milliseconds
+  "push": {
+    "scheduleAt": 1423513994000,                     # Epoch Timestamp in milliseconds
+    "scheduleIn": 0,
+    "expiryTime": null,
+    "message": {
+      "custom": {
+        "windows8": {
+          "options": "object",
+          "template_name": "",
+          "template_fields": "object",
+          "type": ""
+        },
+        "windowsPhone": {
+          "template_fields": "object",
+          "template": ""
+        },
+        "ios": {
+          "extra": "object",
+          "category": "",
+          "badge": 0,
+          "sound": "",
+          "content-available": false,
+          "alert": {
+            "body": "",
+            "loc-key": "",
+            "action-loc-key": "",
+            "loc-args": [ "arg1", "arg2", ... ],
+            "launch-image": ""
+          }
+        },
+        "bb10": "",
+        "android": "object"
+      },
+      "body": ""
+    },
+    "target": {
+      "interactive-only": false,
+      "platform": "",
+      "tags": [ "tag1", "tag2", ... ],
+      "platforms": [ "platform1", "platform2", ... ],
+      "devices": [ "device_uuid1", "device_uuid2", ... ]
+    }
+  }
+}
+```
+
+----------------
+
+## <a id="schedule_update"></a> PUT /v1/schedules/:schedule_id ##
+
+Update a scheduled push for an application.
+
+Authentication: HTTP Basic app_uuid:api_key
+
+Query Params: None
+
+### Request Body
+
+```JSON
+{
+  "scheduleAt": 1345852800000,     # Epoch timestamp in milliseconds.
+  "message": {
+    "custom": {
+      "android": "object"
+    },
+    "body": ""
+  },
+  "target": {
+    "interactive-only": false,
+    "platform": "",
+    "platforms": [ "platform1", "platform2", ... ],
+    "tags": [ "tag1", "tag2", ... ],
+    "devices": [ "device_uuid1", "device_uuid2", ... ]
+  }
+}
+```
+
+### Response Data, status: 200 (OK)
+
+```JSON
+{
+  "schedule_id": "fc226fbc1443ebfe",
+  "scheduled_for": 1345852800000,    # Epoch Timestamp in milliseconds
+  "push": {
+    "scheduleAt": 1345852800000,
+    "scheduleIn": 0,
+    "expiryTime": null,
+    "message": {
+      "custom": {
+        "windows8": {
+          "options": "object",
+          "template_name": "",
+          "template_fields": "object",
+          "type": ""
+        },
+        "windowsPhone": {
+          "template_fields": "object",
+          "template": ""
+        },
+        "ios": {
+          "extra": "object",
+          "category": "",
+          "badge": 0,
+          "sound": "",
+          "content-available": false,
+          "alert": {
+            "body": "",
+            "loc-key": "",
+            "action-loc-key": "",
+            "loc-args": [ "arg1", "arg2", ... ],
+            "launch-image": ""
+          }
+        },
+        "bb10": "",
+        "android": "object"
+      },
+      "body": ""
+    },
+    "target": {
+      "interactive-only": false,
+      "platform": "",
+      "platforms": [ "platform1", "platform2", ... ],
+      "tags": [ "tag1", "tag2", ... ],
+      "devices": [ "device_uuid1", "device_uuid2", ... ]
+    }
+  }
+}
+```
+
+----------------
+
+## <a id="schedule_cancel"></a> DELETE /v1/schedules/:schedule_id ##
+
+Cancel a scheduled push for an application.
+
+Authentication: HTTP Basic app\_uuid:api\_key
+
+Query Params: None
+
+### Request Body
+
+None.
+
+### Response Data, status: 204 (no content)
