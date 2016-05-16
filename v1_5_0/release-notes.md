@@ -1,0 +1,41 @@
+---
+title: Push Notification Service v1.4.0 Release Notes
+---
+
+The Push Notification services allows application developers to publish push notifications to devices on various platforms. Integration is done through provided SDKs which implement the device registration flow.
+
+##Dependencies
+
+#### On PCF 1.4
+ - Pivotal MySQL Service 1.4.0+
+ - Pivotal Redis Service 1.4.x
+ - Pivotal RabbitMQ Service 1.4.x
+
+####  On PCF 1.5
+ - Pivotal MySQL Service 1.5.0+
+ - Pivotal Redis Service 1.4.x
+ - Pivotal RabbitMQ Service 1.4.x
+
+#### On PCF 1.6
+ - Pivotal MySQL Service 1.5.0+
+ - Pivotal Redis Service 1.4.x
+ - Pivotal RabbitMQ Service 1.4.x
+
+##Known issues
+
+* On AWS, this version supports deployments in the US-East region. Multi-region support is coming in a future release.
+* This release does not support [Redis Cluster](http://redis.io/topics/cluster-spec)
+* If you are using redis behind a tcp proxy, make sure to use Session Persistence.
+
+<p class="note"><strong>Note</strong>: BOSH Stemcell 3140 is required for installation on Ops Manager 1.5.x and above.</p>
+
+## List of Changes
+
+ - The Push Notifications Service now supports multiple tenants.
+   - Push Notifications is now a service that can be provisioned from the CF Marketplace.
+   - The dashboard now requires a Tenant Id.
+ - The dashboard now displays logs related to push activities.
+ - The analytics system now configures a second Redis to behave as a cache for storing logs.
+ - Update to the Push SDK supports iOS 9 and includes a Swift sample app.
+ - The Push SDK for Android now supports Android 6.0 Marshmallow, including the new permissions system.
+   - See the Push Sample app for an example of Android 6.0 Marshmallow permissions.

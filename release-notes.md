@@ -2,6 +2,15 @@
 title: Push Notification Service Release Notes
 ---
 
+## 1.4.7
+**Release Date: May 2016**
+ - Security release requiring stemcell 3232.2
+
+## 1.4.5
+**Release Date: May 2016**
+ - PCF 1.7 compatibility.
+ - Please update to this version of push _before_ updating to PCF 1.7.0
+
 ## 1.4.3
 **Release Date: March 2016**
  - Security release requiring stemcell 3146.10.
