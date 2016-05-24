@@ -1,0 +1,143 @@
+---
+title: Registration
+---
+
+## <a id="get_registration"></a> GET /v1/registration/:deviceUuid ##
+
+Retrieves a device's registration for a specific platform.
+
+Authentication: HTTP Basic platform\_uuid:platform\_secret
+
+Query Parameters: None
+
+### Response Data, status: 200 (OK) ###
+
+```JSON
+{
+  "os": "",						# one of [ios|android|windowsPhone|windows8]
+  "device_model": "",			# device model identifier
+  "device_manufacturer": "",	# device manufacturer identifier
+  "device_alias": "",			# application specific device/user identifier
+  "device_uuid": "",			# unique device identifier
+  "registration_token": "",		# token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WNS (windows8)
+  "tags": [						# tags the device/user is subscribed to, this will overwrite any existing tags the device/user was previously subscribed to
+    {
+      "text": ""
+    }
+  ],
+  "active": "",					# can the device be targeted for pushes
+  "os_version": ""				# device version string
+}
+```
+
+----------------
+
+## <a id="registration_count"></a> GET /v1/registration/count/ ##
+
+Returns the total number of device registrations that have been stored for one platform.
+
+Authentication: HTTP Basic platform\_uuid:platform\_secret
+
+Query Parameters: None
+
+### Response Data, status: 200 (OK) ###
+
+Returns an integer.
+
+----------------
+
+## <a id="register"></a> POST /v1/registration/ ##
+
+Register a device to an app release. The response will include a "device_uuid". You should save this identifier as other registration endpoints will require it (ex. DELETE)
+
+Authentication: HTTP Basic platform\_uuid:platform\_secret
+
+Query Parameters: None
+
+### Request Body ###
+
+```JSON
+{
+  "device_alias": "string",         # application specific device/user identifier
+  "device_model": "string",         # device model identifier
+  "device_manufacturer": "string",  # device manufacturer identifier
+  "os": "string",                   # device os, one of [ios|android|windowsPhone|windows8]
+  "os_version": "string",           # device version string
+  "registration_token": "string"    # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WNS (windows8)
+  "tags": [ "tag1", "tag2" ]        # tags the device/user is subscribed to, this will overwrite any existing tags the device/user was previously subscribed to
+}
+```
+
+### Response Data, status: 200 (OK) ###
+
+```JSON
+{
+  "os_version": "",				# os version string
+  "tags": [						# tags that the device has subscribed to
+    {
+      "text": "tag1"
+    },
+    {
+      "text": "tag2"
+    }
+  ],
+  "os": "",						# one of [ios|android|windowsPhone|windows8]
+  "device_model": "",			# device model identifier
+  "device_manufacturer": "",	# device manufacturer identifier
+  "device_alias": "",			# application specific device/user identifier
+  "device_uuid": "",			# the unique identifier assigned to the device by Push Notifications
+  "registration_token": "",		# token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WPN (windows8)
+  "active": ""					# can the device be targeted for pushes
+}
+```
+### LIMITS
+
+Registering a device is bounded by the following limits per request:
+
+- Devices: Auto-Generated
+- Custom User Ids: 1
+- Tags: 1024
+
+----------------
+
+## <a id="registrations_update"></a> PUT /v1/registration/:device_uuid ##
+
+Update a registration. Requires that the device_uuid returned when you registered is sent as a url parameter.
+
+Authentication: HTTP Basic platform\_uuid:platform\_secret
+
+Query Parameters: None
+
+### Request Body ###
+
+```JSON
+{
+  "device_alias": "string",				# application specific device/user identifier
+  "device_manufacturer": "string",		# device manufacturer identifier
+  "device_model": "string",				# device model identifier
+  "os_version": "string",				# os version string
+  "registration_token", "string"		# token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WPN (windows8)
+  "tags": {
+    "subscribe": ["tag1","tag2"],		# add new tags subscriptions to the device/user
+    "unsubscribe": ["tag3","tag4"]		# remove tags that the device/user is subscribed to
+  }
+}
+```
+
+----------------
+
+## <a id="unregister"></a> DELETE /v1/registration/:device_uuid ##
+
+Delete a registration. Requires that the device_uuid returned when you registered is sent as a url parameter
+
+Authentication: HTTP Basic platform\_uuid:platform\_secret
+
+Query Parameters: None
+
+### Request Body ###
+
+None.
+
+### Response Data, status: 204 (no content) ###
+
+None.
