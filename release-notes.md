@@ -1,6 +1,10 @@
 ---
 title: Push Notification Service Release Notes
 ---
+## 1.4.9
+**Release Date: June 2016**
+ - Security release requiring stemcell 3232.6
+ - Bug fix for Service broker bug with HTTPS
 
 ## 1.4.7
 **Release Date: May 2016**
