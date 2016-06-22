@@ -11,11 +11,11 @@ This document covers the Android Push Client SDK v1.4.0.
 
 Old documentation:
 
-* [Version 1.3.3](1.3.3/index.html)
-* [Version 1.3.2](1.3.2/index.html)
-* [Version 1.3.1](1.3.1/index.html)
-* [Version 1.3.0](1.3.0/index.html)
-* [Version 1.0.4](1.0.4/index.html)
+* [Version 1.3.3](../1.3.3/index.html)
+* [Version 1.3.2](../1.3.2/index.html)
+* [Version 1.3.1](../1.3.1/index.html)
+* [Version 1.3.0](../1.3.0/index.html)
+* [Version 1.0.4](../1.0.4/index.html)
 
 ## <a id="features"></a> Features ##
 
@@ -40,7 +40,7 @@ this application installed, but some odd ones may not. You should be able to rec
 
 In order to receive push messages from the PCF Push Notification Service
 in your Android application, you will need to create a project within
-the Google Developers Console.  Refer to [instructions below] (#google).
+the Google Developers Console.  Refer to [instructions below](#google).
 
 ### Step 2 - PCF Push Notification Service Dashboard ###
 
@@ -51,13 +51,12 @@ from Google Cloud Console above. After setting up your Android platform in PCF M
 makes no distinction between developer and production modes.
 
 You can find steps on how to create your application and platforms on PCF Mobile Services Push Dashboard notes:
-[Push Dashboard Document] (../dashboard-user-guide.html)
+[Push Dashboard Document](../dashboard-user-guide.html)
 
 ### Step 3 - Link to PCF Push SDK ###
 
-Download the PCF Mobile Service Push Client SDK for Android from [Pivotal Network]
-(https://network.pivotal.io/products/p-push-notifications).  The Client SDK is delivered as an Android Library
-(i.e.: an "AAR" file). Copy the AAR file into the `libs` directory of your project and ensure that the following line
+Download the PCF Mobile Service Push Client SDK for Android from [Pivotal Network](https://network.pivotal.io/products/p-push-notifications).  The Client SDK is delivered as an Android Library
+(i.e., an "AAR" file). Copy the AAR file into the `libs` directory of your project and ensure that the following line
 line is in the `dependencies` section of your module-level `build.gradle` file:
 
 ```groovy
@@ -369,7 +368,7 @@ You only need to give the dialog box one button: "OK".
 ```java
     if (ARE_GEOFENCES_ENABLED) {
 
-        // If you want to use geofences and are targetting Android Marshmallow or greater, then you must specifically
+        // If you want to use geofences and are targeting Android Marshmallow or greater, then you must specifically
         // ask the user for permission to read the device location.  The following Dialog class is used to explain
         // to the user why your app is requesting permission to read the device location.
 
@@ -456,7 +455,7 @@ initialize your Push SDK:
 
 ## <a id="tags"></a> Tags ##
 
-If any of your tags change during the lifetime of your process (e.g.: your application wants to change the list of
+If any of your tags change during the lifetime of your process (e.g., your application wants to change the list of
 tags that it has subscribed to) then call `subscribeToTags` with your new set of parameters. Example:
 
 ```java
@@ -611,4 +610,4 @@ In order for this method to take effect you will need to call it *before* `start
 
 ## <a id="troubleshooting"></a> Troubleshooting ##
 
-Please see our [troubleshooting guide](../troubleshooting.html#androidSDK)
+Please see our [troubleshooting guide](../troubleshooting.html)
