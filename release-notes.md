@@ -77,7 +77,7 @@ title: Push Notification Service Release Notes
 ## [1.3.1 iOS and Android Client SDK](v1_3_1/sdk-release-notes.html)
 
 - SSL Certificate pinning.
-- Any geofences with tags will be monitored only if the user is subscibed to that tag.
+- Any geofences with tags will be monitored only if the user is subscribed to that tag.
 
 ## [1.3.0](v1_3/release-notes.html)
 **Release Date: June 2015**
