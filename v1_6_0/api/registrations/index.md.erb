@@ -1,0 +1,41 @@
+---
+title: Registrations
+---
+
+## <a id="get_registrations"></a> GET /v2/registrations/ ##
+
+Retrieves all device registrations.
+
+Authentication: HTTP Basic app\_uuid:api\_key
+
+Query Parameters:
+  size:           Controls the maximum number of registrations to be returned. This value defaults to 20 if not provided. Values in the range 0-50 are accepted.
+  page:           Controls which page of results will be returned with an offset of size * page. This value defaults to 1 if not provided.
+  q:              Returns only the registrations results containing the query string provided in either the deviceUuid, the registration token, the custom user id, or the device alias.
+  platform:       Returns only the registrations results registered to the given platform. Valid inputs are all, ios, android, windows8, and bb10.
+  platformUuid:   Returns only the registrations results registered to the given platformUuid.
+  topic:          Returns only the registrations results registered to the given topic name.
+
+### Response Data, status: 200 (OK) ###
+
+```JSON
+{
+  "registrations":
+  [
+    {
+      "os": "",                   # one of [ios|android|windowsPhone|windows8]
+      "os_version": "",           # device version string
+      "device_model": "",         # device model identifier
+      "device_manufacturer": "",  # device manufacturer identifier
+      "device_alias": "",         # application specific device/user identifier
+      "device_uuid": "",          # unique device identifier
+      "registration_token": "",   # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WNS (windows8)
+      "active": ""                # can the device be targeted for pushes
+    }
+  ]
+  "totalRegistrations": 1         # the total number of device registrations for all pages
+  "totalPages": 1                 # the number of pages of device registrations
+  "page": 1                       # the page of results requested
+  "size": 1                       # the size of the page of results requested
+}
+```
