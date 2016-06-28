@@ -77,7 +77,9 @@ Target the geofence to devices of a specific platform
 * data<br /><br />
 required: yes<br /><br />
 type: object<br /><br />
-The data object contains platform specific fields for constructing the notification to be displayed. These are slightly different than fields used in the push api because geofence notifications are actually local notifications.
+The data object contains platform specific fields for constructing the notification to be displayed.
+These are slightly different than fields used in the push api because geofence notifications are actually local notifications.
+[Custom User IDs](../push/index.html#custom_user_id) are not a supported way to target registered devices for geofences.
 
 ##### iOS Geofence Data Fields
 
@@ -724,4 +726,3 @@ Params: None
 ##### Request Body: None
 
 ##### Response: 204 (No Content)
-

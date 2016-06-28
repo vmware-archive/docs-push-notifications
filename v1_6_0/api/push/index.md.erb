@@ -2,13 +2,15 @@
 title: Push
 ---
 
-## <a id="push_create"></a> POST /v1/push ##
+## <a id="push_create"></a> Push a message ##
+
+### POST /v1/push ###
 
 Push a message out to a list of devices or devices targeted by platform.
 
-*Authentication:* HTTP Basic application\_uuid:api\_key
+Authentication: HTTP Basic application\_uuid:api\_key
 
-*Query Parameters:* None
+Query Parameters: None
 
 ### Request Body ###
 
@@ -47,7 +49,7 @@ to follow the push notification delivery status in the audit logs.
 
 #### Response Data ####
 #
-```JSON
+```json
 {
   "schedule_id": "",  # only returned if the push notification is a scheduled push
   "receipt_id": ""    # only returned if the push is being delivered immediately.
@@ -112,75 +114,89 @@ Pushing to multiple targets is bounded by the following limits per request:
 
 * Sending push messages to three specific devices (specified by their device UUIDs):
 
-```JSON
-  ...
-  "target": {
-    "devices": [ "device_uuid1", "device_uuid2", "device_uuid3" ]
+```json
+  {
+    ...
+      "target": {
+        "devices": [ "device_uuid1", "device_uuid2", "device_uuid3" ]
+      }
+    ...
   }
-  ...
 ```
 
 * Sending pushes to all devices (regardless of platform) subscribed to one of two specific tags (a device only needs to be subscribed to one of the tags in the list of tags in order to receive the message).
 
-```JSON
-  ...
-  "target": {
-    "tags": [ "exciting_topic", "pedantic_topic" ]
+```json
+  {
+    ...
+    "target": {
+      "tags": [ "exciting_topic", "pedantic_topic" ]
+    }
+    ...
   }
-  ...
 ```
 
 * Sending pushes to all iOS devices:
 
-```JSON
-  ...
-  "target": {
-    "platforms": [ "ios" ]
+```json
+  {
+    ...
+    "target": {
+      "platforms": [ "ios" ]
+    }
+    ...
   }
-  ...
 ```
 
 * Sending pushes to all "Android" devices subscribed to one specific tag:
 
-```JSON
-  ...
-  "target": {
-    "platforms": [ "android" ],
-    "tags": [ "best_tag_ever" ]
+```json
+  {
+    ...
+    "target": {
+      "platforms": [ "android" ],
+      "tags": [ "best_tag_ever" ]
+    }
+    ...
   }
-  ...
 ```
 
 * Sending pushes to interactive only devices:
 
-```JSON
-  ...
-  "target": {
-    "platforms": [ "android", "ios" ],
-    "interactive-only": true
+```json
+  {
+    ...
+    "target": {
+      "platforms": [ "android", "ios" ],
+      "interactive-only": true
+    }
+    ...
   }
-  ...
 ```
 
 * Sending pushes to devices registered with a Custom User ID:
 
-```JSON
-  ...
-  "target": {
-    "custom_user_id": "some_customer_user_id"
+```json
+  {
+    ...
+    "target": {
+      "custom_user_id": "some_customer_user_id"
+    }
+    ...
   }
-  ...
 ```
 
 * Sending pushes to devices registered with a Custom User ID and devices registered with Tag(s):
 
-```JSON
-  ...
-  "target": {
-    "custom_user_id": "some_customer_user_id",
-    "tags": [ "exciting_topic", "pedantic_topic" ]
+```json
+  {
+    ...
+    "target": {
+      "custom_user_id": "some_customer_user_id",
+      "tags": [ "exciting_topic", "pedantic_topic" ]
+    }
+    ...
   }
-  ...
 ```
 
 
@@ -200,15 +216,15 @@ all devices receive only 1 copy of the notification.
 
 ### Get a list of Custom User IDs
 
-#### GET `/v1/custom_user_ids`
+#### GET /v1/custom\_user\_ids
 
-*Authentication:* HTTP Basic app\_uuid:api\_key
+Authentication: HTTP Basic app\_uuid:api\_key
 
-*Query Parameters:* None
+Query Parameters: None
 
 #### Response Body:
 
-```JSON
+```json
   {
     "custom_user_ids": [
       "string 1",
@@ -221,23 +237,21 @@ all devices receive only 1 copy of the notification.
 
 * Retrive a list of all Custom User IDs:
 
-```JSON
-  ...
+```json
   {
     "custom_user_ids": [
       "custom-user-id1"
     ]
   }
-  ...
 ```
 
 ### Get Custom User IDs by Query Parameter
 
-#### GET `/v1/custom_user_ids?q={query}`
+#### GET /v1/custom\_user\_ids?q={query}
 
-*Authentication:* HTTP Basic app\_uuid:api\_key
+Authentication: HTTP Basic app\_uuid:api\_key
 
-*Query Parameters:*
+Query Parameters:
 
 Parameter | Description
 ----------|------------
@@ -246,7 +260,7 @@ q         | Returns only the Custom User IDs results containing the query string
 
 #### Response Body:
 
-```JSON
+```json
   {
     "custom_user_ids": [
       "string 1",
@@ -259,14 +273,12 @@ q         | Returns only the Custom User IDs results containing the query string
 
 * Retrive Custom User IDs by query parameter (i.e. query parameter is 'id1'):
 
-```JSON
-  ...
+```json
   {
     "custom_user_ids": [
       "custom-user-id1"
     ]
   }
-  ...
 ```
 
 **Note:** In order to use the Custom User IDs feature, you will have to
@@ -274,12 +286,12 @@ register a device using the POST method on `/v1/registration` endpoint,
 with a `custom_user_id` field populated as described in Register section of the
 [Registration API](../registration/index.html#register).
 
-```JSON
-{
-  ...
-  "custom_user_id": "custom-user-id1"
-  ...
-}
+```json
+  {
+    ...
+    "custom_user_id": "custom-user-id1"
+    ...
+  }
 ```
 
 For additional information regarding Registration,
@@ -309,18 +321,22 @@ If the scheduled time is less than a preconfigured time in the future, the push 
 
 * Scheduling a push message to be delivered for February 2, 2016 at 8 AM (UTC):
 
-```JSON
-  ...
-  "scheduleAt": 1454313600000
-  ...
+```json
+  {
+    ...
+    "scheduleAt": 1454313600000
+    ...
+  }
 ```
 
 * Scheduling a push message to be delivered two hours from now:
 
-```JSON
-  ...
-  "scheduleIn": 7200000
-  ...
+```json
+  {
+    ...
+    "scheduleIn": 7200000
+    ...
+  }
 ```
 
 ## <a id="platform_specific_fields"></a>Custom Fields for Platform specific Pushes ##
@@ -329,29 +345,31 @@ If the scheduled time is less than a preconfigured time in the future, the push 
 
 The fields available in the custom block for iOS are described here:
 
-```JSON
- "ios": {
-        "alert": {
-          "body": "iOS only message body",
-          "action-loc-key": "actionKey",
-          "loc-key": "localizedStringKey",
-          "loc-args": [
-            ""
-          ],
-          "title": "Title",
-          "title-loc-key": "titleKey",
-          "title-loc-args": [
-          	"arg1",
-            "arg2"
-          ],
-          "launch-image": "Default.png"
-        },
-        "category": "SAMPLE_CATEGORY",
-        "badge": 1,
-        "sound": "default",
-        "content-available": true,           # Note: the Push API expects this field to be a boolean. (see below)
-        "extra": { "freeform custom data" : "freeform custom data", ... }
-      },
+```json
+{
+  "ios": {
+    "alert": {
+      "body": "iOS only message body",
+      "action-loc-key": "actionKey",
+      "loc-key": "localizedStringKey",
+      "loc-args": [
+        ""
+      ],
+      "title": "Title",
+      "title-loc-key": "titleKey",
+      "title-loc-args": [
+      	"arg1",
+        "arg2"
+      ],
+      "launch-image": "Default.png"
+    },
+    "category": "SAMPLE_CATEGORY",
+    "badge": 1,
+    "sound": "default",
+    "content-available": true,           # Note - the Push API expects this field to be a boolean. (see below)
+    "extra": { "freeform custom data" : "freeform custom data", ... }
+  }
+}
 ```
 * __extra__<br/> type: dictionary or null<br/> This property can be used to pass free-form arbitrary payload data to the receiving iOS device.  This data will be passed in the `userInfo` dictionary in the `application:didReceiveRemoteNotification` callback in the application's app delegate class.  It is up to the application to use this data as it needs.
 
@@ -411,7 +429,7 @@ Unlike the above examples, these examples will show the complete Push request bo
 
 * Send a message to all users subscribed to the "local_seminars" tags to alert them to an important community meeting.  This message expires on the morning of Friday April 1, 2016.
 
-```JSON
+```json
 {
   "message": {
     "body": "Town Hall This Thursday: Forging, Cheese, And You"
@@ -425,7 +443,7 @@ Unlike the above examples, these examples will show the complete Push request bo
 
 * Send a push to all iOS and Android devices that are subscribed to one (or more) of the "breaking_news", "local", or "dairy" tags. Provide some custom fields that apps can use to deep link to article data.  This message is scheduled to be delivered in two hours.
 
-```JSON
+```json
 {
   "message": {
     "custom": {
@@ -440,7 +458,7 @@ Unlike the above examples, these examples will show the complete Push request bo
         "message": "Breaking News: World's Biggest Cheese Forged At Local Bakery",
         "story_url": "https://my_server/article/123456789"
       }
-	}
+	  }
   },
   "target": {
     "tags": [ "breaking_news", "local", "dairy" ],
@@ -452,7 +470,7 @@ Unlike the above examples, these examples will show the complete Push request bo
 
 * Send a push to one particular device informating the user that they have one new email notification.  The badge on the app icon will be set to "1" and a sound will be played. Some of the email metadata is provided in the message extras so that the application can show a preview of the message. The message is given the "new_email" category so that iOS 8.0+ devices can provide appropriate action buttons for the user.
 
-```JSON
+```json
 {
   "message": {
     "custom": {
@@ -481,7 +499,7 @@ Unlike the above examples, these examples will show the complete Push request bo
 
 * All options in request body for pushing a message out to a list of devices or devices targeted by platform.
 
-```JSON
+```json
 {
   "message": {
     "body": "Message body",                  # The text of the push message
@@ -500,7 +518,7 @@ Unlike the above examples, these examples will show the complete Push request bo
         "category": "SAMPLE_CATEGORY",
         "badge": 1,
         "sound": "default",
-        "content-available": true,           # Note: the Push API expects this field to be a boolean. (see below)
+        "content-available": true,           # Note - the Push API expects this field to be a boolean. (see below)
         "extra": {}
       },
       "android": {
