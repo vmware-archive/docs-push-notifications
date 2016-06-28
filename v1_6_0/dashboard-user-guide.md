@@ -90,6 +90,10 @@ On the Create Push Message page, fill in the form and click `Send Push Notificat
 
 `Target Platform` will target all devices of the selected platform. Adding tags to the `Tag(s)` field will refine the target list down, adding only those devices subscribed to one of the listed tags. 
 
+**A Note About Sending Push With Invalid Certificate**
+
+__iOS Only__ Sending a push to a device using an **invalid .p12 certificate** set up in the device's corresponding platform results in the device getting removed from the platform.
+
 ##<a id="Tags"></a>Tags
 A tag allows push notifications to be sent to all devices that have explicitly subscribed to it as opposed to all users that have the application installed. This allows an application to send targeted push notifications to a subset of devices. Devices can subscribe to tags via the <a href="api/registration/">registrations api</a>. Available tags are listed in the targetting section of the Create Notification form.
 
