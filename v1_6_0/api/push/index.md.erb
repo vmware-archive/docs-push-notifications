@@ -68,10 +68,10 @@ You can target your push notifications in many ways:
      + the device registration process in the PCF Push Client SDKs. See the documentation for the [iOS](../../../ios/#device_uuid) or [Android](../../../android/#deviceUuid) SDKs.
      + or by the [/v1/registration POST/PUT APIs](../registration/index.html) if you are registering your devices without using the Client SDKs.
 
- - By tag(s):
-   * Tags are created:
+ - By topic(s):
+   * Topics are created:
      + implicitly when devices subscribed to them. See the [/v1/registration POST/PUT APIs](../registration/index.html).
-     + or when the [/v1/tags POST API](../tags/#tag_create) is used.
+     + or when the [/v1/topics POST API](../topics/#topic_create) is used.
 
  - By Custom User ID:
    * Custom User IDs are created via the Register a device API [/v1/registration POST APIs](../registration/index.html#register).
@@ -85,8 +85,8 @@ You can target your push notifications in many ways:
 
 Key              | Description
 -----------------|------------
-devices          | A list of device UUIDs to target. These device UUIDs are the same ones that are returned by the PCF Push Client SDKs after registration or by the __/v1/registration__ HTTP POST call if you are registering your devices without using the Client SDKs.
-tags             | A list of tags (or topics) to which devices may be subscribed. Only devices subscribed to one of more of the listed tags will be targeted. Devices select which tags to subscribe to by calling the appropriate __subscribeToTags__ methods in the client SDKs or by calling the /v1/registration HTTP POST or PUT.
+devices          | A list of up to 4096 device UUIDs to target. These device UUIDs are the same ones that are returned by the PCF Push Client SDKs after registration or by the __/v1/registration__ HTTP POST call if you are registering your devices without using the Client SDKs.
+topics             | A list of up 1024 topics (formerly tags) to which devices may be subscribed. Only devices subscribed to one of more of the listed topics will be targeted. Devices select which topics to subscribe to by calling the appropriate __subscribeToTopics__ methods in the client SDKs or by calling the /v1/registration HTTP POST or PUT.
 platforms        | A list of platforms to be targeted. Available platforms are 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled).
 platform         | DEPRECATED. Possible values are 'all', 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled). If 'platforms' is also populated the platform(s) selected here will be added to list of platforms.
 interactive-only | If set to __true__ then only those devices that can accept interactive pushes are targetted. At this time only iOS 8+ or Android 4.1+ devices are considered to support interactive pushes.
@@ -98,17 +98,17 @@ Pushing to multiple targets is bounded by the following limits per request:
 
 - Devices: 4096
 - Custom User Ids: 4096
-- Tags: 1024
+- Topics: 1024
 
 ### NOTES
 
-* At least one of __devices__, __tags__, __platforms__, or __platform__ is required.
+* At least one of __devices__, __topics__, __platforms__, or __platform__ is required.
 
-* __devices__ will override any other targeting type. Any __tags__, __platforms__, or __platform__ targetting key will be ignored if there is a __devices__ key.
+* __devices__ will override any other targeting type. Any __topics__, __platforms__, or __platform__ targetting key will be ignored if there is a __devices__ key.
 
-* __tags__ and __platforms__ can be used in a complementary way to push a message to just a subset of users (See example below).
+* __topics__ and __platforms__ can be used in a complementary way to push a message to just a subset of users (See example below).
 
-* Devices only need to be subscribed to at least one of the tags in the targetting data in order to receive the message (See example below). There is no way using the Push API to send a message to a device that is subscribed to _all_ of the tags in a list.
+* Devices only need to be subscribed to at least one of the topics in the targetting data in order to receive the message (See example below). There is no way using the Push API to send a message to a device that is subscribed to _all_ of the topics in a list.
 
 ### Target Examples
 
@@ -124,13 +124,13 @@ Pushing to multiple targets is bounded by the following limits per request:
   }
 ```
 
-* Sending pushes to all devices (regardless of platform) subscribed to one of two specific tags (a device only needs to be subscribed to one of the tags in the list of tags in order to receive the message).
+* Sending pushes to all devices (regardless of platform) subscribed to one of two specific topics (a device only needs to be subscribed to one of the toipics in the list of topics in order to receive the message).
 
 ```json
   {
     ...
     "target": {
-      "tags": [ "exciting_topic", "pedantic_topic" ]
+      "topics": [ "exciting_topic", "pedantic_topic" ]
     }
     ...
   }
@@ -155,7 +155,7 @@ Pushing to multiple targets is bounded by the following limits per request:
     ...
     "target": {
       "platforms": [ "android" ],
-      "tags": [ "best_tag_ever" ]
+      "topics": [ "best_tag_ever" ]
     }
     ...
   }
@@ -193,7 +193,7 @@ Pushing to multiple targets is bounded by the following limits per request:
     ...
     "target": {
       "custom_user_id": "some_customer_user_id",
-      "tags": [ "exciting_topic", "pedantic_topic" ]
+      "topics": [ "exciting_topic", "pedantic_topic" ]
     }
     ...
   }
@@ -210,10 +210,10 @@ Custom User ID will be sent simultaneously to all devices registered with this C
 **Note:** The Custom User ID field is case sensitive for device registrations.
 
 
-### Custom User ID and Tags
+### Custom User ID and Topics
 
-Custom User ID works in combination with tags so that you can target a set of
-Custom User IDs as well as tags and the Push Notification Service will ensure that
+Custom User ID works in combination with topics so that you can target a set of
+Custom User IDs as well as topics and the Push Notification Service will ensure that
 all devices receive only 1 copy of the notification.
 
 
@@ -430,7 +430,7 @@ See [this reference](windowsPhoneFields/index.html) for a description of Windows
 
 Unlike the above examples, these examples will show the complete Push request body.
 
-* Send a message to all users subscribed to the "local_seminars" tags to alert them to an important community meeting.  This message expires on the morning of Friday April 1, 2016.
+* Send a message to all users subscribed to the "local_seminars" topics to alert them to an important community meeting.  This message expires on the morning of Friday April 1, 2016.
 
 ```json
 {
@@ -438,13 +438,13 @@ Unlike the above examples, these examples will show the complete Push request bo
     "body": "Town Hall This Thursday: Forging, Cheese, And You"
   },
   "target": {
-    "tags": [ "local_seminars" ]
+    "topics": [ "local_seminars" ]
   },
   "expiryTime": 1459468800000
 }
 ```
 
-* Send a push to all iOS and Android devices that are subscribed to one (or more) of the "breaking_news", "local", or "dairy" tags. Provide some custom fields that apps can use to deep link to article data.  This message is scheduled to be delivered in two hours.
+* Send a push to all iOS and Android devices that are subscribed to one (or more) of the "breaking_news", "local", or "dairy" topics. Provide some custom fields that apps can use to deep link to article data.  This message is scheduled to be delivered in two hours.
 
 ```json
 {
@@ -464,7 +464,7 @@ Unlike the above examples, these examples will show the complete Push request bo
 	  }
   },
   "target": {
-    "tags": [ "breaking_news", "local", "dairy" ],
+    "topics": [ "breaking_news", "local", "dairy" ],
     "platforms": [ "ios", "android" ]
   },
   "scheduleIn": 7200
@@ -547,7 +547,7 @@ Unlike the above examples, these examples will show the complete Push request bo
     }
   },
   "target": {
-    "tags": [ "tag1", "tag2", ... ],
+    "topics": [ "tag1", "tag2", ... ],
     "platforms": [ "platform1", "platform2", ... ],
     "devices": [ "device_uuid1", "device_uuid2", ... ],
     "interactive-only": false,     # Either true or false
