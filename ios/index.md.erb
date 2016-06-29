@@ -5,7 +5,7 @@ title: iOS Push Client SDK
 ## <a id="sample_app"></a>Sample Apps ##
 
 You can two sample apps at <a href="https://github.com/cfmobile/push-ios-samples">on Github</a>.
-There is one full-featured test application in Objective-C and a simpler test application in Swift. 
+There is one full-featured test application in Objective-C and a simpler test application in Swift.
 
 ## <a id="version"></a> Version ##
 
@@ -181,8 +181,8 @@ In your application delegate's `application:didRegisterforRemoteNotifications:` 
         //
         // Optional: You can also provide a set of tags to subscribe to.
         //
-        // Optional: You can also provide a device alias.  The use of this device alias is application-specific.  In general,
-        // you can pass the device name.
+        // Optional: You can also provide a device alias.  The use of this device alias is application-specific.
+        // We recommend that you use the user's device name to populate this field.
         //
         // Optional: You can pass blocks to get callbacks after registration succeeds or fails.
         //
@@ -205,7 +205,7 @@ In your application delegate's `application:didRegisterforRemoteNotifications:` 
    manage your tags you can also call the `[PCFPush subscribeToTags:success:failure:]` method (described below).
 
    * The `YOUR_DEVICE_ALIAS` parameter is a custom parameter that you can use to identify a user's device (eg: a user may
-   have multiple devices) - this is for future use.  We suggest that you use the user's device name to populate this field
+   have multiple devices) - this is for future use.  We recommend that you use the user's device name to populate this field
    (e.g.: `UIDevice.currentDevice.name`).
 
    * The `YOUR_CUSTOM_USER_ID` parameter is another custom parameter that you can use to associate this device with the user.

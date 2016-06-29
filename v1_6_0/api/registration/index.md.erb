@@ -14,19 +14,19 @@ Query Parameters: None
 
 ```JSON
 {
-  "os": "",						# one of [ios|android|windowsPhone|windows8]
-  "device_model": "",			# device model identifier
-  "device_manufacturer": "",	# device manufacturer identifier
-  "device_alias": "",			# application specific device/user identifier
-  "device_uuid": "",			# unique device identifier
-  "registration_token": "",		# token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WNS (windows8)
-  "tags": [						# tags the device/user is subscribed to, this will overwrite any existing tags the device/user was previously subscribed to
+  "os": "",                     # one of [ios|android|windowsPhone|windows8]
+  "device_model": "",           # device model identifier
+  "device_manufacturer": "",    # device manufacturer identifier
+  "device_alias": "",           # application specific device/user identifier
+  "device_uuid": "",            # unique device identifier
+  "registration_token": "",     # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WNS (windows8)
+  "tags": [                     # tags the device/user is subscribed to, this will overwrite any existing tags the device/user was previously subscribed to
     {
       "text": ""
     }
   ],
-  "active": "",					# can the device be targeted for pushes
-  "os_version": ""				# device version string
+  "active": "",                 # can the device be targeted for pushes
+  "os_version": ""              # device version string
 }
 ```
 
@@ -58,12 +58,12 @@ Query Parameters: None
 
 ```JSON
 {
-  "device_alias": "string",         # application specific device/user identifier
+  "device_alias": "string",         # application specific device/user identifier. We recommend that you use the user's device name as device alias
   "device_model": "string",         # device model identifier
   "device_manufacturer": "string",  # device manufacturer identifier
   "os": "string",                   # device os, one of [ios|android|windowsPhone|windows8]
   "os_version": "string",           # device version string
-  "registration_token": "string"    # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WNS (windows8)
+  "registration_token": "string",   # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WNS (windows8)
   "tags": [ "tag1", "tag2" ]        # tags the device/user is subscribed to, this will overwrite any existing tags the device/user was previously subscribed to
 }
 ```
@@ -72,8 +72,8 @@ Query Parameters: None
 
 ```JSON
 {
-  "os_version": "",				# os version string
-  "tags": [						# tags that the device has subscribed to
+  "os_version": "",           # os version string
+  "tags": [                   # tags that the device has subscribed to
     {
       "text": "tag1"
     },
@@ -81,15 +81,16 @@ Query Parameters: None
       "text": "tag2"
     }
   ],
-  "os": "",						# one of [ios|android|windowsPhone|windows8]
-  "device_model": "",			# device model identifier
-  "device_manufacturer": "",	# device manufacturer identifier
-  "device_alias": "",			# application specific device/user identifier
-  "device_uuid": "",			# the unique identifier assigned to the device by Push Notifications
-  "registration_token": "",		# token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WPN (windows8)
-  "active": ""					# can the device be targeted for pushes
+  "os": "",                   # one of [ios|android|windowsPhone|windows8]
+  "device_model": "",         # device model identifier
+  "device_manufacturer": "",  # device manufacturer identifier
+  "device_alias": "",         # application specific device/user identifier
+  "device_uuid": "",          # the unique identifier assigned to the device by Push Notifications
+  "registration_token": "",   # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WPN (windows8)
+  "active": ""                # can the device be targeted for pushes
 }
 ```
+
 ### LIMITS
 
 Registering a device is bounded by the following limits per request:
@@ -97,6 +98,22 @@ Registering a device is bounded by the following limits per request:
 - Devices: Auto-Generated
 - Custom User Ids: 1
 - Tags: 1024
+
+#### Examples:
+
+* Register a device using device name as device alias:
+
+```json
+  {
+    "device_alias": "John's iPhone",
+    "device_model": "iPhone 6",
+    "device_manufacturer": "Apple",
+    "os": "ios",
+    "os_version": "9.0",
+    "registration_token": "b50edac575bfba07dd019b28b2af7189a3ddda17c806ef14a9abbfd00533f67e",
+    "tags": [ "beta", "gamma", "alpha" ]
+  }
+```
 
 ----------------
 
@@ -112,14 +129,14 @@ Query Parameters: None
 
 ```JSON
 {
-  "device_alias": "string",				# application specific device/user identifier
-  "device_manufacturer": "string",		# device manufacturer identifier
-  "device_model": "string",				# device model identifier
-  "os_version": "string",				# os version string
-  "registration_token", "string"		# token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WPN (windows8)
+  "device_alias": "string",           # application specific device/user identifier. We recommend that you use the user's device name as device alias.
+  "device_manufacturer": "string",    # device manufacturer identifier
+  "device_model": "string",           # device model identifier
+  "os_version": "string",             # os version string
+  "registration_token": "string",     # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WPN (windows8)
   "tags": {
-    "subscribe": ["tag1","tag2"],		# add new tags subscriptions to the device/user
-    "unsubscribe": ["tag3","tag4"]		# remove tags that the device/user is subscribed to
+    "subscribe": ["tag1","tag2"],     # add new tags subscriptions to the device/user
+    "unsubscribe": ["tag3","tag4"]    # remove tags that the device/user is subscribed to
   }
 }
 ```
