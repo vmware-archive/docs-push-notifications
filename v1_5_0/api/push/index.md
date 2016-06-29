@@ -133,8 +133,8 @@ You can target your push notifications in many ways:
 
 Key              | Description
 ---              | ---
-devices          | A list of device UUIDs to target. These device UUIDs are the same ones that are returned by the PCF Push Client SDKs after registration or by the __/v1/registration__ HTTP POST call if you are registering your devices without using the Client SDKs.
-tags             | A list of tags (or topics) to which devices may be subscribed. Only devices subscribed to one of more of the listed tags will be targeted. Devices select which tags to subscribe to by calling the appropriate __subscribeToTags__ methods in the client SDKs or by calling the /v1/registration HTTP POST or PUT.
+devices          | A list of up to 255 device UUIDs to target. These device UUIDs are the same ones that are returned by the PCF Push Client SDKs after registration or by the __/v1/registration__ HTTP POST call if you are registering your devices without using the Client SDKs.
+tags             | A list of up to 255 tags (or topics) to which devices may be subscribed. Only devices subscribed to one of more of the listed tags will be targeted. Devices select which tags to subscribe to by calling the appropriate __subscribeToTags__ methods in the client SDKs or by calling the /v1/registration HTTP POST or PUT.
 platforms        | A list of platforms to be targeted. Available platforms are 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled).
 platform         | DEPRECATED. Possible values are 'all', 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled). If 'platforms' is also populated the platform(s) selected here will be added to list of platforms.
 interactive-only | If set to __true__ then only those devices that can accept interactive pushes are targetted. At this time only iOS 8+ or Android 4.1+ devices are considered to support interactive pushes.
