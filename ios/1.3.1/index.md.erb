@@ -250,13 +250,13 @@ In order to set up your app to receive geofence notifications please follow thes
 Ensure your **location updates** and **remote notifications** background modes have been set for your project target
 capabilities.
 
-<!--![Background modes](./1.3.0/assets/plist-background-modes.png)-->
+![Background modes](./assets/plist-background-modes.png)
 
 ## Step 2 - Set required device capabilities ##
 
 Add **location-services** and **gps** to your application Info.plist file under "Required device capabilities".
 
-<!--![Info.plist Required device capabilities](./1.3.0/assets/plist-device-capabilities.png)-->
+![Info.plist Required device capabilities](./assets/plist-device-capabilities.png)
 
 ## Step 3 - Set your location usage description ##
 
@@ -266,14 +266,14 @@ text by setting the `NSLocationAlwaysUsageDescription` key in your app's **Info.
 Files folder by default).  e.g.: "Your App Name would like to read your current location and monitor geofences (if
 enabled)."
 
-<!--![Location Usage Description](./1.3.0/assets/plist-location-usage-description.png)-->
+![Location Usage Description](./assets/plist-location-usage-description.png)
 
 ## Step 4 - Link to Core Location ##
 
 Ensure that your app is linked to the Core Location framework.  In Xcode, go to your app targets build phases screen and
 add `CoreLocation.framework` to the **Link Binary With Libraries** build phase.
 
-<!--![Include Core Location](./1.3.0/assets/include-core-location.png)-->
+![Include Core Location](./assets/include-core-location.png)
 
 ## Step 5 - Enable geofences ##
 
