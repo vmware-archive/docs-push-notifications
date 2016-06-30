@@ -1,6 +1,22 @@
 ---
 title: Push Notification Service Release Notes
 ---
+
+## 1.5.3
+
+**Release Date: June 2016**
+
+   - Bug fix for Service broker bug with HTTPS
+
+
+## 1.5.0
+
+**Release Date: June 2016**
+
+   - New Heartbeat Application is deployed with the Push Notifications Service
+   - Heartbeat Monitor App available on iOS and Android
+	
+
 ## 1.4.10
 **Release Date: June 2016**
 
