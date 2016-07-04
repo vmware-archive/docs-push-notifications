@@ -17,6 +17,12 @@ title: Push Notification Service Release Notes
    - Heartbeat Monitor App available on iOS and Android
 	
 
+## 1.4.12
+**Release Date: July 2016**
+
+ - Bug fix for CF CLI
+ - Security release requiring stemcell 3262.2
+
 ## 1.4.10
 **Release Date: June 2016**
 
