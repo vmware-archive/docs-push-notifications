@@ -19,6 +19,8 @@ title: Push Notification Service Release Notes
 
 ## 1.4.12
 
+**Release Date: June 2016**
+
    - Updated bosh stemcell to v3262.2
    - Bug fix for CF cli
 
