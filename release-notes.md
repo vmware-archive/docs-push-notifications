@@ -17,6 +17,12 @@ title: Push Notification Service Release Notes
    - Heartbeat Monitor App available on iOS and Android
 	
 
+## 1.4.12
+
+   - Updated bosh stemcell to v3262.2
+   - Bug fix for CF cli
+
+
 ## 1.4.10
 **Release Date: June 2016**
 
