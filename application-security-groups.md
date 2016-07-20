@@ -1,0 +1,127 @@
+---
+title: Push Notifications ASG Installation
+---
+
+## Application Security Groups
+
+To allow this service to have network access you will need to create
+[Application Security Groups](http://docs.pivotal.io/pivotalcf/adminguide/app-sec-groups.html) (ASGs).
+
+<p class="note"><strong>Note</strong>: Without Application Security Groups the service will not be usable.</p>
+
+## <a id="pre-installation-requirements"></a> Pre-Installation Requirements
+
+Push Notification Service depends on MySQL, RabbitMQ, and Redis. Please refer to their corresponding ASG documentation to ensure their required ASGs are in place.
+
+## <a id="push-service-network-connections"></a> Push Service Network Connections
+
+This service is deployed as a suite of applications to the `push-notifications` space in the `system` org, and requires the following outbound network connections:
+
+|Destination					|Ports       		|Protocol   	|Reason
+|---						|---         		|---        	|---
+|17.0.0.0/8					|5223, 2195, 2196	|tcp		|This is Apple's IP address which is used to access APNS
+|`GOOGLE_IP_RANGE`				|5228, 5229, 5230, 443	|tcp		|This is Google's url for sending GCM Messages
+|`LOAD_BALANCER_IP`				|80, 443     		|tcp        	|This service will access the load balancer and CAPI
+|`ASSIGNED_NETWORK`				|3306, 5672, 6379	|tcp        	|This service requires access to p-mysql, p-rabbitmq, p-redis, or external services. `ASSIGNED_NETWORK` is the CIDR of the network assigned to this service.
+
+
+### APNS
+
+Apple exposes the entire 17.0.0.0/8 block and uses ports 2195, 2196, and 5223. Create a file apns.json as follows:
+
+```
+[
+   {
+       "protocol": "tcp",
+       "destination": "17.0.0.0/8",
+       "ports": "2195, 2196, 5223"
+   }
+]
+```
+
+Create a security group called apns:
+```
+cf create-security-group apns apns.json
+```
+
+### GCM
+
+Google unfortunately has a very large range of IP addresses that it can use for GCM. 
+
+<p class="note"><strong>Note</strong>: Google's ASN is 15169. You can search for "ASN 15169" to find the most up to date list of their IP addresses.</p>
+
+Create a file gcm.json as follows:
+
+```
+[
+    {
+        "protocol": "tcp",
+        "destination": "8.8.4.0/24",
+        "ports": "5228,5229,5230,443"
+    }, {
+        "protocol": "tcp",
+        "destination": "8.8.8.0/24",
+        "ports": "5228,5229,5230,443"
+    },
+
+    ...rest of Google IPs elided...
+]
+```
+
+Create a security group called gcm:
+```
+cf create-security-group gcm gcm.json
+```
+
+### Load Balancer
+
+If the built-in HAProxy is being used as the load balancer. The IP addresses can be found in Pivotal Elastic Runtime Tile → Settings Tab → Networking under HAProxy IPs, (e.g., 10.68.196.250). Create a file load-balancer-https.json as follows: 
+
+```
+[
+    {
+        "protocol": "tcp",
+        "destination": "10.68.196.250",
+        "ports": "80,443"
+    }
+]
+```
+
+Create a security group called load-balancer-https:
+```
+cf create-security-group load-balancer-https load-balancer-https.json
+```
+
+### Assigned Network
+
+<p class="note"><strong>Note</strong>: If you decide to use external services, the IP addresses, ports, and protocols will be dependent on what you use.</p>
+
+Log into Ops Manager and click on the Pivotal Elastic Runtime Tile → Settings Tab → AZ and Network Assignments. Note the name of the network selected in the drop-down (e.g., "first-network"). Then click on the Ops Manager Director tile → Settings Tab → Create Networks → "first-network" and note the CIDR in the subnets section (e.g., 10.68.0.0/20). This should allow the space to access `p-mysql`, `p-rabbitmq`, and `p-redis` Then create a file assigned-network.json as follows:
+
+```
+[
+    {
+        "protocol": "tcp",
+        "destination": "10.68.0.0/20",
+        "ports": "3306,5672,6379"
+    }
+]
+```
+
+Create a security group called assigned-network:
+```
+cf create-security-group assigned-network assigned-network.json
+```
+
+## <a id="pre-installation-asg-binding"></a> Pre-installation ASG binding
+
+Log in as an administrator and create the above ASGs. Afterwards, create the space `push-notifications` in the `system` org and bind each of them to the it :
+
+```
+cf target -o system
+cf create-space push-notifications
+cf bind-security-group apns system push-notifications
+cf bind-security-group gcm system push-notifications
+cf bind-security-group load-balancer-https system push-notifications
+cf bind-security-group assigned-network system push-notifications
+```

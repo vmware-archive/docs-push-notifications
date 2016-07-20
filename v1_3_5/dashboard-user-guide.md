@@ -6,7 +6,7 @@ title: Using the Dashboard V1.3.0
 ##Application
 An application in the Push Dashboard represents a mobile application from the perspective of the application author, including all supported platforms. Applications are listed in the dropdown at the top of the sidebar.
 
-<img src="assets/dug-summary.png" width="800"/>
+<!--<img src="assets/dug-summary.png" width="800"/>-->
 
 ###Adding an application
 Click on `Create New Application` in left sidebar. Fill in the form and click `Save` to create the application or optionally click 'Add Platform' to add a platform for the application.
@@ -14,55 +14,55 @@ Click on `Create New Application` in left sidebar. Fill in the form and click `S
 ###Editing an application
 Click on the `Configuration` link in the sidebar menu to bring up the information about the application. Click on the pencil icon under the `Actions` column to edit the application. Edit the fields and click `Save` to update the application. The **UUID** is immutable.
 
-<img src="assets/dug-actions-edit.png" width="800"/>
+<!--<img src="assets/dug-actions-edit.png" width="800"/>-->
 
 ###Deleting an application
 To delete an application, click on the `Configuration` link in the sidebar menu to bring up information about the application. Click on the delete icon under the `Actions` column to delete the application. Note that this icon will be disabled if the application has one or more platforms.
 
-<img src="assets/dug-actions-delete.png" width="800"/>
+<!--<img src="assets/dug-actions-delete.png" width="800"/>-->
 
 ##Platform
 A platform configures platform specific attributes to send push messages. For example, this would include a certificate necessary to send messages to Apple's APNS, or a token necessary to send messages to Google's GCN. A platform has many devices.
 
-<img src="assets/dug-configuration.png" width="800"/>
+<!--<img src="assets/dug-configuration.png" width="800"/>-->
 
 ###Adding a platform
 On the Configuration page, click on the `Add New Platform` button . Fill in the form and click `Save` to create the platform.
 
-<img src="assets/dug-configuration-add-platform.png" width="800"/>
+<!--<img src="assets/dug-configuration-add-platform.png" width="800"/>-->
 
-<img src="assets/dug-add-platform.png" width="800"/>
+<!--<img src="assets/dug-add-platform.png" width="800"/>-->
 
 ###Editing a platform
 On the Configuration page, click on the pencil icon link next to the platform you want to edit. Edit the fields and click `Save` to update the platform. The  **Type** field cannot be changed once set.
 
-<img src="assets/dug-configuration-edit-platform.png" width="800"/>
+<!--<img src="assets/dug-configuration-edit-platform.png" width="800"/>-->
 
-<img src="assets/dug-edit-platform.png" width="800"/>
+<!--<img src="assets/dug-edit-platform.png" width="800"/>-->
 
 ###Deleting a platform
 On the Configuration page, click on the trash icon link next to the platform you want to delete. NOTE: You cannot delete a platform that has devices.
 
-<img src="assets/dug-configuration-delete-platform.png" width="800"/>
+<!--<img src="assets/dug-configuration-delete-platform.png" width="800"/>-->
 
-<img src="assets/dug-delete-platform.png" width="800"/>
+<!--<img src="assets/dug-delete-platform.png" width="800"/>-->
 
 ##Devices
 A device is given a unique identifier which represents a user opting in to receive push notifications. This identifier is not necessarily unique to a device since it might change if the user reinstalls the mobile application, or unsubscribes and resubscribes.
 
-<img src="assets/dug-configuration-view-devices.png" width="800"/>
+<!--<img src="assets/dug-configuration-view-devices.png" width="800"/>-->
 
 ###Send a test push notification to a device
 Click on 'Devices' in the sidebar menu. Click on the `Test Push` button next to the device. Fill out the push form. See "Sending a push message" for details on the form fields.
 
-<img src="assets/dug-devices.png" width="800"/>
+<!--<img src="assets/dug-devices.png" width="800"/>-->
 
-<img src="assets/dug-test-push.png" width="800"/>
+<!--<img src="assets/dug-test-push.png" width="800"/>-->
 
 ##Sending a push message
 Click on `Push Notifications` in the sidebar menu, and click the button `Create Push Notification`.
 
-<img src="assets/dug-create-push.png" width="800"/>
+<!--<img src="assets/dug-create-push.png" width="800"/>-->
 
 On the Create Push Message page, fill in the form and click `Send Push Notification`.
 
@@ -85,22 +85,22 @@ On the Create Push Message page, fill in the form and click `Send Push Notificat
 ##Tags
 A tag allows push notifications to be sent to all devices that have explicitly subscribed to it as opposed to all users that have the application installed. This allows an application to send targeted push notifications to a subset of devices. Devices can subscribe to tags via the <a href="api/registration/">registrations api</a>. Available tags are listed in the targetting section of the Create Notification form.
 
-<img src="assets/dug-create-with-tags.png" width="800"/>
+<!--<img src="assets/dug-create-with-tags.png" width="800"/>-->
 
 ##Locations
 Click `Locations` on the left sidebar and then click the `Add Location` button.
-<img src="assets/gw-step2.png" width="800"/>
+<!--<img src="assets/gw-step2.png" width="800"/>-->
 
 Fill in the Name of the location. You may type in a Latitude and Longitude pair, or simply click on the map. Select a radius that suits the location. Once all the details are set, click the `Create` button.
-<img src="assets/gw-step3.png" width="800"/>
+<!--<img src="assets/gw-step3.png" width="800"/>-->
 
 ##Location Groups
 Click on the `Location Group` tab, and then on the `Add Location Group` button.
-<img src="assets/gw-step4.png" width="800"/>
+<!--<img src="assets/gw-step4.png" width="800"/>-->
 
 Fill in the Name and Description of the Location Group. In the Target Location field, select a location from the drop-down or click on one of the markers on the map. Once all the details are set, click the `Create` button.
-<img src="assets/gw-step5.png" width="800"/>
+<!--<img src="assets/gw-step5.png" width="800"/>-->
 
 ##Geofence Push Notifications
 Fill in the details of the Push Notification, such as Message, Platform, and Schedule. Select from the `Target Location` drop-down either a Location or a Location Group. Trigger Type field will appear upon the addition of Location/Location Group. Select either Enter or Exit, depending on how you want the Geofence to activate. Once all the details are set, click the `Send Push Notification` button.
-<img src="assets/gw-step7.png" width="800"/>
+<!--<img src="assets/gw-step7.png" width="800"/>-->
