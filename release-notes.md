@@ -1,6 +1,14 @@
 ---
 title: Push Notification Service Release Notes
 ---
+## 1.6.0
+
+**Release Date: July 2016**
+
+   - Devices can be grouped under Custom User IDs which can be targeted for pushes
+   - Tags have been replaced by Topics
+   - Topics can be created with expiry dates
+
 
 ## 1.5.3
 
