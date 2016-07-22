@@ -1,6 +1,14 @@
 ---
 title: Push Notification Service Release Notes
 ---
+## 1.6.0
+
+**Release Date: July 2016**
+
+   - Devices can be grouped under Custom User IDs which can be targeted for pushes
+   - Tags have been replaced by Topics
+   - Topics can be created with expiry dates
+
 
 ## 1.5.3
 
@@ -18,12 +26,10 @@ title: Push Notification Service Release Notes
 	
 
 ## 1.4.12
-
 **Release Date: June 2016**
 
    - Updated bosh stemcell to v3262.2
    - Bug fix for CF cli
-
 
 ## 1.4.10
 **Release Date: June 2016**
@@ -111,7 +117,7 @@ title: Push Notification Service Release Notes
 ## [1.3.1 iOS and Android Client SDK](v1_3_1/sdk-release-notes.html)
 
 - SSL Certificate pinning.
-- Any geofences with tags will be monitored only if the user is subscibed to that tag.
+- Any geofences with tags will be monitored only if the user is subscribed to that tag.
 
 ## [1.3.0](v1_3/release-notes.html)
 **Release Date: June 2015**

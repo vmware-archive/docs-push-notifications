@@ -6,7 +6,7 @@ title: Push Notification Service v1.0.0 Release Notes
 ## Changes
 - RESTful APIs to send push notifications
 - Support for iOS, Android, Windows 8, Windows Phone
-- Adminstrative dashboard to manage applications and environments (e.g. development, staging, production)
+- Administrative dashboard to manage applications and environments (e.g. development, staging, production)
 - Ability to send test messages to an environment, or a particular device
 - Audit logging allows tracing of a pushed message from the initial API call, up to and including the transmission to the platform's push endpoint
 
