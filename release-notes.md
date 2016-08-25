@@ -1,6 +1,20 @@
 ---
 title: Push Notification Service Release Notes
 ---
+##1.6.1
+**Release Date: August 2016**
+
+Features:
+
+- Proxy support in Push Tile: Users can now add a proxy in the Push Tile (via Ops Mgr console)
+- Installation logs now available in Ops Mgr console upon installation failure
+fixes
+
+Fixes:
+
+- Fixed issue with multiple tenants being provisioned in system org in push notifications space
+- Fixed scaling issue with push api instances due to lack of database connections
+
 ## 1.6.0
 
 **Release Date: July 2016**
