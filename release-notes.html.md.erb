@@ -7,21 +7,16 @@ title: Push Notification Service Release Notes
 ##1.6.2
 **Release Date: September 2016**
 
-**Please update to push v1.6.2 prior to upgrading to PCF 1.8 (pre-requisite for PCF 1.8)**
+<p class="note"><strong>Note</strong>: Please update to Push Notification Service v1.6.2 prior to upgrading to PCF 1.8.**</p>
 
 Fixes:
 
-Fixed dashboard issue found when upgrading from PCF 1.7 to PCF 1.8 
-
+- Fixed dashboard issue found when upgrading from PCF 1.7 to PCF 1.8 
 
 **Known Issues**
 
-If Push v1.6.2+ installed **after** upgrading to PCF 1.8, then remove the app named `push-notifications-analytics`
-
-
- ```
- cf delete push-notifications-analytics
- ```
+If you installed Push v1.6.2+ after upgrading to PCF 1.8, then remove the app named `push-notifications-analytics` with the following command:
+    <pre class="terminal">$ cf delete push-notifications-analytics</pre>
 
 ##1.6.1
 **Release Date: August 2016**
