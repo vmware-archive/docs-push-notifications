@@ -1,6 +1,28 @@
 ---
 title: Push Notification Service Release Notes
 ---
+
+
+
+##1.6.2
+**Release Date: September 2016**
+
+**Please update to push v1.6.2 prior to upgrading to PCF 1.8 (pre-requisite for PCF 1.8)**
+
+Fixes:
+
+Fixed dashboard issue found when upgrading from PCF 1.7 to PCF 1.8 
+
+
+**Known Issues**
+
+If Push v1.6.2+ installed **after** upgrading to PCF 1.8, then remove the app named `push-notifications-analytics`
+
+
+ ```
+ cf delete push-notifications-analytics
+ ```
+
 ##1.6.1
 **Release Date: August 2016**
 
@@ -14,6 +36,29 @@ Fixes:
 
 - Fixed issue with multiple tenants being provisioned in system org in push notifications space
 - Fixed scaling issue with push api instances due to lack of database connections
+
+
+**Known Issues:**
+
+Upgrading to PCF 1.8 exposes a bug in versions of Push 1.6.1 and older. The impact is that the dashboard won't be able to display analytics (a message will appear stating "Analytics Data is not available at the moment"). Analytics data is still collected on the backend, the bug prevents it from being displayed.
+
+**The recommended solution is to upgrade to push v1.6.2 prior to upgrading to PCF 1.8 (this is now a pre-requisite for PCF 1.8)**
+
+If installing push v1.6.1 or earlier on PCF 1.8, follow the instructions below
+
+1. To confirm this is the problem you are experiencing, you can check to see if there is a CF app running in the `system` org and `push-notifications` space called `push-notifications-analytics`.
+ 
+
+2. Replace `push-analytics` with `push-notifications-analytics` and add a matching route as per the commands shown below
+ 
+ ```
+ cf delete push-analytics
+ cf rename push-notifications-analytics push-analytics
+ cf map-route push-analytics $ENV_URL --hostname push-analytics
+ ```
+
+where `$ENV_URL` is the value of the domain name used for your PCF environment 
+
 
 ## 1.6.0
 
