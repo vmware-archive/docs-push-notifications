@@ -1,17 +1,17 @@
 ---
-title: Heartbeat Walkthrough for iOS
+title: Configuring Heartbeat Monitor for iOS
 owner: push notification service
 ---
 
-## <a id="before"></a> Before You Begin
+## <a id="before"></a> Prerequisites
 <!-- The following invisible link puts this section in the subnav on the left of the page -->
-<a href="heartbeat-ios.html#before" class="subnav" style="display: none;">Before you Begin
+<a href="heartbeat-ios.html#before" class="subnav" style="display: none;">Prerequisites
 </a>
 
-Ensure you have the following:
+To configure the Heartbeat Monitor app for iOS, you must have:
 
 * an iOS 8+ device
-* latest Xcode supporting Swift 2.2 installed on your workstation
+* the latest Xcode supporting Swift 2.2 installed on your workstation
 * an Apple Developer account
 
 ## <a id="request-ios-cert"></a> Request an iOS Development Certificate
@@ -125,4 +125,126 @@ Ensure you have the following:
 1. In order to register your device, you will need the **UUID** of the device. To get it, connect your device to your computer, open **iTunes**, and navigate to the device tab.
 
 	![Provisioning 2](images/Provisioning/02.png)
+
+1. Click the **Serial Number** of the device. and it should change to reveal the UUID. Right click the field to copy it. 
+
+	![Provisioning 3](images/Provisioning/03.png)
+
+1. In your web browser, enter a device name and paste the **UUID** into its field. Then click **Register**. 
+
+### Keychain Access
+
+1. Launch the **Keychain Access** application. 
+
+1. In the top navbar, select **Keychain Access** > **Certificate Assistant** > **Request a Certificate from a Certificate Authority**. 
+
+	![Request from authority](images/iOSCerts/k01.png)
+
+1. Enter the information required and check the **Saved to disk** option. 
+
+1. Click **continue** and save the certificate request when prompted. 
+
+	![Save request](images/iOSCerts/k02.png)
+
+### Upload Certificate
+
+1. In your browser, continue past the CSR instructions and upload the new `.csr` file you created. 
+
+1. Click **Continue** and generate the new certificate.
+
+	![Continue](images/iOSCerts/03.png)
+	![Generate Cert](images/iOSCerts/06.png)
+
+1. Click **Download** and open your shiny new certificate.
+
+	![Download](images/iOSCerts/07.png)
+	![Open](images/iOSCerts/k03.png)
+
+## <a id="push-config"></a> Configure your Push Dashboard
+<!-- The following invisible link puts this section in the subnav on the left of the page -->
+<a href="heartbeat-ios.html#push-config" class="subnav" style="display: none;">Configure your Push Dashboard
+</a>
+
+You can navigate to the Push Dashboard in one of two ways:
+* Apps Manager
+* cf CLI
+
+### Push Dashboard via Apps Manager
+
+In order to use the Apps Manager, the "Push Apps Manager" errand must have been enabled when deploying Pivotal Elastic Runtime. If this is not the case, use the CF CLI method.
+
+Apps manager can be accessed by going toapps.[your-domain-name].com. Then navigate to the system org and the push-notifications space and select the Services tab.
+
+Then select the PCF Push Notification Service row and click the Manage link.
+
+### Push Dashboard via cf CLI
+
+You can download the CF CLI from Github.
+
+Login to your CF environment using the cf login command and target the system org and the push-notifications space:
+
+cf target -o system -s push-notifications
+Then you can access the URL for your Push Dashboard using the `cf service` command:
+
+cf service push-service-instance
+
+### Configuring the Platform
+
+Now in the Push Dashboard, select the Heartbeat App from your list of applications and select the Configuration tab.
+
+Under the Platforms section, find the row named Heartbeat iOS Platform and edit it by clicking the pencil icon.
+
+Remember that APNS Certificate .p12 that you generated? Press the Choose File button and upload that file!
+
+Then just enter the password you used to export the certificate and click Save.
+
+
+## <a id="connect"></a> Connect your App
+<!-- The following invisible link puts this section in the subnav on the left of the page -->
+<a href="heartbeat-ios.html#connect" class="subnav" style="display: none;">Connect your App
+</a>
+
+### Download the Git Repo
+
+Navigate to the Push iOS Heartbeat Monitor repository and clone it.
+
+git clone git@github.com:cfmobile/push-ios-heartbeatmonitor.git
+Navigate to the push-ios-heartbeatmonitor/heartbeat folder and open the PCF Push Heartbeat Monitor.xcodeproj file. (Through terminal or xcode)
+
+### Configure your App
+
+In the Project Navigator (the sidebar), select the Pivotal.plist file. In the editor, change the value for pivotal.push.serviceUrl to your environment's push api endpoint.
+
+You should not need to, but double check that the Platform UUID and Platform Secret fields match those of the iOS Platform found in the Configuration tab of your Push Dashboard.
+
+
+You can determine this by looking at the route for your push-api CF App.
+
+### Configure the Platform
+
+Now in the Push Dashboard, select the Heartbeat App from your list of applications and select the Configuration tab.
+
+
+Under the Platforms section, find the row named Heartbeat iOS Platform and edit it by clicking the pencil icon.
+
+
+Remember that APNS Certificate .p12 that you generated? Press the Choose File button and upload that file!
+
+
+Then just enter the password you used to export the certificate and click Save.
+
+## <a id="run"></a> Run the App on your Device
+<!-- The following invisible link puts this section in the subnav on the left of the page -->
+<a href="heartbeat-ios.html#run" class="subnav" style="display: none;">Run the App on your Device
+</a>
+
+1. Navigate to **Accounts** > **View Details** > **Provisioning Profiles**. 
+
+1. Under **Preferences**, choose your apple ID and Download the one you created. 
+
+1. In the git repo, there is a pod file. Run pod install. If you need to get cocopods, search for cocopods installation in your browser. 
+
+1. In xcode, specify the app and device and build. Resolve any errors. 
+
+1. After the build succeeds, run the app and it shows up on your device. Confirm that it works by. 
 
