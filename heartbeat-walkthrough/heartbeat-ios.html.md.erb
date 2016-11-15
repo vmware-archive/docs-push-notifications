@@ -8,26 +8,26 @@ owner: push notification service
 <a href="heartbeat-ios.html#before" class="subnav" style="display: none;">Prerequisites
 </a>
 
-To configure the Heartbeat Monitor app for iOS, you must have:
+To configure the Heartbeat Monitor app for iOS, you must have the following:
 
-* an iOS 8+ device
-* the latest Xcode supporting Swift 2.2 installed on your workstation
-* an Apple Developer account
+* An iOS 8+ device
+* The latest Xcode supporting Swift 2.2 installed on your workstation
+* An Apple Developer account
 
 ## <a id="request-ios-cert"></a> Request an iOS Development Certificate
 <!-- The following invisible link puts this section in the subnav on the left of the page -->
 <a href="heartbeat-ios.html#request-ios-cert" class="subnav" style="display: none;">Request an iOS Development Certificate
 </a>
 
-1. Navigate to [Apple's Devloper Portal](https://developer.apple.com/account/ios/certificate) and select the **Certificates, Identifiers & Profiles** section. 
+1. Navigate to the [Apple Devloper Portal](https://developer.apple.com/account/ios/certificate) and select the **Certificates, Identifiers & Profiles** section. 
 
 1. In the sidebar, select **All** under the **Certificates** header. 
 
-1. Click the + button on the top right.
+1. Click the **+** button on the top right.
 
 	![iOS Certs 1](images/iOSCerts/01.png) 
 
-1. Select **iOS App Development** and continue. 
+1. Select **iOS App Development** and click **Continue**. 
 
 	![iOS Certs 2](images/iOSCerts/02.png)
 
@@ -37,25 +37,23 @@ To configure the Heartbeat Monitor app for iOS, you must have:
 
 	![dropdown](images/iOSCerts/k01.png)
 
-1. Enter the information required and check the **Saved to disk** option. 
+1. Enter your **User Email Address** and **Common Name**, and select the **Saved to disk** option. 
 
-1. Click continue and save the certificate request when prompted. 
+1. Click **Continue** and save the certificate request when prompted. 
 
 	![save request](images/iOSCerts/k02.png)
 
-1. Back in the Apple Portal, continue past the CSR Request instructions and upload the new `.csr` file you've created. 
-
-1. Click **Continue** and generate the new certificate. 
-
-	![generate cert](images/iOSCerts/03.png)
+1. In the Apple Developer Portal, continue past the CSR Request instructions and upload the new `.csr` file you created. 
 
 	![upload csr](images/iOSCerts/06.png)
 
-1. Click **Download** and open your shiny new certificate.
+1. Click **Continue** and generate the new certificate. 
+
+1. Click **Download**.
 
 	![download cert](images/iOSCerts/07.png)
 
-	![open cert](images/iOSCerts/k03.png)
+1. Open your certificate and import it to Keychain Access.
 
 ## <a id="request-apns-cert"></a> Request an APNS Certificate
 <!-- The following invisible link puts this section in the subnav on the left of the page -->
@@ -64,9 +62,8 @@ To configure the Heartbeat Monitor app for iOS, you must have:
 
 ### Create an App ID
 
-1. Navigate to Apple's Devloper Portal(https://developer.apple.com/account/ios/certificate) and select the **Certificates, Identifiers & Profiles** section. 
-
-1. In the sidebar, select **App IDs** under the **Identifiers** header. Then click on the **+** button in the top right.
+1. In the sidebar, select **App IDs** under the **Identifiers** header. 
+	1. Click the **+** button to add an App ID.
 
 	![APNS Certs 1](images/APNSCerts/01.png)
 
@@ -74,36 +71,40 @@ To configure the Heartbeat Monitor app for iOS, you must have:
 
 	![APNS Certs 2](images/APNSCerts/02.png)
 
-1. Enable the **Push Notifications** App Service and click **Continue**.
+1. Select the the **Push Notifications** checkbox and click **Continue**.
 
 	![APNS Certs 3](images/APNSCerts/03.png)
 
-1. Then click **Register**.
+1. Click **Register**.
 
 	![APNS Certs 4](images/APNSCerts/04.png)
 
 ### Create an APNS Certificate
 
-1. Now in the **App IDs** list, find and select the App ID you've registered. Then click **Edit**
+1. In the **App IDs** list, select the App ID you registered and click **Edit**
 
 	![APNS Certs 5](images/APNSCerts/05.png)
 
-1. Under the **Push Notifications** section, decide whether you need a **Development SSL Certificate** or a **Production SSL Certificate** and click the corresponding **Create Certificate** button.
+1. Under the **Push Notifications** section, choose either **Development SSL Certificate** or a **Production SSL Certificate** and click the corresponding  **Create Certificate** button.
 
 	![APNS Certs 6](images/APNSCerts/06.png)
 
-1. Now we are going to follow the same process we did for requesting a **iOS Development Certificate**. Continue past the CSR Request instructions and upload the same **.csr** file you created earlier. Click **Continue** and generate the new certificate.
+1. Continue past the CSR Request instructions and upload the same **.csr** file you created earlier. 
 
-	![iOS Certs 3](images/iOSCerts/03.png)
+1. Click **Continue** and generate the new certificate.
+
 	![iOS Certs 6](images/iOSCerts/06.png)
 
-1. Click **Download** and open your shiny new certificate.
+1. Click **Download**.
+
+1. Open your certificate and import it to Keychain Access.
 
 1. In **Keychain Access**, select both your **Apple Development iOS Push Services** certificate and the private key it was signed with.
 
 	![APNS Certs 7](images/APNSCerts/07.png)
 
-1. Right click, select **Export 2 Items...** and save the **.p12** file somewhere you will remember. You will need to upload this certificate to the Push Dashboard later.
+1. Right click your selection and choose **Export 2 Items...** 
+	1. Save the **.p12** file for uploading to the Push Dashboard in a later step.
 
 	![APNS Certs 8](images/APNSCerts/08.png)
 
@@ -114,89 +115,98 @@ To configure the Heartbeat Monitor app for iOS, you must have:
 
 ### Register a Device
 
-*You need an iOS 8+ Device to use Heartbeat Monitor. If you have already have an iOS 8+ Device registered, you can skip to the next step.*
+<p class="note"><strong>Note</strong>: You need an iOS 8+ Device to use Heartbeat Monitor. If you have already have an iOS 8+ Device registered, skip to the next step.</p>
 
-1. Navigate to [Apple's Developer Portal](https://developer.apple.com/account/ios/device/) and select the **Certificates, Identifiers & Profiles** section.
-
-1. In the sidebar, select **All** under the **Devices** header. Then click on the **+** button in the top right.
+1. In the sidebar, select **All** under the **Devices** header. 
+	1. Click on the **+** button in the top right.
 
 	![Provisioning 1](images/Provisioning/01.png)
 
-1. In order to register your device, you will need the **UUID** of the device. To get it, connect your device to your computer, open **iTunes**, and navigate to the device tab.
+1. Retrieve the **UUID** of the device: 
+	1. Connect your device to your computer.
+	1. Open **iTunes**. 
+	1. Select the device tab.
 
 	![Provisioning 2](images/Provisioning/02.png)
 
-1. Click the **Serial Number** of the device. and it should change to reveal the UUID. Right click the field to copy it. 
+1. Click the **Serial Number** of the device to reveal the UUID. 
+	1. Right click the field to copy it. 
 
 	![Provisioning 3](images/Provisioning/03.png)
 
-1. In your web browser, enter a device name and paste the **UUID** into its field. Then click **Register**. 
+1. In the Apple Developer Portal, enter a device name and paste the **UUID** into its field. 
 
-### Keychain Access
+1. Click **Register**. 
 
-1. Launch the **Keychain Access** application. 
+### Create a Profile
 
-1. In the top navbar, select **Keychain Access** > **Certificate Assistant** > **Request a Certificate from a Certificate Authority**. 
+1. Navigate to the [Apple Devloper Portal](https://developer.apple.com/account/ios/certificate) and select the **Certificates, Identifiers & Profiles** section. 
 
-	![Request from authority](images/iOSCerts/k01.png)
+1. In the sidebar, select **All** under the **Provisioning Profiles** header. 
+	1. Click on the **+** button in the top right.
 
-1. Enter the information required and check the **Saved to disk** option. 
+1. Choose a provisioning profile type. You will likely want either the **iOS App Development** or **In House Distribution** provisioning profiles. 
+	1. Click **Continue**.
 
-1. Click **continue** and save the certificate request when prompted. 
+1. Select the **Heartbeat App ID** from the dropdown list and click **Continue**.
 
-	![Save request](images/iOSCerts/k02.png)
+1. Select the **Developer Certificate(s)** that you want to use and click **Continue**.
 
-### Upload Certificate
+1. Select the **Devices** that you want to use and click **Continue**.
 
-1. In your browser, continue past the CSR instructions and upload the new `.csr` file you created. 
+1. Provide a descriptive name for the **Provisioning Profile** and click **Continue**.
 
-1. Click **Continue** and generate the new certificate.
-
-	![Continue](images/iOSCerts/03.png)
-	![Generate Cert](images/iOSCerts/06.png)
-
-1. Click **Download** and open your shiny new certificate.
-
-	![Download](images/iOSCerts/07.png)
-	![Open](images/iOSCerts/k03.png)
+1. Click **Download** and open your **Provisioning Profile**. 
 
 ## <a id="push-config"></a> Configure your Push Dashboard
 <!-- The following invisible link puts this section in the subnav on the left of the page -->
 <a href="heartbeat-ios.html#push-config" class="subnav" style="display: none;">Configure your Push Dashboard
 </a>
 
-You can navigate to the Push Dashboard in one of two ways:
+Navigate to the Push Dashboard in one of the following ways:
+	
+<p class="note"><strong>Note</strong>: Use the cf CLI instructions if you did not enable the <b>Push Apps Manager</b> errand when deploying Elastic Runtime.</p>
+
 * Apps Manager
 * cf CLI
 
-### Push Dashboard via Apps Manager
+### Navigate to Push Dashboard using Apps Manager
 
-In order to use the Apps Manager, the "Push Apps Manager" errand must have been enabled when deploying Pivotal Elastic Runtime. If this is not the case, use the CF CLI method.
+1. In a browser, navigate to Apps `apps.YOUR-SYSTEM-DOMAIN` in a browser.
 
-Apps manager can be accessed by going toapps.[your-domain-name].com. Then navigate to the system org and the push-notifications space and select the Services tab.
+1. Select the **system** org and the **push-notifications** space.
 
-Then select the PCF Push Notification Service row and click the Manage link.
+1. Click the **Services** tab.
 
-### Push Dashboard via cf CLI
+1. Select the **PCF Push Notification Service** row and click the **Manage** link.
 
-You can download the CF CLI from Github.
+### Navigate to Push Dashboard using cf CLI
 
-Login to your CF environment using the cf login command and target the system org and the push-notifications space:
+1. Open a terminal window and log in:
 
-cf target -o system -s push-notifications
-Then you can access the URL for your Push Dashboard using the `cf service` command:
+	<pre class="terminal">$ cf login -a https://api.YOUR-SYSTEM-DOMAIN -u USERNAME -p PASSWORD</pre>
 
-cf service push-service-instance
+1. Target the correct org and space: 
 
-### Configuring the Platform
+	<pre class="terminal">$ cf target -o system -s push-notifications</pre>
 
-Now in the Push Dashboard, select the Heartbeat App from your list of applications and select the Configuration tab.
+1. Run the following command:
 
-Under the Platforms section, find the row named Heartbeat iOS Platform and edit it by clicking the pencil icon.
+	<pre class="terminal">$ cf service push-service-instance</pre>
 
-Remember that APNS Certificate .p12 that you generated? Press the Choose File button and upload that file!
+1. Copy the URL from the **Dashboard** field and paste it into your browser.
 
-Then just enter the password you used to export the certificate and click Save.
+
+### Configure the Push Notifications Service
+
+1. Select the **Heartbeat App** from the list of applications. 
+	1. Select the **Configuration** tab.
+
+1. Under the Platforms section, in the **Heartbeat iOS Platform** row, click pencil icon to edit.
+
+1. Click **Choose File** and upload the APNS certificate you created.
+
+1. Enter the password you used to export the certificate and click **Save**.
 
 
 ## <a id="connect"></a> Connect your App
@@ -206,45 +216,37 @@ Then just enter the password you used to export the certificate and click Save.
 
 ### Download the Git Repo
 
-Navigate to the Push iOS Heartbeat Monitor repository and clone it.
+1. Clone the Push iOS Heartbeat Monitor repository:
 
-git clone git@github.com:cfmobile/push-ios-heartbeatmonitor.git
-Navigate to the push-ios-heartbeatmonitor/heartbeat folder and open the PCF Push Heartbeat Monitor.xcodeproj file. (Through terminal or xcode)
+	<pre class="terminal">$ git clone git@github.com:cfmobile/push-ios-heartbeatmonitor.git</pre>
+
+1. Run the following command to open the xcode project:
+
+	<pre class="terminal">$ open PCF\ Push\ Heartbeat\ Monitor.xcodeproj/</pre>
 
 ### Configure your App
 
-In the Project Navigator (the sidebar), select the Pivotal.plist file. In the editor, change the value for pivotal.push.serviceUrl to your environment's push api endpoint.
+1. In the Project Navigator, select the `Pivotal.plist` file. In the editor. 
+	1. Change the value for `pivotal.push.serviceUrl` to the push api endpoint for your environment: `https://push-api.YOUR-SYSTEM-DOMAIN`.
 
-You should not need to, but double check that the Platform UUID and Platform Secret fields match those of the iOS Platform found in the Configuration tab of your Push Dashboard.
-
-
-You can determine this by looking at the route for your push-api CF App.
-
-### Configure the Platform
-
-Now in the Push Dashboard, select the Heartbeat App from your list of applications and select the Configuration tab.
-
-
-Under the Platforms section, find the row named Heartbeat iOS Platform and edit it by clicking the pencil icon.
-
-
-Remember that APNS Certificate .p12 that you generated? Press the Choose File button and upload that file!
-
-
-Then just enter the password you used to export the certificate and click Save.
+1. Ensure that the **Platform UUID** and **Platform Secret** fields match those of the iOS Platform found in the **Configuration** tab of your Push Dashboard.
 
 ## <a id="run"></a> Run the App on your Device
 <!-- The following invisible link puts this section in the subnav on the left of the page -->
 <a href="heartbeat-ios.html#run" class="subnav" style="display: none;">Run the App on your Device
 </a>
 
-1. Navigate to **Accounts** > **View Details** > **Provisioning Profiles**. 
+1. In the Xcode navbar, select **Preferences**. 
 
-1. Under **Preferences**, choose your apple ID and Download the one you created. 
+1. Select the **Accounts** tab. 
 
-1. In the git repo, there is a pod file. Run pod install. If you need to get cocopods, search for cocopods installation in your browser. 
+1. Select your Apple ID. 
 
-1. In xcode, specify the app and device and build. Resolve any errors. 
+1. Click **View Details**. 
 
-1. After the build succeeds, run the app and it shows up on your device. Confirm that it works by. 
+1. Under provisioning profiles, download the provisioning profile you created. 
+
+1. At the top of the Xcode window, select the device icon and choose your device. 
+
+1. Click the play button to build and run the app on your device. Resolve any errors. 
 
