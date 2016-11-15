@@ -226,10 +226,12 @@ Navigate to the Push Dashboard in one of the following ways:
 
 ### Configure your App
 
-1. In the Project Navigator, select the `Pivotal.plist` file. In the editor. 
+1. In the Project Navigator, select the `Pivotal.plist` file. In the editor, do the following:
 	1. Change the value for `pivotal.push.serviceUrl` to the push api endpoint for your environment: `https://push-api.YOUR-SYSTEM-DOMAIN`.
 
 1. Ensure that the **Platform UUID** and **Platform Secret** fields match those of the iOS Platform found in the **Configuration** tab of your Push Dashboard.
+
+1. Under the **Capabilities** tab, ensure that both **Steps** are enabled for **Push Notifications**. 
 
 ## <a id="run"></a> Run the App on your Device
 <!-- The following invisible link puts this section in the subnav on the left of the page -->
