@@ -122,19 +122,19 @@ To configure the Heartbeat Monitor app for iOS, you must have the following:
 
 	![Provisioning 1](images/Provisioning/01.png)
 
-1. Retrieve the **UUID** of the device: 
+1. Retrieve the **UDID** of the device: 
 	1. Connect your device to your computer.
 	1. Open **iTunes**. 
 	1. Select the device tab.
 
 	![Provisioning 2](images/Provisioning/02.png)
 
-1. Click the **Serial Number** of the device to reveal the UUID. 
+1. Click the **Serial Number** of the device to reveal the UDID. 
 	1. Right click the field to copy it. 
 
 	![Provisioning 3](images/Provisioning/03.png)
 
-1. In the Apple Developer Portal, enter a device name and paste the **UUID** into its field. 
+1. In the Apple Developer Portal, enter a device name and paste the **UDID** into its field. 
 
 1. Click **Register**. 
 
@@ -229,7 +229,7 @@ Navigate to the Push Dashboard in one of the following ways:
 1. In the Project Navigator, select the `Pivotal.plist` file. In the editor, do the following:
 	1. Change the value for `pivotal.push.serviceUrl` to the push api endpoint for your environment: `https://push-api.YOUR-SYSTEM-DOMAIN`.
 
-1. Ensure that the **Platform UUID** and **Platform Secret** fields match those of the iOS Platform found in the **Configuration** tab of your Push Dashboard.
+1. Ensure that the **Platform UDID** and **Platform Secret** fields match those of the iOS Platform found in the **Configuration** tab of your Push Dashboard.
 
 1. Under the **Capabilities** tab, ensure that both **Steps** are enabled for **Push Notifications**. 
 
