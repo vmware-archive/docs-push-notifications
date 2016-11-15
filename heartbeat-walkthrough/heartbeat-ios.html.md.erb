@@ -85,7 +85,7 @@ To configure the Heartbeat Monitor app for iOS, you must have the following:
 
 	![APNS Certs 5](images/APNSCerts/05.png)
 
-1. Under the **Push Notifications** section, choose either **Development SSL Certificate** or a **Production SSL Certificate** and click the corresponding  **Create Certificate** button.
+1. Under the **Push Notifications** section, choose either **Development SSL Certificate** and click the corresponding **Create Certificate** button.
 
 	![APNS Certs 6](images/APNSCerts/06.png)
 
@@ -232,6 +232,9 @@ Navigate to the Push Dashboard in one of the following ways:
 1. Ensure that the **Platform UUID** and **Platform Secret** fields match those of the iOS Platform found in the **Configuration** tab of your Push Dashboard.
 
 1. Under the **Capabilities** tab, ensure that both **Steps** are enabled for **Push Notifications**. 
+
+1. If your PCF deployment does not have a properly signed SSL certificate, add an exception domain to the `info.plist` file:
+	1. Select **App Transport Security Settings** > **Exception Domains** and enter your system domain. 
 
 ## <a id="run"></a> Run the App on your Device
 <!-- The following invisible link puts this section in the subnav on the left of the page -->
