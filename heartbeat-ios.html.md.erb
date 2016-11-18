@@ -7,7 +7,7 @@ This topic describes how Pivotal Cloud Foundry (PCF) operators can configure the
 
 ## <a id="before"></a>Introduction: Heartbeat Monitor
 
-Heartbeat Monitor is an app deployed by the PCF Push Notifications service to help you ensure the service runs correctly end-to-end. It does this by sending a push, or _heartbeat_, every minute to the devices registered with the app. Operators can also select the app in the Push dashboard view historical data about the service.
+Heartbeat Monitor is an app deployed by the PCF Push Notifications service to help you ensure the service runs correctly end-to-end. It does this by sending a push, or _heartbeat_, every minute to the devices registered with the app. You can also select the app in the Push dashboard view its historical data.
 
 Follow the instructions below to configure Heartbeat Monitor and run the companion iOS app on your phone. 
 
@@ -28,25 +28,28 @@ To configure the Heartbeat Monitor app for iOS, you must have the following:
 </a>
 
 1. Navigate to the **Certificates, Identifiers & Profiles** section of the [Apple Devloper Portal](https://developer.apple.com/account/ios/certificate). 
-	1. In the side navigation, select **Certificates** > **All**. 
+	1. In the side navigation, select **Certificates** > **All**.
+
+		![Select all](select-all.png)
 
 1. Click the **+** button in the top right to add a new certificate.
 
-	![Add Certificate](iOSCerts/add-cert.png) 
+	![Add Certificate](add-cert.png) 
 
 1. Select **iOS App Development** and click **Continue**. 
 
-	![Select Development Certificate](iOSCerts/select-dev-cert.png)
+	![Select Development Certificate](select-dev.png)
 
 1. Follow the on-screen instructions to **Create a CSR file** and click **Continue**. 
 
-	![iOS CSR](iOSCerts/csr.png)
+	![iOS CSR](csr.png)
 
 1. **Upload** the `.csr` file you created and click **Continue** to generate the new certificate.
 
 1. Click **Download**.
 	1. Open your certificate and import it to the Keychain Access app when prompted.
-		![Add cert to Keychain](iOSCerts/cert-to-keychain.png)
+
+		![Add cert to Keychain](cert-to-keychain.png)
 
 
 ## <a id="request-apns-cert"></a> Request an APNS Certificate
@@ -56,14 +59,14 @@ To configure the Heartbeat Monitor app for iOS, you must have the following:
 
 ### Create an App ID
 
-1. Navigate to the **Certificates, Identifiers & Profiles** section of the [Apple Devloper Portal](https://developer.apple.com/account/ios/certificate). 
+1. Navigate to the **Certificates, Identifiers & Profiles** section of the [Apple Developer Portal](https://developer.apple.com/account/ios/certificate). 
 	1. In the side navigation, select  **Identifiers** > **App IDs**. 
 	
 1. Click the **+** button to create an App ID.
 
-1. Enter an **App ID Description** and a **Bundle ID**.
+1. Enter an **Name** and a **Bundle ID**.
 
-	![APNS Certs 2](APNSCerts/02.png)
+	![APNS Certs 2](app-id-name.png)
 
 1. Select the the **Push Notifications** checkbox and click **Continue**.
 
@@ -218,7 +221,7 @@ Navigate to the Push Dashboard in one of the following ways:
 
 ## <a id="connect"></a> Run the App on Your Device
 <!-- The following invisible link puts this section in the subnav on the left of the page -->
-<a href="heartbeat-ios.html#connect" class="subnav" style="display: none;">Connect your App
+<a href="heartbeat-ios.html#connect" class="subnav" style="display: none;">Run the App on Your Device
 </a>
 
 ### Download the App Repo
@@ -265,9 +268,6 @@ Navigate to the Push Dashboard in one of the following ways:
 	1. Select **App Transport Security Settings** > **Exception Domains** and enter `push-api.YOUR-SYSTEM-DOMAIN`. 
 
 ### Build and Run the App
-<!-- The following invisible link puts this section in the subnav on the left of the page -->
-<a href="heartbeat-ios.html#run" class="subnav" style="display: none;">Run the App on your Device
-</a>
 
 1. At the top of the Xcode window, select the device icon and choose your device. 
 	![Select device](iOSCerts/select-device.png)
