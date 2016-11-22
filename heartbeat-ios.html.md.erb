@@ -3,13 +3,13 @@ title: Configuring Heartbeat Monitor for iOS
 owner: push notification service
 ---
 
-This topic describes how Pivotal Cloud Foundry (PCF) operators can configure the Push Notifications Heartbeat Monitor app for iOS. 
+This topic describes how Pivotal Cloud Foundry (PCF) operators can configure the Push Notification Heartbeat Monitor app for iOS. 
 
 ## <a id="intro"></a>Introduction: Heartbeat Monitor
 <a href="heartbeat-ios.html#intro" class="subnav" style="display: none;">Prerequisites
 </a>
 
-Heartbeat Monitor is a Cloud Foundry app deployed by the PCF Push Notifications service to help you ensure the service runs correctly end-to-end. It does this by sending a push, or _heartbeat_, every minute to the devices registered with the app. You can also select the app in the Push dashboard view its historical data.
+Heartbeat Monitor is a Cloud Foundry app deployed by the PCF Push Notification service to help you ensure the service runs correctly end-to-end. It does this by sending a push, or _heartbeat_, every minute to the devices registered with the app. You can also select the app in the Push dashboard view its historical data.
 
 Follow the instructions below to configure Heartbeat Monitor and run the companion iOS app on your device. 
 
@@ -199,7 +199,7 @@ You can navigate to the Push Dashboard using either Apps Manager or the cf CLI:
 1. Copy the URL from the **Dashboard** field and paste it into your browser.
 
 
-### Configure the Push Notifications Service
+### Configure the Push Notification Service
 
 1. Select the **Heartbeat App** from the list of applications. 
 
@@ -247,7 +247,7 @@ Follow these steps to open the project for the Heartbeat Monitor iOS app in Xcod
 
 	![Project Navigator](plist.png)
 
-	1. In the editor, change the value for `pivotal.push.serviceUrl` to the Push Notifications API endpoint for your environment: `https://push-api.YOUR-SYSTEM-DOMAIN`.
+	1. In the editor, change the value for `pivotal.push.serviceUrl` to the Push Notification API endpoint for your environment: `https://push-api.YOUR-SYSTEM-DOMAIN`.
 
 		![API URL](api-url.png)
 
