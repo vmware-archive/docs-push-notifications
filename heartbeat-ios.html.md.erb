@@ -5,9 +5,7 @@ owner: push notification service
 
 This topic describes how Pivotal Cloud Foundry (PCF) operators can configure the Push Notification Heartbeat Monitor app for iOS. 
 
-## <a id="intro"></a>Introduction: Heartbeat Monitor
-
-Heartbeat Monitor is a Cloud Foundry app deployed by the PCF Push Notification service to help you ensure the service runs correctly end-to-end. It does this by sending a push, or _heartbeat_, every minute to the devices registered with the app. You can also select the app in the Push dashboard view its historical data.
+Heartbeat Monitor is a Cloud Foundry app deployed by the PCF Push Notification service to help you ensure the service runs correctly end-to-end. It does this by sending a push, or _heartbeat_, every minute to the devices registered with the app. You can also select the app in the Push dashboard to view its historical data.
 
 Follow the instructions below to configure Heartbeat Monitor and run the companion iOS app on your device. 
 
@@ -26,9 +24,10 @@ To configure the Heartbeat Monitor app for iOS, you must have the following:
 Follow these steps to obtain an iOS development certificate:
 
 1. Navigate to the **Certificates, Identifiers & Profiles** section of the [Apple Developer Portal](https://developer.apple.com/account/ios/certificate). 
-	1. In the side navigation, select **Certificates** > **All**.
 
-		![Select all](select-all.png)
+1. In the side navigation, select **Certificates** > **All**.
+
+	![Select all](select-all.png)
 
 1. Click the **+** button in the top right to add a new certificate.
 
@@ -45,9 +44,10 @@ Follow these steps to obtain an iOS development certificate:
 1. **Upload** the `.csr` file you created and click **Continue** to generate the new certificate.
 
 1. Click **Download**.
-	1. Open your certificate and import it to the Keychain Access app when prompted.
+	
+1. Open your certificate and import it to the Keychain Access app when prompted.
 
-		![Add cert to Keychain](cert-to-keychain.png)
+	![Add cert to Keychain](cert-to-keychain.png)
 
 
 ## <a id="request-apns-cert"></a> Request an APNS Certificate
@@ -58,7 +58,8 @@ Follow these steps to enable your app to receive push notifications:
 ### Create an App ID
 
 1. Navigate to the **Certificates, Identifiers & Profiles** section of the [Apple Developer Portal](https://developer.apple.com/account/ios/certificate). 
-	1. In the side navigation, select  **Identifiers** > **App IDs**. 
+	
+1. In the side navigation, select  **Identifiers** > **App IDs**. 
 	
 1. Click the **+** button to create an App ID.
 
@@ -87,16 +88,18 @@ Follow these steps to enable your app to receive push notifications:
 1. **Upload** the `.csr` file you created and click **Continue** to generate the new certificate.
 
 1. Click **Download**.
-	1. Open your certificate and import it to Keychain Access when prompted.
+	
+1. Open your certificate and import it to Keychain Access when prompted.
 
 1. In **Keychain Access**, select both your **Apple Development iOS Push Services** certificate and the private key it was signed with.
 
 	![APNS Certs 7](keychain-apns.png)
 
 1. Right click your selection and choose **Export 2 Items...** 
-	1. Save the **.p12** file for uploading to the Push Dashboard in a later step.
+	
+1. Save the **.p12** file for uploading to the Push dashboard in a later step.
 
-		![APNS Certs 8](export-apns.png)
+	![APNS Certs 8](export-apns.png)
 
 ## <a id="create-provisioning-profile"></a> Create a Provisioning Profile
 <!-- The following invisible link puts this section in the subnav on the left of the page -->
@@ -105,10 +108,11 @@ Follow these steps to create a Provisioning Profile that you specify when buildi
 
 ### Register a Device
 
-<p class="note"><strong>Note</strong>: You need an iOS 8+ Device to use Heartbeat Monitor. If you have already have an iOS 8+ Device registered, skip to the next step.</p>
+<p class="note"><strong>Note</strong>: You need an iOS 8+ Device to use Heartbeat Monitor. If you already have an iOS 8+ Device registered, skip to the next step.</p>
 
 1. Navigate to the **Certificates, Identifiers & Profiles** section of the [Apple Developer Portal](https://developer.apple.com/account/ios/certificate). 
-	1. In the side navigation, select **Devices** > **All**. 
+	
+1. In the side navigation, select **Devices** > **All**. 
 	
 1. Click on the **+** button in the top right to add a device.
 
@@ -119,8 +123,7 @@ Follow these steps to create a Provisioning Profile that you specify when buildi
 
 	![Provisioning 2](device-tab.png)
 
-1. Click the **Serial Number** of the device to reveal the **UDID**. 
-	1. Right click the field to copy it. 
+1. Click the **Serial Number** of the device to reveal the **UDID** and right click the field to copy it. 
 
 	![Provisioning 3](udid.png)
 
@@ -133,7 +136,8 @@ Follow these steps to create a Provisioning Profile that you specify when buildi
 ### Create a Profile
 
 1. Navigate to the **Certificates, Identifiers & Profiles** section of the [Apple Developer Portal](https://developer.apple.com/account/ios/certificate).
-	1. In the side navigation, select **Provisioning Profiles** > **All**. 
+	
+1. In the side navigation, select **Provisioning Profiles** > **All**. 
 	
 1. Click on the **+** button in the top right to create a Provisioning Profile.
 
@@ -149,20 +153,18 @@ Follow these steps to create a Provisioning Profile that you specify when buildi
 
 1. Click **Download** and open your **Provisioning Profile**. 
 	
-	<p class="note"><strong>Note</strong>: When you open your Provisioning Profile, it installs in Xcode without providing any confirmation. In a later step, you configure your Xcode app project to use this Provisioning Profile.</p>
+	<p class="note"><strong>Note</strong>: When you open your Provisioning Profile, Xcode installs it without providing any confirmation. In a later step, you configure your Xcode app project to use this Provisioning Profile.</p>
 
 ## <a id="push-config"></a> Configure your Push Dashboard
 <!-- The following invisible link puts this section in the subnav on the left of the page -->
 
 Follow these steps to navigate to the Push dashboard and then configure the service to talk to your device.
 
-You can navigate to the Push Dashboard using either Apps Manager or the cf CLI:
+You can navigate to the Push dashboard using either Apps Manager or the Cloud Foundry Command Line Interface (cf CLI). Use the cf CLI instructions if you did not enable the <b>Push Apps Manager</b> errand when deploying Elastic Runtime.
 
 ### Navigate to Push Dashboard using Apps Manager
 
-<p class="note"><strong>Note</strong>: Use the cf CLI instructions if you did not enable the <b>Push Apps Manager</b> errand when deploying Elastic Runtime.</p>
-
-1. In a browser, navigate to Apps `apps.YOUR-SYSTEM-DOMAIN`.
+1. In a browser, navigate to `apps.YOUR-SYSTEM-DOMAIN`.
 
 1. Select the **system** org and the **push-notifications** space.
 
@@ -193,9 +195,9 @@ You can navigate to the Push Dashboard using either Apps Manager or the cf CLI:
 
 	![Select app](heartbeat-app.png)
 
-	1. Select the **Configuration** pane.
+1. Select the **Configuration** pane.
 
-		![Select Config](select-config.png)
+	![Select Config](select-config.png)
 
 
 1. Under the **Platforms** section, in the **Heartbeat iOS Platform** row, click the pencil icon to edit the record.
@@ -203,7 +205,7 @@ You can navigate to the Push Dashboard using either Apps Manager or the cf CLI:
 	![Edit Platform](edit-platform.png)
 
 1. Complete the following fields:
-	* **MODE**: Select `Development` from the dropdown. 
+	* **MODE**: Select `Development` from the dropdown menu. 
 	* **CERTIFICATE**: Click **Choose File** and upload the APNS certificate you created.
 	* **PASSWORD**: Enter the password you used when creating your APNS certificate.
 
@@ -233,11 +235,11 @@ Follow these steps to open the project for the Heartbeat Monitor iOS app in Xcod
 
 	![Project Navigator](plist.png)
 
-	1. In the editor, change the value for `pivotal.push.serviceUrl` to the Push Notification API endpoint for your environment: `https://push-api.YOUR-SYSTEM-DOMAIN`.
+1. In the editor, change the value for `pivotal.push.serviceUrl` to the Push Notification API endpoint for your environment: `https://push-api.YOUR-SYSTEM-DOMAIN`.
 
-		![API URL](api-url.png)
+	![API URL](api-url.png)
 
-1. Ensure that the values for the following **Root** fields in the editor match the corresponding values in the Push Dashboard under the **Heartbeat iOS Platform** record:
+1. Ensure that the values for the following **Root** fields in the editor match the corresponding values in the Push dashboard under the **Heartbeat iOS Platform** record:
 	<table>
 		<tr>
 			<th>Root Field in Editor</th>
@@ -263,8 +265,7 @@ Follow these steps to open the project for the Heartbeat Monitor iOS app in Xcod
 	
 	![Enable Steps](capabilities.png)
 
-1. If your PCF deployment does not use an SSL certificate signed by a Certificate Authority (CA), add an exception domain to the `info.plist` file:
-	1. Select **App Transport Security Settings** > **Exception Domains** and enter `push-api.YOUR-SYSTEM-DOMAIN`. 
+1. If your PCF deployment does not use an SSL certificate signed by a Certificate Authority (CA), add an exception domain to the `info.plist` file by selecting **App Transport Security Settings** > **Exception Domains** and entering `push-api.YOUR-SYSTEM-DOMAIN`. 
 
 ### Build and Run the App
 
