@@ -4,23 +4,23 @@ title: Push Notification Service for Pivotal Cloud Foundry
 ---
 This is documentation for the [Push Notification Service](https://network.pivotal.io/products/push-notification-service) for [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF).
 
-#Product snapshot
+##Product Snapshot
 
 <dl>
 	<dt>Current Push Notification Service for PCF Details</dt>
-	<dd><strong>Version</strong>: 1.6.3 </dd>
-	<dd><strong>Release Date</strong>: September 2016</dd>
-	<dd><strong>SDK Versions</strong>: Android 1.6.0, iOS 1.6.0</dd>
-	<dd><strong>Compatible Ops Manager Version(s)</strong>: 1.7.8 and later</dd>
-	<dd><strong>Compatible Elastic Runtime Version(s)</strong>: 1.7.x, 1.8.x</dd>
+	<dd><strong>Version</strong>: v1.7.0 </dd>
+	<dd><strong>Release Date</strong>: December 2016</dd>
+	<dd><strong>SDK Versions</strong>: Android v1.7.0, iOS v1.7.0</dd>
+	<dd><strong>Compatible Ops Manager Version(s)</strong>: v1.7.8 and later</dd>
+	<dd><strong>Compatible Elastic Runtime Version(s)</strong>: v1.7.x, v1.8.x, v1.9.x</dd>
 	<dd><strong>vSphere support?</strong> Yes</dd>
 	<dd><strong>AWS support?</strong> Yes</dd>
 </dl>
 
-#Upgrading to the Latest Version
+##Upgrading to the Latest Version
 
 
-####Please upgrade to Push 1.4.5+ before upgrading to PCF 1.7.0.
+####Please upgrade to Push v1.4.5+ before upgrading to PCF v1.7.0.
 
 Consider the following compatibility information before upgrading the Push Notification Service for Pivotal Cloud Foundry.
 
@@ -37,70 +37,76 @@ Consider the following compatibility information before upgrading the Push Notif
 </tr>
 
 <tr>
-  <th rowspan="3">1.3.x</th>
-  <td>1.1.0</td>
-  <td>1.1.1</td>
+  <th rowspan="3">v1.3.x</th>
+  <td>v1.1.0</td>
+  <td>v1.1.1</td>
 </tr>
 
 <tr>
-  <td>1.1.1</td>
-  <td>1.2.0</td>
+  <td>v1.1.1</td>
+  <td>v1.2.0</td>
 </tr>
 
 <tr>
-  <td>1.2.0</td>
-  <td>1.2.1</td>
+  <td>v1.2.0</td>
+  <td>v1.2.1</td>
 </tr>
 
 <tr>
-  <th rowspan="2">1.4.x</th>
-  <td>1.2.0</td>
-  <td>1.2.1</td>
+  <th rowspan="2">v1.4.x</th>
+  <td>v1.2.0</td>
+  <td>v1.2.1</td>
 </tr>
 
 <tr>
-  <td>1.3.0</td>
-  <td>1.3.1</td>
+  <td>v1.3.0</td>
+  <td>v1.3.1</td>
 </tr>
 
 <tr>
-  <th rowspan="4">1.5.2+</th>
-  <td>1.2.0</td>
-  <td>1.2.1</td>
+  <th rowspan="4">v1.5.2+</th>
+  <td>v1.2.0</td>
+  <td>v1.2.1</td>
 </tr>
 
 <tr>
-  <td>1.2.1</td>
-  <td>1.3.0</td>
+  <td>v1.2.1</td>
+  <td>v1.3.0</td>
 </tr>
 
 <tr>
-  <td>1.3.0</td>
-  <td>1.3.1</td>
+  <td>v1.3.0</td>
+  <td>v1.3.1</td>
 </tr>
 
 <tr>
-  <td>1.3.x</td>
-  <td>1.3.2 - 1.3.5</td>
+  <td>v1.3.x</td>
+  <td>v1.3.2 – v1.3.5</td>
 </tr>
 
 <tr>
-  <th>1.6.x</th>
-  <td>1.3.5</td>
-  <td>1.4.5+</td>
+  <th>v1.6.x</th>
+  <td>v1.3.5</td>
+  <td>v1.4.5+</td>
 </tr>
 
 
 <tr>
-  <th rowspan="2">1.7.8+</th> 
-  <td>1.4.5+</td>
-  <td>1.6.x</td>
+  <th>v1.7.8+</th> 
+  <td>v1.4.5+</td>
+  <td>v1.7.0</td>
+</tr>
+
+<tr>
+  <th>v1.8.x</th> 
+  <td>v1.4.5+</td>
+  <td>v1.7.0</td>
 </tr>
 
 </table>
 
 
-#About
+##About
 
 The Pivotal [Push Notification Service](https://network.pivotal.io/products/push-notification-service) for [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) allows developers to create a mobile backend that can be used to send push notifications to mobile apps. The service connects and manages the interface to Apple Push Notification Service, Google Cloud Messaging, Windows Push Notification Services, and BlackBerry Push Service.
   
@@ -109,9 +115,10 @@ Each mobile app communicates with the service for registrations and notification
 
 <img src="push-notifications-network-diagram.png" />
 
-For installation, a PCF Administrator initially imports the Pivotal Push Notifications package into Pivotal Cloud Foundry Operations Manager and configures it via the Dashboard at which point the service becomes available to send notifications. The Dashboard provides the ability to configure apps, environments and device-specific service parameters. Client SDKs for iOS and Android provide a simplified way to integrate with the Push Notifications service.  Windows Phone 8, Windows 8 and Blackberry 10 apps can also use the service.
+For installation, a PCF administrator initially imports the Pivotal Push Notifications package into PCF Operations Manager and configures it via the Dashboard at which point the service becomes available to send notifications. The Dashboard provides the ability to configure apps, environments, and device-specific service parameters. Client SDKs for iOS and Android provide a simplified way to integrate with the Push Notifications service.  Windows Phone 8, Windows 8, and Blackberry 10 apps can also use the service.
 
 The Push Notifications service requires:
+
 - Pivotal RabbitMQ
 - Redis database (Pivotal Redis or user provided)
-- MySQL database (Pivotal MySQL or user provided).
+- MySQL database (Pivotal MySQL or user provided)
