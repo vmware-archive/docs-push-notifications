@@ -26,17 +26,17 @@ Updated stemcell to v3263 to address kernel vulnerabilities (includes 4.4 kernel
 ##v1.6.2
 **Release Date: September 2016**
 
-<p class="note"><strong>Note</strong>: Please update to Push Notification Service v1.6.2 prior to upgrading to PCF 1.8.</p>
+<p class="note"><strong>Note</strong>: Update to Push Notification Service v1.6.2 prior to upgrading to Pivotal Cloud Foundry v1.8.</p>
 
 Updated stemcell to v3263 to address kernel vulnerabilities (includes 4.4 kernel)
 
 Fixes:
 
-- Fixed dashboard issue found when upgrading from PCF 1.7 to PCF 1.8 
+- Fixed dashboard issue found when upgrading from PCF v1.7 to PCF v1.8 
 
 **Known Issues**
 
-If you installed Push v1.6.2+ after upgrading to PCF 1.8, then remove the app named `push-notifications-analytics` with the following command:
+If you installed Push v1.6.2+ after upgrading to PCF v1.8, then remove the app named `push-notifications-analytics` with the following command:
     <pre class="terminal">$ cf delete push-notifications-analytics</pre>
 
 ##v1.6.1
@@ -56,11 +56,11 @@ Fixes:
 
 **Known Issues:**
 
-Upgrading to PCF 1.8 exposes a bug in versions of Push 1.6.1 and older. The impact is that the dashboard won't be able to display analytics (a message will appear stating "Analytics Data is not available at the moment"). Analytics data is still collected on the backend, the bug prevents it from being displayed.
+Upgrading to PCF v1.8 exposes a bug in versions of Push v1.6.1 and older. The impact is that the dashboard won't be able to display analytics (a message will appear stating "Analytics Data is not available at the moment"). Analytics data is still collected on the backend, the bug prevents it from being displayed.
 
-**The recommended solution is to upgrade to push v1.6.2 prior to upgrading to PCF 1.8 (this is now a pre-requisite for PCF 1.8)**
+**The recommended solution is to upgrade to push v1.6.2 prior to upgrading to PCF v1.8 (this is now a pre-requisite for PCF v1.8)**
 
-If installing push v1.6.1 or earlier on PCF 1.8, follow the instructions below
+If installing push v1.6.1 or earlier on PCF v1.8, follow the instructions below
 
 1. To confirm this is the problem you are experiencing, you can check to see if there is a CF app running in the `system` org and `push-notifications` space called `push-notifications-analytics`.
  
@@ -142,7 +142,7 @@ where `$ENV_URL` is the value of the domain name used for your PCF environment
 ## v1.4.5
 **Release Date: May 2016**
  - PCF v1.7 compatibility.
- - Please update to this version of push _before_ updating to PCF v1.7.0
+ - Update to this version of push _before_ updating to PCF v1.7.0
 
 ## v1.4.3
 **Release Date: March 2016**
@@ -173,12 +173,12 @@ where `$ENV_URL` is the value of the domain name used for your PCF environment
 ## [v1.3.4](v1_3_4/release-notes.html)
 **Release Date: October 2015**
 
- - Bugfixes for smoke tests.
+ - Bug fixes for smoke tests.
 
 ## [v1.3.3](v1_3_3/release-notes.html)
 **Release Date: September 2015**
 
- - Bugfixes for certain scenarios regarding expiry time.
+ - Bug fixes for certain scenarios regarding expiry time.
 
 ## [v1.3.3 iOS and Android Client SDK](v1_3_3/sdk-release-notes.html)
 
@@ -201,7 +201,7 @@ where `$ENV_URL` is the value of the domain name used for your PCF environment
 ## [v1.3.1](v1_3_1/release-notes.html)
 **Release Date: August 2015**
 
-  - Support for RabbitMQ Service versions v1.4.0 and higher
+  - Support for RabbitMQ Service versions v1.4.0 and later
   - Tag management added to dashboard
   - Ability to regenerate push api keys
   - Minor improvements to installation
@@ -240,4 +240,4 @@ where `$ENV_URL` is the value of the domain name used for your PCF environment
 
 ## [v1.0.1 - November 2014](v1_0_1/release-notes.html) ##
 
-## [v1.0.0 - July 2014](v1_0/release-notes.html) ##
+## [v1.0.0 — July 2014](v1_0/release-notes.html) ##
