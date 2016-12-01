@@ -1,0 +1,69 @@
+---
+title: Setting up Push Notifications with FCM
+owner: Push Notifications
+---
+
+This document describes how to set up the Pivotal Cloud Foundry (PCF) Push Notification Service with the Firebase Cloud Messaging (FCM) platform so your Cloud Foundry apps can send push notifications to Android devices.
+
+##<a id="pre"></a>Prerequisites
+
+The procedures in this document require the following:
+
+* The devices that you want to send push notifications to must run Android 2.3 (Gingerbread) or later.
+* The devices that you want to send push notifications to must have Google Play Services 9.8.0 or later.
+* You must have access to a PCF environment with the Push Notification Service installed.
+
+## <a id="prep"></a>Prepare an FCM Project
+
+Follow these steps to prepare an FCM project and copy its server key.
+
+1. Navigate to the [Firebase Console](https://console.firebase.google.com/) and create an account if you do not have one already.
+1. Once logged in, **Create** or **Import** a project you want to use with FCM.
+1. Once created, click your project.
+1. Click the settings icon next to your project name and select **Project Settings**.
+1. Select the **Cloud Messaging** tab.
+1. Record the **Server key**.
+
+## <a id="dash"></a>Navigate to the Push Dashboard
+
+You can navigate to the Push dashboard using either Apps Manager or the Cloud Foundry Command Line Interface (cf CLI). Use the cf CLI instructions if you did not enable the <b>Push Apps Manager</b> errand when deploying Elastic Runtime.
+
+### Navigate to Push Dashboard using Apps Manager
+
+1. In a browser, navigate to `apps.YOUR-SYSTEM-DOMAIN`.
+
+1. Select the **system** org and the **push-notifications** space.
+
+1. Click the **Services** tab.
+
+1. Select the **PCF Push Notification Service** row and click the **Manage** link.
+
+### Navigate to Push Dashboard using cf CLI
+
+1. Open a terminal window and log in:
+
+	<pre class="terminal">$ cf login -a https://api.YOUR-SYSTEM-DOMAIN -u USERNAME -p PASSWORD</pre>
+
+1. Target the correct org and space: 
+
+	<pre class="terminal">$ cf target -o system -s push-notifications</pre>
+
+1. Run the following command:
+
+	<pre class="terminal">$ cf service push-service-instance</pre>
+
+1. Copy the URL from the **Dashboard** field and paste it into your browser.
+
+## <a id="backend"></a>Configure the Push Backend
+
+Follow these steps to configure the Push backend to talk to your FCM project. 
+
+1. In the Push dashboard, select the **Configuration** tab.
+1. Click **Add New Platform**. 
+1. Enter a **Name** and **Description**, and choose a **Mode**. 
+1. For **Type**, select `Android-FCM`.
+1. Once created,  select the pencil icon to edit the platform. 
+1. In the **Google Key** field, paste the server key that you recorded earlier.
+
+<p class="note"><strong>Note</strong>: You can add multiple FCM Platforms with server keys from different FCM projects, depending on how your FCM applications and projects are organized. There is no requirement that all FCM Platforms use the same server key in the Push backend.</p>
+
