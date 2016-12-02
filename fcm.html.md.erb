@@ -12,17 +12,27 @@ The procedures in this document require the following:
 * The devices that you want to send push notifications to must run Android 2.3 (Gingerbread) or later.
 * The devices that you want to send push notifications to must have Google Play Services 9.8.0 or later.
 * You must have access to a PCF environment with the Push Notification Service installed.
+* You must have Android Studio 2.2 or later installed on your machine. 
+* You must have the Google Repository from the [Android SDK Manager](https://developer.android.com/tools/help/sdk-manager.html).
+* You must have the Push Android SDK 1.7 or later repo from [Github](https://github.com/cfmobile/push-android) or from [Pivotal Labs Maven Repository](https://maven.xtremelabs.com).
 
 ## <a id="prep"></a>Prepare an FCM Project
 
 Follow these steps to prepare an FCM project and copy its server key.
 
 1. Navigate to the [Firebase Console](https://console.firebase.google.com/) and create an account if you do not have one already.
-1. Once logged in, **Create** or **Import** a project you want to use with FCM.
-1. Once created, click your project.
+1. Once logged in, **Create**, **Import** a project you want to use with FCM.
+	1. When prompted, click **Add Firebase to your Android app**.
+	1. Enter a **Package name** that matches to the ID of your app:
+		* For the push-sample app, the ID is `io.pivotal.android.push.sample`. 
+		* For the push-demo app, the ID is `io.pivotal.android.push.demo`.
+	1. Ensure the **Debug signing certificate SHA-1** matches the SHA-1 from your debug signing certificate. Refer to https://developers.google.com/android/guides/client-auth for how to get this fingerprint.
+	1. Once you finalize the import/create, a google-services.json file downloads. Move this to a location where you can use it later. 
+1. Click your project.
 1. Click the settings icon next to your project name and select **Project Settings**.
 1. Select the **Cloud Messaging** tab.
 1. Record the **Server key**.
+
 
 ## <a id="dash"></a>Navigate to the Push Dashboard
 
