@@ -2,17 +2,19 @@
 title: Installation
 ---
 
-<br>The PCF Push Notification Service is installed as a suite of 5 CF apps in Elastic Runtime as listed below 
+This document describes how to install the Pivotal Cloud Foundry (PCF) Push Notification Service. 
 
-1. API
-2. Dashboard 
-3. Service Broker
-4. Scheduler
-5. Analytics
+The PCF Push Notification Service installs as a suite of 5 CF apps deployed in Elastic Runtime: 
 
-A default installation consumes 5 Application Instances (AIs) - one for each app.  Deployment is targeted to the 'system' org in the 'push-notifications' space.  
+* API
+* Dashboard 
+* Service Broker
+* Scheduler
+* Analytics
 
-For **production deployments**, the recommended deployment is a minimum of 2 application instances for each push app (i.e. 10 AIs total) per PCF environment. Scaling up more API app instances may be needed depending on the peak load required (i.e. maximum number of notifications sent per second)
+A default installation deploys 5 Application Instances (AIs), one for each app. Deployment targets the 'system' org in the 'push-notifications' space.  
+
+For **production deployments**, Pivotal recommends deploying a minimum of 2 instances for each push app, 10 AIs total, per PCF environment. You may need to scale up your API instances depending on the peak load required, such as the maximum number of notifications sent per second.
 
 
 
