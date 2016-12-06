@@ -9,26 +9,25 @@ This document describes how to set up the Pivotal Cloud Foundry (PCF) Push Notif
 
 The procedures in this document require the following:
 
-* The devices that you want to send push notifications to must run Android 2.3 (Gingerbread) or later.
-* The devices that you want to send push notifications to must have Google Play Services 9.8.0 or later.
 * You must have access to a PCF environment with the Push Notification Service installed.
 * You must have Android Studio 2.2 or later installed on your machine. 
 * You must have the Google Repository from the [Android SDK Manager](https://developer.android.com/tools/help/sdk-manager.html).
-* You must have the Push Android SDK 1.7 or later repo from [Github](https://github.com/cfmobile/push-android) or from [Pivotal Labs Maven Repository](https://maven.xtremelabs.com).
+* You must have the Push Android SDK 1.7 or later from [Github](https://github.com/cfmobile/push-android) or from the [Pivotal Labs Maven Repository](https://maven.xtremelabs.com).
+* The devices that you want to send push notifications to must run Android 2.3 (Gingerbread) or later.
+* The devices that you want to send push notifications to must have Google Play Services 9.8.0 or later.
 
 ## <a id="prep"></a>Prepare an FCM Project
 
-Follow these steps to prepare an FCM project and copy its server key.
+Follow these steps to prepare a FCM project for your app.
 
 1. Navigate to the [Firebase Console](https://console.firebase.google.com/) and create an account if you do not have one already.
-1. Once logged in, **Create**, **Import** a project you want to use with FCM.
+1. Once logged in, **Create** or **Import** a project you want to use with FCM.
 	1. When prompted, click **Add Firebase to your Android app**.
-	1. Enter a **Package name** that matches to the ID of your app:
+	1. Enter a **Package name** that matches the ID of your app:
 		* For the push-sample app, the ID is `io.pivotal.android.push.sample`. 
 		* For the push-demo app, the ID is `io.pivotal.android.push.demo`.
-	1. Ensure the **Debug signing certificate SHA-1** matches the SHA-1 from your debug signing certificate. Refer to https://developers.google.com/android/guides/client-auth for how to get this fingerprint.
-	1. Once you finalize the import/create, a google-services.json file downloads. Move this to a location where you can use it later. 
-
+	1. Ensure the **Debug signing certificate SHA-1** matches the SHA-1 from your debug signing certificate. For instructions on how to get this fingerprint, refer to [Authenticating Your Client](https://developers.google.com/android/guides/client-auth) in the Google APIs for Android documentation.
+	1. After you finish creating or importing your project, a `google-services.json` file downloads. Keep track of this file for later use.
 1. Click your project.
 1. Click the settings icon next to your project name and select **Project Settings**.
 1. Select the **Cloud Messaging** tab.
@@ -67,14 +66,31 @@ You can navigate to the Push dashboard using either Apps Manager or the Cloud Fo
 
 ## <a id="backend"></a>Configure the Push Backend
 
-Follow these steps to configure the Push backend to talk to your FCM project. 
+Follow these steps to configure the Push backend by creating a new platform for the sample app. 
 
 1. In the Push dashboard, select the **Configuration** tab.
 1. Click **Add New Platform**. 
 1. Enter a **Name** and **Description**, and choose a **Mode**. 
 1. For **Type**, select `Android-FCM`.
-1. Once created,  select the pencil icon to edit the platform. 
+1. Once created,  click the pencil icon to edit the platform. 
 1. In the **Google Key** field, paste the server key that you recorded earlier.
 
 <p class="note"><strong>Note</strong>: You can add multiple FCM Platforms with server keys from different FCM projects, depending on how your FCM applications and projects are organized. There is no requirement that all FCM Platforms use the same server key in the Push backend.</p>
 
+## <a id="backend"></a>Compile the App
+
+Follow these steps to compile and run the app on your Android device. 
+
+1. Navigate to the [Push Android Samples](https://github.com/cfmobile/push-android-samples) repository. 
+1. Switch to the `release-v1.7.0` branch, or the branch of a later version. 
+1. Clone the repository to your workspace. 
+1. Copy the `google-services.json` file from earlier into your app project:
+	* If you want to compile the sample app, copy the `json` file to the `push-sample` subdirectory of the app project. 
+	* If you want to compile the demo app, copy the `json` file to the `push-demo` subdirectory.
+1. Update `pivotal.properties` file:
+	* `pivotal.push.platformUuid`: This value must match the platform **UUID** of the FCM Platform you created in the previous section. 
+	* `pivotal.push.platformSecret`: This value must match the platform **SECRET** of the FCM Platform you created in the previous step. 
+	* `pivotal.push.serviceUrl`: Enter the server address to your push backend API in the form of `https://push-api.YOUR-SYSTEM-DOMAIN`.
+1. Compile and deploy the application to your Android device using Android Studio. 
+
+Once the application registers with the Push backend, it can receive push notifications. To verify that your device registered, see the **Devices** tab in the Push dashboard. The device **Type** field displays a Firebase logo.
