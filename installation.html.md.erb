@@ -2,6 +2,20 @@
 title: Installation
 ---
 
+<br>The PCF Push Notification Service is installed as a suite of 5 CF apps in Elastic Runtime as listed below 
+
+1. API
+2. Dashboard 
+3. Service Broker
+4. Scheduler
+5. Analytics
+
+A default installation consumes 5 Application Instances (AIs) - one for each app.  Deployment is targeted to the 'system' org in the 'push-notifications' space.  
+
+For **production deployments**, the recommended deployment is a minimum of 2 application instances for each push app (i.e. 10 AIs total) per PCF environment. Scaling up more API app instances may be needed depending on the peak load required (i.e. maximum number of notifications sent per second)
+
+
+
 ##<a id="Dependencies"></a>Dependencies##
 
 The Push Notification service depends on MySQL (optionally [MySQL for Pivotal CF](https://network.pivotal.io/products/p-mysql)), [RabbitMQ for Pivotal CF](https://network.pivotal.io/products/pivotal-rabbitmq-service), and [Redis for Pivotal CF](https://network.pivotal.io/products/p-redis)  being successfully installed on [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf).
