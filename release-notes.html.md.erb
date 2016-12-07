@@ -2,7 +2,7 @@
 title: Push Notification Service Release Notes
 ---
 
-##1.7.0
+##v1.7.0
 **Release Date: December 2016**
 
 **Features**
@@ -17,29 +17,29 @@ Dashboard session timeout error
 
 Once a scheduled push is created, it cannot be edited (will address this bug in a later release)
 
-##1.6.3
+##v1.6.3
 **Release Date: September 2016**
 
 Updated stemcell to v3263 to address kernel vulnerabilities (includes 4.4 kernel)
 
 
-##1.6.2
+##v1.6.2
 **Release Date: September 2016**
 
-<p class="note"><strong>Note</strong>: Please update to Push Notification Service v1.6.2 prior to upgrading to PCF 1.8.</p>
+<p class="note"><strong>Note</strong>: Update to Push Notification Service v1.6.2 prior to upgrading to Pivotal Cloud Foundry v1.8.</p>
 
 Updated stemcell to v3263 to address kernel vulnerabilities (includes 4.4 kernel)
 
 Fixes:
 
-- Fixed dashboard issue found when upgrading from PCF 1.7 to PCF 1.8 
+- Fixed dashboard issue found when upgrading from PCF v1.7 to PCF v1.8 
 
 **Known Issues**
 
-If you installed Push v1.6.2+ after upgrading to PCF 1.8, then remove the app named `push-notifications-analytics` with the following command:
+If you installed Push v1.6.2+ after upgrading to PCF v1.8, then remove the app named `push-notifications-analytics` with the following command:
     <pre class="terminal">$ cf delete push-notifications-analytics</pre>
 
-##1.6.1
+##v1.6.1
 **Release Date: August 2016**
 
 Features:
@@ -56,11 +56,11 @@ Fixes:
 
 **Known Issues:**
 
-Upgrading to PCF 1.8 exposes a bug in versions of Push 1.6.1 and older. The impact is that the dashboard won't be able to display analytics (a message will appear stating "Analytics Data is not available at the moment"). Analytics data is still collected on the backend, the bug prevents it from being displayed.
+Upgrading to PCF v1.8 exposes a bug in versions of Push v1.6.1 and older. The impact is that the dashboard won't be able to display analytics (a message will appear stating "Analytics Data is not available at the moment"). Analytics data is still collected on the backend, the bug prevents it from being displayed.
 
-**The recommended solution is to upgrade to push v1.6.2 prior to upgrading to PCF 1.8 (this is now a pre-requisite for PCF 1.8)**
+**The recommended solution is to upgrade to push v1.6.2 prior to upgrading to PCF v1.8 (this is now a pre-requisite for PCF v1.8)**
 
-If installing push v1.6.1 or earlier on PCF 1.8, follow the instructions below
+If installing push v1.6.1 or earlier on PCF v1.8, follow the instructions below
 
 1. To confirm this is the problem you are experiencing, you can check to see if there is a CF app running in the `system` org and `push-notifications` space called `push-notifications-analytics`.
  
@@ -76,7 +76,7 @@ If installing push v1.6.1 or earlier on PCF 1.8, follow the instructions below
 where `$ENV_URL` is the value of the domain name used for your PCF environment 
 
 
-## 1.6.0
+## v1.6.0
 
 **Release Date: July 2016**
 
@@ -91,74 +91,74 @@ where `$ENV_URL` is the value of the domain name used for your PCF environment
 Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/usn-3151-2/)
 
 
-## 1.5.3
+## v1.5.3
 
 **Release Date: June 2016**
 
    - Bug fix for Service broker bug with HTTPS
 
 
-## 1.5.0
+## v1.5.0
 
 **Release Date: June 2016**
 
    - New Heartbeat Application is deployed with the Push Notifications Service
    - Heartbeat Monitor App available on iOS and Android
    
-##1.4.27
+##v1.4.27
 
 **Release Date October 2016**
 
-- Bump to stemcell 3151.3 for CVE as detailed in USN-3106-2: https://www.ubuntu.com/usn/usn-3106-2/
+- Bump to stemcell v3151.3 for CVE as detailed in USN-3106-2: https://www.ubuntu.com/usn/usn-3106-2/
    
-##1.4.25
+##v1.4.25
 
 **Release Date October 2016**
 
 - Bump Ubuntu stemcell for USN-3099-2: Linux kernel (Xenial HWE) vulnerabilities
 
 
-## 1.4.24
+## v1.4.24
 
 **Release Date: October 2016**
 
    - Updated Ubuntu stemcell for USN-3087-2: OpenSSL regression
 
-## 1.4.12
+## v1.4.12
 **Release Date: June 2016**
 
-   - Updated bosh stemcell to v3262.2
-   - Bug fix for CF cli
+   - Updated BOSH stemcell to v3262.2
+   - Bug fix for cf CLI
 
-## 1.4.10
+## v1.4.10
 **Release Date: June 2016**
 
- - Security release requiring stemcell 3232.8
+ - Security release requiring stemcell v3232.8
 
-## 1.4.9
+## v1.4.9
 **Release Date: June 2016**
 
- - Security release requiring stemcell 3232.6
+ - Security release requiring stemcell v3232.6
  - Bug fix for Service broker bug with HTTPS
 
-## 1.4.7
+## v1.4.7
 **Release Date: May 2016**
- - Security release requiring stemcell 3232.2
+ - Security release requiring stemcell v3232.2
 
-## 1.4.5
+## v1.4.5
 **Release Date: May 2016**
- - PCF 1.7 compatibility.
- - Please update to this version of push _before_ updating to PCF 1.7.0
+ - PCF v1.7 compatibility.
+ - Update to this version of push _before_ updating to PCF v1.7.0
 
-## 1.4.3
+## v1.4.3
 **Release Date: March 2016**
- - Security release requiring stemcell 3146.10.
+ - Security release requiring stemcell v3146.10.
 
-## 1.4.2
+## v1.4.2
 **Release Date: February 2016**
- - Security release requiring stemcell 3146.8.
+ - Security release requiring stemcell v3146.8.
 
-## [1.4.0](v1_4_0/release-notes.html)
+## [v1.4.0](v1_4_0/release-notes.html)
 **Release Date: November 2015**
 
  - The Push Notifications Service now supports multiple tenants.
@@ -170,55 +170,55 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
  - The Push SDK for Android now supports Android 6.0 Marshmallow, including the new permissions system.
    - See the Push Sample app for an example of Android 6.0 Marshmallow permissions.
 
-## [1.3.5](v1_3_5/release-notes.html)
+## [v1.3.5](v1_3_5/release-notes.html)
 **Release Date: October 2015**
 
- - Support for PCF 1.6 and Diego.
+ - Support for PCF v1.6 and Diego.
  - SOCKS proxy bug fix.
 
-## [1.3.4](v1_3_4/release-notes.html)
+## [v1.3.4](v1_3_4/release-notes.html)
 **Release Date: October 2015**
 
- - Bugfixes for smoke tests.
+ - Bug fixes for smoke tests.
 
-## [1.3.3](v1_3_3/release-notes.html)
+## [v1.3.3](v1_3_3/release-notes.html)
 **Release Date: September 2015**
 
- - Bugfixes for certain scenarios regarding expiry time.
+ - Bug fixes for certain scenarios regarding expiry time.
 
-## [1.3.3 iOS and Android Client SDK](v1_3_3/sdk-release-notes.html)
+## [v1.3.3 iOS and Android Client SDK](v1_3_3/sdk-release-notes.html)
 
 - Push app analytics.
 - Custom HTTP request headers.
 - Custom SSL authentication.
 
-## [1.3.2](v1_3_2/release-notes.html)
+## [v1.3.2](v1_3_2/release-notes.html)
 **Release Date: August 2015**
 
  - Deprecated lucid64 stack in favour of the new Trusty/cflinuxfs2 stack
  - Proxy Support for iOS push notifications.  Supports SOCKS proxies.
  - Proxy Support for Android push notifications.  Supports HTTP and SOCKS proxies.
 
-## [1.3.2 iOS and Android Client SDK](v1_3_2/sdk-release-notes.html)
+## [v1.3.2 iOS and Android Client SDK](v1_3_2/sdk-release-notes.html)
 
 - Enable and disable geofences at runtime.
 - Added a method to read the device UUID at runtime.
 
-## [1.3.1](v1_3_1/release-notes.html)
+## [v1.3.1](v1_3_1/release-notes.html)
 **Release Date: August 2015**
 
-  - Support for RabbitMQ Service versions 1.4.0 and higher
+  - Support for RabbitMQ Service versions v1.4.0 and later
   - Tag management added to dashboard
   - Ability to regenerate push api keys
   - Minor improvements to installation
   - Allow certificate checks to be disabled in cf environments that use self signed certificates
 
-## [1.3.1 iOS and Android Client SDK](v1_3_1/sdk-release-notes.html)
+## [v1.3.1 iOS and Android Client SDK](v1_3_1/sdk-release-notes.html)
 
 - SSL Certificate pinning.
 - Any geofences with tags will be monitored only if the user is subscribed to that tag.
 
-## [1.3.0](v1_3/release-notes.html)
+## [v1.3.0](v1_3/release-notes.html)
 **Release Date: June 2015**
 
 - Location based notifications
@@ -228,22 +228,22 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
 	- Saved locations and groups of locations
 	- Active geofences view
 
-[Upgrading from version 1.2.x to 1.3.0](v1_3/release-notes.html)
+[Upgrading from version v1.2.x to v1.3.0](v1_3/release-notes.html)
 
-## 1.2.1 ##
+## v1.2.1 ##
 **Release Date: April 2015**
 
 - Offline installation support
 
-## [1.2.0](v1_2/release-notes.html) ##
+## [v1.2.0](v1_2/release-notes.html) ##
 **Release Date: March 2015**
 
 - Scheduled push notifications
 - Notifications with expiry time
 - Updated UI/UX for dashboard (sending scheduled push with expiry time)
 
-## [1.1.0 - January 2015](v1_1/release-notes.html) ##
+## [v1.1.0 - January 2015](v1_1/release-notes.html) ##
 
-## [1.0.1 - November 2014](v1_0_1/release-notes.html) ##
+## [v1.0.1 - November 2014](v1_0_1/release-notes.html) ##
 
-## [1.0.0 - July 2014](v1_0/release-notes.html) ##
+## [v1.0.0 — July 2014](v1_0/release-notes.html) ##

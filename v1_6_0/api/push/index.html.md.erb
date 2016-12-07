@@ -384,7 +384,7 @@ The fields available in the custom block for iOS are described here:
 
 * __content-available__<br/> type: boolean<br/> Provide this key with a value of `true` to indicate that new content is available. Including this key and value means that when your app is launched in the background or resumed, `application:didReceiveRemoteNotification:fetchCompletionHandler:` is called. (Newsstand apps are guaranteed to be able to receive at least one push with this key per 24-hour window). The Push API will translate the value of this field to `1` or `0` before sending it to APNS.
 
-* __title__<br/> type: string<br/> A short string describing the purpose of the notification. This title text is displayed on the device lock screen. Apple Watch displays this string as part of the notification interface. This string is displayed only briefly and should be crafted so that it can be understood quickly. This key was added in iOS 8.2.
+* __title__<br/> type: string<br/> A short string describing the purpose of the notification. This field was introduced on Apple Watch but is also displayed on iOS devices as of iOS version 10.0. This key was added in iOS 8.2.
 
 * __body__<br/> type: string<br/> The text of the alert message.
 
