@@ -3,7 +3,7 @@ title: Setting up Push Notifications with FCM
 owner: Push Notifications
 ---
 
-This document describes how to set up the Pivotal Cloud Foundry (PCF) Push Notification Service with the Firebase Cloud Messaging (FCM) platform so your Cloud Foundry apps can send push notifications to Android devices.
+This document describes how developers can set up the Pivotal Cloud Foundry (PCF) Push Notification Service with the Firebase Cloud Messaging (FCM) platform so their apps can send push notifications to Android devices.
 
 ##<a id="pre"></a>Prerequisites
 
@@ -31,10 +31,11 @@ Follow these steps to prepare a FCM project for your app.
 1. Click your project.
 1. Click the settings icon next to your project name and select **Project Settings**.
 1. Select the **Cloud Messaging** tab.
-1. Record the **Server key**.
+1. Record the **Server key** for later use.
 
+## <a id="push-service"></a> Configure Your Push Dashboard 
 
-## <a id="dash"></a>Navigate to the Push Dashboard
+Follow the steps below to navigate to the Push dashboard and configure the Push Notification service. 
 
 You can navigate to the Push dashboard using either Apps Manager or the Cloud Foundry Command Line Interface (cf CLI). Use the cf CLI instructions if you did not enable the <b>Push Apps Manager</b> errand when deploying Elastic Runtime.
 
@@ -64,7 +65,7 @@ You can navigate to the Push dashboard using either Apps Manager or the Cloud Fo
 
 1. Copy the URL from the **Dashboard** field and paste it into your browser.
 
-## <a id="backend"></a>Configure the Push Backend
+### <a id="backend"></a>Configure the Push Notification Service
 
 Follow these steps to configure the Push backend by creating a new platform for the sample app. 
 
@@ -77,20 +78,28 @@ Follow these steps to configure the Push backend by creating a new platform for 
 
 <p class="note"><strong>Note</strong>: You can add multiple FCM Platforms with server keys from different FCM projects, depending on how your FCM applications and projects are organized. There is no requirement that all FCM Platforms use the same server key in the Push backend.</p>
 
-## <a id="backend"></a>Compile the App
+## <a id="backend"></a>Run the App on Your Device
 
-Follow these steps to compile and run the app on your Android device. 
+Follow these steps to compile and deploy the app on your Android device. 
 
 1. Navigate to the [Push Android Samples](https://github.com/cfmobile/push-android-samples) repository. 
-1. Switch to the `release-v1.7.0` branch, or the branch of a later version. 
 1. Clone the repository to your workspace. 
+1. Checkout the `release-v1.7.0` branch, or the branch of a later version.
 1. Copy the `google-services.json` file from earlier into your app project:
 	* If you want to compile the sample app, copy the `json` file to the `push-sample` subdirectory of the app project. 
 	* If you want to compile the demo app, copy the `json` file to the `push-demo` subdirectory.
-1. Update `pivotal.properties` file:
+1. Open a project in Android Studio using the repo you cloned.  
+1. Open the `pivotal.properties` file. 
+	* For the sample app, you can find this file in `push-sample/src/main/res/raw/`. 
+	* For the demo app, you can find this file in `push-demo/src/main/assets/`.
+1. Update the file using the following guidance:
 	* `pivotal.push.platformUuid`: This value must match the platform **UUID** of the FCM Platform you created in the previous section. 
 	* `pivotal.push.platformSecret`: This value must match the platform **SECRET** of the FCM Platform you created in the previous step. 
 	* `pivotal.push.serviceUrl`: Enter the server address to your push backend API in the form of `https://push-api.YOUR-SYSTEM-DOMAIN`.
-1. Compile and deploy the application to your Android device using Android Studio. 
+1. Compile and deploy the application to your Android device.
 
 Once the application registers with the Push backend, it can receive push notifications. To verify that your device registered, see the **Devices** tab in the Push dashboard. The device **Type** field displays a Firebase logo.
+
+You can also send test pushes to the device from the Push dashboard.
+
+<p class="note"><strong>Note</strong>: If you send a test push to your device from the Push dashboard, ensure the app is not open on your device. You cannot see the test push while the app is open.</p>

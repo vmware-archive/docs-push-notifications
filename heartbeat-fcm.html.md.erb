@@ -5,11 +5,11 @@ owner: Push Notifications
 
 This topic describes how Pivotal Cloud Foundry (PCF) operators can configure the Push Notification Heartbeat Monitor app for Android.
 
-Heartbeat Monitor is a Cloud Foundry app deployed by the PCF Push Notification service to help you ensure the service runs correctly end-to-end. It does this by sending a push, or heartbeat, every minute to the devices registered with the app. You can also select the app in the Push dashboard to view its historical data.
+Heartbeat Monitor is a Cloud Foundry app deployed by the PCF Push Notification service to help you ensure the service runs correctly end-to-end. It does this by sending a push, or _heartbeat_, every minute to the devices registered with the app. You can also select the app in the Push dashboard to view its historical data.
 
 Follow the instructions below to configure Heartbeat Monitor and run the companion Android app on your device.
 
-##<a id="pre"></a>Prerequisites
+##<a id="before"></a>Prerequisites
 
 The procedures in this document require the following:
 
@@ -33,7 +33,7 @@ Follow these steps to prepare a FCM project for your app.
 1. Click your project.
 1. Click the settings icon next to your project name and select **Project Settings**.
 1. Select the **Cloud Messaging** tab.
-1. Record the **Server key**.
+1. Record the **Server key** for later use.
 
 
 ## <a id="dash"></a>Configure Your Push Dashboard
@@ -80,14 +80,15 @@ You can navigate to the Push dashboard using either Apps Manager or the Cloud Fo
 Follow these steps to compile and run the app on your Android device. 
 
 1. Navigate to the [Push Android Heartbeat Monitor](https://github.com/cfmobile/push-android-heartbeatmonitor) repository. 
-1. Switch to the `release-v1.7.0` branch, or the branch of a later version. 
-1. Clone the repository to your workspace. 
+1. Clone the repository to your workspace.
+1. Checkout the `release-v1.7.0` branch, or the branch of a later version.  
 1. Copy the `google-services.json` file from earlier into the `app` directory of the Heartbeat Monitor project.
+1. Open a project in Android Studio using the repo you cloned. 
 1. Update `pivotal.properties` file located in `app/src/main/res/raw`:
 	* `pivotal.push.platformUuid`: This value must match the platform **UUID** of the **Android FCM Heartbeat Platform** in the Push dashboard. 
 	* `pivotal.push.platformSecret`: This value must match the platform **SECRET** of the **Android Heartbeat FCM Platform** in the Push dashboard. 
 	* `pivotal.push.serviceUrl`: Enter the server address to your push backend API in the form of `https://push-api.YOUR-SYSTEM-DOMAIN`.
-1. Compile and deploy the application to your Android device using Android Studio. 
+1. Compile and deploy the application to your Android device.
 	<p class="note"><strong>Note</strong>: To verify that your device registered, see the <b>Devices</b> tab in the Push dashboard. The device <b>Type</b> field displays a Firebase logo.</p>
 1. Open the app on your device and select **Allow** when the app asks if it can send you notifications.
 The screen updates with a new heartbeat count every minute as it receives pushes from your environment. 
