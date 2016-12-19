@@ -90,7 +90,7 @@ topics             | A list of up 1024 topics (formerly tags) to which devices m
 platforms        | A list of platforms to be targeted. Available platforms are 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled).
 platform         | DEPRECATED. Possible values are 'all', 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled). If 'platforms' is also populated the platform(s) selected here will be added to list of platforms.
 interactive-only | If set to __true__ then only those devices that can accept interactive pushes are targetted. At this time only iOS 8+ or Android 4.1+ devices are considered to support interactive pushes.
-custom\_user\_id | An ID for a device that is meaningful to your system such as their login. The same Custom User ID can be used to refer to multiple devices.
+custom\_user\_ids | An ID for a device that is meaningful to your system such as their login. The same Custom User ID can be used to refer to multiple devices.
 
 ### LIMITS
 
@@ -180,7 +180,7 @@ Pushing to multiple targets is bounded by the following limits per request:
   {
     ...
     "target": {
-      "custom_user_id": "some_customer_user_id"
+      "custom_user_ids": [ "some_customer_user_id" ]
     }
     ...
   }
@@ -192,7 +192,20 @@ Pushing to multiple targets is bounded by the following limits per request:
   {
     ...
     "target": {
-      "custom_user_id": "some_customer_user_id",
+      "custom_user_ids": [ "some_customer_user_id" ],
+      "topics": [ "exciting_topic", "pedantic_topic" ]
+    }
+    ...
+  }
+```
+
+* Sending pushes to devices registered with Custom User IDs and devices registered with Tag(s):
+
+```json
+  {
+    ...
+    "target": {
+      "custom_user_ids": [ "some_customer_user_id1", "some_customer_user_id2" ],
       "topics": [ "exciting_topic", "pedantic_topic" ]
     }
     ...
