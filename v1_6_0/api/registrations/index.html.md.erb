@@ -2,15 +2,15 @@
 title: Registrations
 ---
 
-API calls for the v1/registration/ endpoint can be found [here](http://docs.pivotal.io/push/v1_6_0/api/registration/index.html).
+API calls for the `v1/registration/` endpoint can be found [here](http://docs.pivotal.io/push/v1_6_0/api/registration/index.html).
 
 ## <a id="get_registrations"></a> GET /v2/registrations/ ##
 
 Retrieves all device registrations.
 
-Authentication: HTTP Basic app\_uuid:api\_key
+**Authentication: HTTP Basic app\_uuid:api\_key**
 
-### Query Parameters: ###
+**Query Parameters:**
 
 Parameters    | Description
 --------------|------------
@@ -22,7 +22,7 @@ platformUuid  | Returns only the registrations results registered to the given p
 topic         | Returns only the registrations results registered to the given topic name.
 
 
-### Response Data, status: 200 (OK) ###
+### Response Data, status: 200 (OK)
 
 ```JSON
 {
