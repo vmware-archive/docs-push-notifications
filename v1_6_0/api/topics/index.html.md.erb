@@ -8,23 +8,24 @@ A Topic (formerly a [Tag](http://docs.pivotal.io/push/v1_5_0/api/tags/index.html
 
 Returns all non-expired topics.
 
-Authentication: HTTP Basic app\_uuid:api\_key
+**Authentication: HTTP Basic app\_uuid:api\_key**
 
-### Query Parameters: ###
+**Query Parameters:**
 
-    q: string               // Optional - Match all topics that contain the string. Default match all non-expired topics.
-    size: integer           // Optional - Maximum number of topics to return. Range between 1 and 50. Default set to 20.
-    page: integer           // Optional - Page number to return set of topics. Default set to 1.
-    hasExpiry: boolean      // Optional - If set to true, filter results to topics that have an expiry. If false, filter results to topics with no expiry. If missing, no filtering is done, all resulting topics are returned. Default returns all resulting topics.
+Parameter          | Description
+-------------------|------------
+q: string          | Optional - Match all topics that contain the string. Default match all non-expired topics.
+size: integer      | Optional - Maximum number of topics to return. Range between 1 and 50. Default set to 20.
+page: integer      | Optional - Page number to return set of topics. Default set to 1.
+hasExpiry: boolean | Optional - If set to true, filter results to topics that have an expiry. If false, filter results to topics with no expiry. If missing, no filtering is done, all resulting topics are returned. Default returns all resulting topics.
     
-### Response Data, status: 200 (OK) ###
+### Response Data, status: 200 (OK)
 
 Returns a json list of topics.
 
 For example:
 
-```
-JSON
+```JSON
 
 {
     "topics": list,             // List of topic objects that match the request
@@ -49,16 +50,13 @@ JSON
 
 Creates a topic, if not already created, with an optional expiry time.
 
-Authentication: HTTP Basic app\_uuid:api\_key
+**Authentication: HTTP Basic app\_uuid:api\_key**
 
-### Query Parameters: ###
+**Query Parameters: None**
 
-None.
+### Request Body:
 
-### Request Body ###
-
-```
-JSON
+```JSON
 
 {
     "name": string,         // Name of the topic to create
@@ -70,9 +68,9 @@ JSON
 <p class="note"><strong>Note</strong>: Either expireAt or timeToLove may be present, not both. If both expireAt and timeToLive are missing, then the topic will never expire.
 
 
-#### Response: status: 201 (CREATED)
-```
-JSON
+### Response: status: 201 (CREATED)
+
+```JSON
 
 {
     "id": integer,           // Unique ID of the topic
@@ -88,19 +86,15 @@ JSON
 
 Deletes a non-expired topic, defined by its topic ID.
 
-Authentication: HTTP Basic app\_uuid:api\_key
+**Authentication: HTTP Basic app\_uuid:api\_key**
 
-### Query Parameters: ###
+**Query Parameters: None**
 
+### Request Body: 
 None.
 
-### Request Body: ###
+### Response Data, status: 204 (NO CONTENT)
 
-None.
-
-### Response Data, status: 204 (NO CONTENT) ###
-
-None.
 
 ------------------
 
@@ -108,16 +102,13 @@ None.
 
 Creates multiple topics in one batch.
 
-Authentication: HTTP Basic app\_uuid:api\_key
+**Authentication: HTTP Basic app\_uuid:api\_key**
 
-### Query Parameters: ###
+**Query Parameters: None.**
 
-None.
+### Request Body:
 
-### Request Body: ###
-
-```
-JSON
+```JSON
 
 {
     "topics": list,               // List of topic objects to create. Maximum size is 1024
@@ -135,10 +126,9 @@ JSON
 <p class="note"><strong>Note</strong>: Either expireAt or timeToLive may be present, not both. If both expireAt and timeToLive are missing, then the topic will never expire.
 
 
-### Response: status: 201 (CREATED) ###
+### Response: status: 201 (CREATED)
 
-```
-JSON
+```JSON
 
 {
     "numTopicsCreated": integer,      // Number of newly created topics
@@ -161,15 +151,13 @@ JSON
 
 Delete multiple topics in one batch.
 
-Authentication:  HTTP Basic app\_uuid:api\_key
+**Authentication:  HTTP Basic app\_uuid:api\_key**
 
-### Query Parameters: ###
+**Query Parameters: None.**
 
-None.
+### Request Body:
 
-### Request Body: ###
-```
-JSON
+```JSON
 
 {
     "topicIds": list        // List of topic ids (integer)
@@ -177,9 +165,9 @@ JSON
 ```
 
 
-### Response: status: 200 (OK) ###
-```
-JSON
+### Response: status: 200 (OK)
+
+```JSON
 
 {
     "numTopicsDeleted": integer     // Number of topics deleted

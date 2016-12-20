@@ -14,12 +14,11 @@ __schedule_id__ field that can be used as the identify for the
 
 Get all scheduled pushes for an application.
 
-Authentication: HTTP Basic app\_uuid:api\_key
+**Authentication: HTTP Basic app\_uuid:api\_key**
 
-Query Params: None
+**Query Parameters: None**
 
-### Request Body
-
+### Request Body:
 None.
 
 ### Response Data, status: 200 (OK)
@@ -68,7 +67,7 @@ None.
         "body": ""
       },
       "target": {
-        "tags": [ "tag1", "tag2", ... ],
+        "topics": [ "topic1", "topics2", ... ],
         "platforms": [ "platform1", "platform2", ... ],
         "devices": [ "device_uuid1", "device_uuid2", ... ],
         "interactive-only": false,
@@ -86,13 +85,12 @@ None.
 
 Get a single scheduled push for an application.
 
-Authentication: HTTP Basic app\_uuid:api\_key
+**Authentication: HTTP Basic app\_uuid:api\_key**
 
-Query Params: None
+**Query Parameters: None**
 
-### Request Body
-
-None
+### Request Body:
+None.
 
 ### Response Data, status: 200 (OK)
 
@@ -138,7 +136,7 @@ None
     "target": {
       "interactive-only": false,
       "platform": "",
-      "tags": [ "tag1", "tag2", ... ],
+      "topics": [ "topic1", "topic2", ... ],
       "platforms": [ "platform1", "platform2", ... ],
       "devices": [ "device_uuid1", "device_uuid2", ... ]
     }
@@ -152,11 +150,11 @@ None
 
 Update a scheduled push for an application.
 
-Authentication: HTTP Basic app_uuid:api_key
+**Authentication: HTTP Basic app_uuid:api_key**
 
-Query Params: None
+**Query Parameters: None**
 
-### Request Body
+### Request Body:
 
 ```JSON
 {
@@ -171,7 +169,7 @@ Query Params: None
     "interactive-only": false,
     "platform": "",
     "platforms": [ "platform1", "platform2", ... ],
-    "tags": [ "tag1", "tag2", ... ],
+    "topics": [ "topic1", "topic2", ... ],
     "devices": [ "device_uuid1", "device_uuid2", ... ]
   }
 }
@@ -222,7 +220,7 @@ Query Params: None
       "interactive-only": false,
       "platform": "",
       "platforms": [ "platform1", "platform2", ... ],
-      "tags": [ "tag1", "tag2", ... ],
+      "topics": [ "topic1", "topic2", ... ],
       "devices": [ "device_uuid1", "device_uuid2", ... ]
     }
   }
@@ -235,12 +233,11 @@ Query Params: None
 
 Cancel a scheduled push for an application.
 
-Authentication: HTTP Basic app\_uuid:api\_key
+**Authentication: HTTP Basic app\_uuid:api\_key**
 
-Query Params: None
+**Query Parameters: None**
 
-### Request Body
-
+### Request Body:
 None.
 
-### Response Data, status: 204 (no content)
+### Response Data, status: 204 (NO CONTENT)

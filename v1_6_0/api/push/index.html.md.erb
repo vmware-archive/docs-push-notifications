@@ -8,11 +8,11 @@ title: Push
 
 Push a message out to a list of devices or devices targeted by platform.
 
-Authentication: HTTP Basic application\_uuid:api\_key
+**Authentication: HTTP Basic application\_uuid:api\_key**
 
-Query Parameters: None
+**Query Parameters: None**
 
-### Request Body ###
+### Request Body:
 
 There are many possible options for the request body.  All of the
 options are listed in the JSON text example below.  Note that most of
@@ -47,8 +47,8 @@ Otherwise the push will be queued to be sent _immediately_.  In this case,
 the response will also contain a __receipt_id__ field that can be used
 to follow the push notification delivery status in the audit logs.
 
-#### Response Data ####
-#
+#### Response Data
+
 ```JSON
 {
   "schedule_id": "",  # only returned if the push notification is a scheduled push
@@ -78,9 +78,9 @@ You can target your push notifications in many ways:
    * Sending a push to a Custom User ID:
      + the push will be sent simultaneously to all devices registered with this Custom User ID.
 
- - By Custom User ID and Tag(s):
-   * Sending a push to a Custom User ID and Tag(s):
-     + the push will be sent simultaneously to all devices registered with this Custom User ID and all devices registered with any of the provided Tag(s).
+ - By Custom User ID and Topic(s):
+   * Sending a push to a Custom User ID and Topic(s):
+     + the push will be sent simultaneously to all devices registered with this Custom User ID and all devices registered with any of the provided Topic(s).
 
 
 Key              | Description
@@ -148,14 +148,14 @@ Pushing to multiple targets is bounded by the following limits per request:
   }
 ```
 
-* Sending pushes to all "Android" devices subscribed to one specific tag:
+* Sending pushes to all "Android" devices subscribed to one specific topic:
 
 ```JSON
   {
     ...
     "target": {
       "platforms": [ "android" ],
-      "topics": [ "best_tag_ever" ]
+      "topics": [ "best_topic_ever" ]
     }
     ...
   }
@@ -186,7 +186,7 @@ Pushing to multiple targets is bounded by the following limits per request:
   }
 ```
 
-* Sending pushes to devices registered with a Custom User ID and devices registered with Tag(s):
+* Sending pushes to devices registered with a Custom User ID and devices registered with Topic(s):
 
 ```JSON
   {
@@ -199,7 +199,7 @@ Pushing to multiple targets is bounded by the following limits per request:
   }
 ```
 
-* Sending pushes to devices registered with Custom User IDs and devices registered with Tag(s):
+* Sending pushes to devices registered with Custom User IDs and devices registered with Topic(s):
 
 ```JSON
   {
@@ -458,7 +458,7 @@ Unlike the above examples, these examples will show the complete Push request bo
     }
   },
   "target": {
-    "topics": [ "tag1", "tag2", ... ],
+    "topics": [ "topic1", "topic2", ... ],
     "platforms": [ "platform1", "platform2", ... ],
     "devices": [ "device_uuid1", "device_uuid2", ... ],
     "interactive-only": false,     # Either true or false

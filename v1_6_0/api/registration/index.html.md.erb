@@ -6,11 +6,11 @@ title: Registration
 
 Retrieves a device's registration for a specific platform.
 
-Authentication: HTTP Basic platform\_uuid:platform\_secret
+**Authentication: HTTP Basic platform\_uuid:platform\_secret**
 
-Query Parameters: None
+**Query Parameters: None**
 
-### Response Data, status: 200 (OK) ###
+### Response Data, status: 200 (OK)
 
 ```JSON
 {
@@ -36,11 +36,11 @@ Query Parameters: None
 
 Returns the total number of device registrations that have been stored for one platform.
 
-Authentication: HTTP Basic platform\_uuid:platform\_secret
+**Authentication: HTTP Basic platform\_uuid:platform\_secret**
 
-Query Parameters: None
+**Query Parameters: None**
 
-### Response Data, status: 200 (OK) ###
+### Response Data, status: 200 (OK)
 
 Returns an integer.
 
@@ -55,11 +55,11 @@ When the environment variable `push_security_verifyCustomUserId` is set to true 
 creating a registration with a custom\_user\_id, it is required that the custom\_user\_id is
 encrypted with a unique HMAC using the device shared secret as the cryptigraphic key.
 
-Authentication: HTTP Basic platform\_uuid:platform\_secret
+**Authentication: HTTP Basic platform\_uuid:platform\_secret**
 
-Query Parameters: None
+**Query Parameters: None**
 
-### Request Body ###
+### Request Body:
 
 ```JSON
 {
@@ -74,7 +74,7 @@ Query Parameters: None
 }
 ```
 
-### Response Data, status: 200 (OK) ###
+### Response Data, status: 200 (OK)
 
 ```JSON
 {
@@ -110,7 +110,7 @@ Registering a device is bounded by the following limits per request:
 
 * Register a device:
 
-```json
+```JSON
   {
     "device_alias": "John's iPhone",
     "device_model": "iPhone 6",
@@ -133,11 +133,11 @@ When the environment variable `push_security_verifyCustomUserId` is set to true 
 updating a registration with a custom\_user\_id, it is required that the custom\_user\_id is
 encrypted with a unique HMAC using the device shared secret as the cryptigraphic key.
 
-Authentication: HTTP Basic platform\_uuid:platform\_secret
+**Authentication: HTTP Basic platform\_uuid:platform\_secret**
 
-Query Parameters: None
+**Query Parameters: None**
 
-### Request Body ###
+### Request Body:
 
 ```JSON
 {
@@ -158,7 +158,7 @@ Query Parameters: None
 
 * Update device registration:
 
-```json
+```JSON
   {
     "device_alias": "John Smith's iPhone",
     "device_model": "iPhone 6",
@@ -176,14 +176,11 @@ Query Parameters: None
 
 Delete a registration. Requires that the device_uuid returned when you registered is sent as a url parameter
 
-Authentication: HTTP Basic platform\_uuid:platform\_secret
+**Authentication: HTTP Basic platform\_uuid:platform\_secret**
 
-Query Parameters: None
+**Query Parameters: None**
 
-### Request Body ###
-
+### Request Body:
 None.
 
-### Response Data, status: 204 (no content) ###
-
-None.
+### Response Data, status: 204 (NO CONTENT) 

@@ -11,13 +11,13 @@ title: Geofences
 
 Create a geofence for an app
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
 ##### Request Body:
 
-```json
+```JSON
   {
     "tags": [
       "tag1",
@@ -120,7 +120,7 @@ A dictionary for passing custom information to the notified app.
 
 ##### Response:
 
-```json
+```JSON
   {
     "id": 0,
     "tags": [
@@ -167,22 +167,21 @@ A dictionary for passing custom information to the notified app.
 
 Get all geofences for an app
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params:
+**Query Parameters:**
 
-    page: integer   	 // result page to display
-
-    size: integer   	 // number of results per page
-
-    timestamp: long  	 // timestamp in milliseconds
-
+Parameters      | Description
+----------------|------------
+page: integer   | result page to display
+size: integer   | number of results per page
+timestamp: long | timestamp in milliseconds
 
 ##### Request Body: None
 
 ##### Response:
 
-```json
+```JSON
     {
       "size": 25,
       "totalGeofences": 1,
@@ -222,18 +221,21 @@ Params:
 
 Get updated geofences since a timestamp. This endpoint is used by devices to fetch an updated list of geofences to monitor.
 
-Authentication: HTTP basic platform\_uuid:platform\_secret
+**Authentication: HTTP basic platform\_uuid:platform\_secret**
 
-Params:
+**Query Parameters:**
 
-    timestamp: long  	 // timestamp in milliseconds
+Parameters      | Description
+----------------|------------
+timestamp: long | timestamp in milliseconds
 
 
-##### Request Body: None
+##### Request Body: 
+None.
 
 ##### Response:
 
-```json
+```JSON
     {
       "num": 3,
       "deleted_geofence_ids": [1,2],
@@ -274,15 +276,16 @@ List of geofences that have been added since the requested timestamp.
 ### <a id="geofences_get_one"></a> Get one geofence ###
 #### GET /v1/geofence/:geofence\_id
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
-##### Request Body: None
+##### Request Body: 
+None.
 
 ##### Response:
 
-```json
+```JSON
     {
       "id": 1,
       "expiry_time": 1424443201000,
@@ -310,13 +313,13 @@ Params: None
 ### <a id="geofences_update"></a>Update a geofence ###
 #### PUT /v1/geofence/:geofence\_id
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
 ##### Request Body:
 
-```json
+```JSON
     {
       "trigger_type": "enter",
       "expiry_time": 1424443201000,
@@ -330,7 +333,7 @@ Params: None
 
 ##### Response:
 
-```json
+```JSON
     {
       "id": 1,
       "expiry_time": 1424443201000,
@@ -360,13 +363,14 @@ Params: None
 ### <a id="geofences_delete"></a> Delete a geofence ###
 #### DELETE /v1/geofence/:geofence\_id
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
-##### Request Body: None
+##### Request Body:
+None.
 
-##### Response: 204 (no content)
+##### Response: 204 (NO CONTENT)
 
 ----------------
 
@@ -382,23 +386,23 @@ Endpoints for managing geofence locations.
 
 Get all geofence locations for an app
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params:
+**Query Parameters:**
 
-    page: integer   	 // result page to display
+Parameters      | Description
+----------------|------------
+page: integer   | result page to display
+size: integer   | number of results per page
+timestamp: long | timestamp in milliseconds
+q: string       | keyword to search for
 
-    size: integer   	 // number of results per page
-
-    timestamp: long  	 // timestamp in milliseconds
-
-    q:                 // keyword to search for
-
-##### Request Body: None
+##### Request Body:
+None.
 
 ##### Response:
 
-```json
+```JSON
   {
     "size": 25,
     "locations": [
@@ -424,15 +428,16 @@ Params:
 ###<a id='locations_get_one'></a> Get one location ###
 #### GET /v1/locations/:location_id
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
-##### Request Body: None
+##### Request Body:
+None.
 
 ##### Response:
 
-```json
+```JSON
     {
       "name": "sample",
       "id": 1,
@@ -447,13 +452,13 @@ Params: None
 ###<a id='locations_create'></a> Create a new location ###
 #### POST /v1/locations
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
 ##### Request Body:
 
-```json
+```JSON
     {
       "name": "sample",
       "lat": "0.0",
@@ -470,7 +475,7 @@ Params: None
 
 ##### Response:
 
-```json
+```JSON
     {
       "name": "sample",
       "id": 1,
@@ -488,13 +493,13 @@ Params: None
 ###<a id='locations_update'></a> Update a location ###
 #### PUT /v1/locations/:location_id
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
 ##### Request Body:
 
-```json
+```JSON
     {
       "name": "sample",
       "lat": "0.0",
@@ -505,7 +510,7 @@ Params: None
 
 ##### Response:
 
-```json
+```JSON
     {
       "name": "sample",
       "id": 1,
@@ -523,13 +528,14 @@ Params: None
 ###<a id='locations_delete'></a> Delete a location ###
 #### DELETE /v1/locations/:location_id
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
-##### Request Body: None
+##### Request Body:
+None.
 
-##### Response: 204 (No Content)
+##### Response: 204 (NO CONTENT)
 
 ##<a id='location_groups'></a>Location Groups ##
 ----------------
@@ -543,23 +549,23 @@ Endpoints for managing geofence locations.
 
 Get all location groups for an app
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params:
+**Query Parameters:**
 
-    page: integer   	 // result page to display
+Parameters      | Description
+----------------|------------
+page: integer   | result page to display
+size: integer   | number of results per page
+timestamp: long | timestamp in milliseconds
+q: string       | keyword to search for
 
-    size: integer   	 // number of results per page
-
-    timestamp: long  	 // timestamp in milliseconds
-
-    q:                 // keyword to search for
-
-##### Request Body: None
+##### Request Body: 
+None.
 
 ##### Response:
 
-```json
+```JSON
   {
     "size": 25,
     "location_groups": [
@@ -594,15 +600,16 @@ Params:
 ###<a id='location_groups_get_one'></a> Get one location group ###
 #### GET /v1/location\_groups/:location\_group\_id
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
-##### Request Body: None
+##### Request Body: 
+None.
 
 ##### Response:
 
-```json
+```JSON
   {
     "name": "sample group",
     "id": 1,
@@ -627,13 +634,13 @@ Params: None
 ###<a id='location_groups_create'></a> Create a location group ###
 #### POST /v1/location\_groups
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
 ##### Request Body:
 
-```json
+```JSON
   {
     "name": "sample group",
     "location_ids": [
@@ -649,7 +656,7 @@ Params: None
 
 ##### Response:
 
-```json
+```JSON
   {
     "name": "sample group",
     "id": 1,
@@ -675,13 +682,13 @@ Params: None
 ###<a id="location_groups_update"></a> Update a location group ###
 #### PUT /v1/location\_groups/:location\_group\_id
 
-Authentication: HTTP basic application\_uuid:api\_key
+** Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
 ##### Request Body:
 
-```json
+```JSON
   {
     "name": "sample group",
     "location_ids": [
@@ -693,7 +700,7 @@ Params: None
 
 ##### Response:
 
-```json
+```JSON
   {
     "name": "sample group",
     "id": 1,
@@ -719,10 +726,11 @@ Params: None
 ###<a id="location_groups_delete"></a> Delete a location group ###
 #### DELETE /v1/location\_groups/:location\_group\_id
 
-Authentication: HTTP basic application\_uuid:api\_key
+**Authentication: HTTP basic application\_uuid:api\_key**
 
-Params: None
+**Query Parameters: None**
 
-##### Request Body: None
+##### Request Body: 
+None.
 
-##### Response: 204 (No Content)
+##### Response: 204 (NO CONTENT)
