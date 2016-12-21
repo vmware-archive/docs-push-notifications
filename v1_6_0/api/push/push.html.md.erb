@@ -39,7 +39,7 @@ notification that was requested: _scheduled_ or _immediate_.
 If the push is given __scheduleAt__ or __scheduleIn__ fields then the push is
 _scheduled_ to be delivered in the future.  These pushes will return a
 __schedule_id__ field in the response data.  These __schedule_id__ values can
-be used in the [/v1/schedule](../schedules/index.html) APIs to update or cancel
+be used in the [/v1/schedule](../schedules/schedules.html) APIs to update or cancel
 the scheduled push before it is delivered.
 
 
@@ -65,16 +65,16 @@ You can target your push notifications in many ways:
 
  - By device UUID(s):
    * Devices UUIDs are determined by:
-     + the device registration process in the PCF Push Client SDKs. See the documentation for the [iOS](../../../ios/index.html#device_uuid) or [Android](../../../android/index.html#deviceUuid) SDKs.
-     + or by the [/v1/registration POST/PUT APIs](../registration/index.html) if you are registering your devices without using the Client SDKs.
+     + the device registration process in the PCF Push Client SDKs. See the documentation for the [iOS](../../../ios/ios.html#device_uuid) or [Android](../../../android/android.html#deviceUuid) SDKs.
+     + or by the [/v1/registration POST/PUT APIs](../registration/registration.html) if you are registering your devices without using the Client SDKs.
 
  - By topic(s):
    * Topics are created:
-     + implicitly when devices subscribed to them. See the [/v1/registration POST/PUT APIs](../registration/index.html).
+     + implicitly when devices subscribed to them. See the [/v1/registration POST/PUT APIs](../registration/registration.html).
      + or when the /v1/topics POST API is used.
 
  - By Custom User ID:
-   * Custom User IDs are created via the Register a device API [/v1/registration POST APIs](../registration/index.html).
+   * Custom User IDs are created via the Register a device API [/v1/registration POST APIs](../registration/registration.html).
    * Sending a push to a Custom User ID:
      + the push will be sent simultaneously to all devices registered with this Custom User ID.
 
@@ -124,7 +124,7 @@ Pushing to multiple targets is bounded by the following limits per request:
   }
 ```
 
-* Sending pushes to all devices (regardless of platform) subscribed to one of two specific topics (a device only needs to be subscribed to one of the toipics in the list of topics in order to receive the message).
+* Sending pushes to all devices (regardless of platform) subscribed to one of two specific topics (a device only needs to be subscribed to one of the topics in the list of topics in order to receive the message).
 
 ```JSON
   {
@@ -331,11 +331,11 @@ __NOTE__: The PCF Push Notification Service does not ship with BB10 support enab
 
 ####  Windows 8 (WNS) ####
 
-See [this reference](windows8Fields/index.html) for a description of Windows 8 push options.  Note that PCF Push Notification Service support for Windows 8 is basic.  Pivotal does not provide any up-to-date client SDKs for Windows 8 at this time.
+See [this reference](windows8Fields/windows-8-fields.html) for a description of Windows 8 push options.  Note that PCF Push Notification Service support for Windows 8 is basic.  Pivotal does not provide any up-to-date client SDKs for Windows 8 at this time.
 
 ####  Windows Phone (MPNS) ####
 
-See [this reference](windowsPhoneFields/index.html) for a description of Windows Phone push options.  Note that PCF Push Notification Service support for Windows 8 is basic.  Pivotal does not provide any up-to-date client SDKs for Windows Phone at this time.
+See [this reference](windowsPhoneFields/windows-phone-fields.html) for a description of Windows Phone push options.  Note that PCF Push Notification Service support for Windows 8 is basic.  Pivotal does not provide any up-to-date client SDKs for Windows Phone at this time.
 
 ## <a id="examples"></a> Complete Examples ##
 
