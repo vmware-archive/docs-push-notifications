@@ -4,7 +4,7 @@ title: Geofences
 
 <a id="geofences"></a>
 
-##<a id="geofences"></a>Endpoints for managing geofences ##
+##<a id="geofences"></a>Endpoints for Managing Geofences ##
 
 ###<a id="geofences_create"></a> Create Geofence###
 #### POST /v1/geofence
@@ -88,31 +88,31 @@ For Apple's reference on local notifications see [https://developer.apple.com/li
 
 All fields here are optional.
 
-*alertBody<br /><br />
+* alertBody<br /><br />
 type: string<br /><br />
 A string or localized-string key to use as the notification alert message. If nil or empty there no alert will be shown. Printf style escape characters are stripped from the string prior to display; to include a percent symbol (%) in the message, use two percent symbols (%%).
-*category
+* category
 type: string<br /><br />
 The value of this property is the category name associated with a registered UIUserNotificationSettings object. When the alert for the local notification is displayed, the system uses the string you specify to look up the group and retrieve its actions. It then adds a button to the alert for each action defined by the group. When the user taps one of those buttons, the app is woken up (or launched) and given a chance to perform the designated action. If the specified category name does not belong to a registered group of actions, the alert does not display any additional action buttons.
-*alertAction<br /><br />
+* alertAction<br /><br />
 type: string<br /><br />
 A string or localized-string key to use as the title of the right button of the alert or the value of the unlock slider, where the value replaces “unlock” in “slide to unlock”. If you specify nil, and alertBody is non-nil, “View” (localized to the preferred language) is used as the default value.
-*alertTitle<br /><br />
+* alertTitle<br /><br />
 type: string<br /><br />
 A short description of the reason for the alert. Apple Watch displays the title string as part of the short look notification interface, which has limited space.
-*alertLaunchImage<br /><br />
+* alertLaunchImage<br /><br />
 type: string<br /><br />
 Identifies the image used as the launch image when the user taps (or slides) the action button (or slider).
-*hasAction
+* hasAction
 type: boolean
 Determines whether or not to show an alert action.
-*applicationBadgeNumber<br /><br />
+* applicationBadgeNumber<br /><br />
 type: number<br /><br />
 The number to display as the app icon's badge. Default value is 0 which will simply not display a badge.
-*soundName<br /><br />
+* soundName<br /><br />
 type: string<br /><br />
 The name of the file containing the sound to play when an alert is displayed.
-*userInfo<br /><br />
+* userInfo<br /><br />
 type: dictionary
 A dictionary for passing custom information to the notified app.
 
@@ -273,7 +273,7 @@ List of geofences that have been added since the requested timestamp.
 
 ---------------
 
-### <a id="geofences_get_one"></a> Get one geofence ###
+### <a id="geofences_get_one"></a> Get One Geofence ###
 #### GET /v1/geofence/:geofence\_id
 
 **Authentication: HTTP basic application\_uuid:api\_key**
@@ -310,7 +310,7 @@ None.
 
 ----------------
 
-### <a id="geofences_update"></a>Update a geofence ###
+### <a id="geofences_update"></a>Update a Geofence ###
 #### PUT /v1/geofence/:geofence\_id
 
 **Authentication: HTTP basic application\_uuid:api\_key**
@@ -360,7 +360,7 @@ None.
 
 ----------------
 
-### <a id="geofences_delete"></a> Delete a geofence ###
+### <a id="geofences_delete"></a> Delete a Geofence ###
 #### DELETE /v1/geofence/:geofence\_id
 
 **Authentication: HTTP basic application\_uuid:api\_key**
@@ -381,7 +381,7 @@ None.
 Endpoints for managing geofence locations.
 
 
-### <a id="locations_get_all"></a>Get all locations ###
+### <a id="locations_get_all"></a>Get All Locations ###
 #### GET /v1/locations
 
 Get all geofence locations for an app
@@ -425,7 +425,7 @@ None.
 ----------------
 
 
-###<a id='locations_get_one'></a> Get one location ###
+###<a id='locations_get_one'></a> Get One Location ###
 #### GET /v1/locations/:location_id
 
 **Authentication: HTTP basic application\_uuid:api\_key**
@@ -449,7 +449,7 @@ None.
     }
 ```
 
-###<a id='locations_create'></a> Create a new location ###
+###<a id='locations_create'></a> Create a New Location ###
 #### POST /v1/locations
 
 **Authentication: HTTP basic application\_uuid:api\_key**
@@ -490,7 +490,7 @@ None.
 ----------------
 
 
-###<a id='locations_update'></a> Update a location ###
+###<a id='locations_update'></a> Update a Location ###
 #### PUT /v1/locations/:location_id
 
 **Authentication: HTTP basic application\_uuid:api\_key**
@@ -525,7 +525,7 @@ None.
 ----------------
 
 
-###<a id='locations_delete'></a> Delete a location ###
+###<a id='locations_delete'></a> Delete a Location ###
 #### DELETE /v1/locations/:location_id
 
 **Authentication: HTTP basic application\_uuid:api\_key**
@@ -544,7 +544,7 @@ Endpoints for managing geofence locations.
 
 
 
-###<a id='location_groups_get_all'></a> Get all location groups ###
+###<a id='location_groups_get_all'></a> Get All Location Groups ###
 #### GET /v1/location_groups
 
 Get all location groups for an app
@@ -597,7 +597,7 @@ None.
 ----------------
 
 
-###<a id='location_groups_get_one'></a> Get one location group ###
+###<a id='location_groups_get_one'></a> Get One Location Group ###
 #### GET /v1/location\_groups/:location\_group\_id
 
 **Authentication: HTTP basic application\_uuid:api\_key**
@@ -631,7 +631,7 @@ None.
 ```
 
 
-###<a id='location_groups_create'></a> Create a location group ###
+###<a id='location_groups_create'></a> Create a Location Group ###
 #### POST /v1/location\_groups
 
 **Authentication: HTTP basic application\_uuid:api\_key**
@@ -679,10 +679,10 @@ None.
 
 ----------------
 
-###<a id="location_groups_update"></a> Update a location group ###
+###<a id="location_groups_update"></a> Update a Location Group ###
 #### PUT /v1/location\_groups/:location\_group\_id
 
-** Authentication: HTTP basic application\_uuid:api\_key**
+**Authentication: HTTP basic application\_uuid:api\_key**
 
 **Query Parameters: None**
 
@@ -723,7 +723,7 @@ None.
 
 ----------------
 
-###<a id="location_groups_delete"></a> Delete a location group ###
+###<a id="location_groups_delete"></a> Delete a Location Group ###
 #### DELETE /v1/location\_groups/:location\_group\_id
 
 **Authentication: HTTP basic application\_uuid:api\_key**
