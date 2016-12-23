@@ -128,7 +128,7 @@ Create a **pivotal.properties** file in your project's `src/main/assets` or `src
    * None of the above values may be `null`.  None of the above values may be empty.
 
    * The `pivotal.push.platformUuid` and `pivotal.push.platformSecret` parameters should be
-   the **platform UUID** and **secret** values from the Push Dashboard. These values may not be empty or `null`.
+   the **platform UUID** and **secret** values from the Push Dashboard. These values may not be empty or `null`. If using 1.6 SDK, you need to use UUID and secret of platform type `Android`. If using 1.7 SDK, you need to use the UUID and secret of platform type `Android-FCM`.
 
    * For instructions on how to convert your `PEM` certificate files to `DER` please see the [OpenSSL documentation](http://openssl.org/docs/apps/rsa.html).
 
