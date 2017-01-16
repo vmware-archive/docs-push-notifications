@@ -48,14 +48,14 @@ Returns an integer.
 
 ## <a id="register"></a> POST /v1/registration/ ##
 
-Register a device to an app release. The response will include a "device_uuid".
-You should save this identifier as other registration endpoints will require it (ex. DELETE).
+Register a device to an app release. The response will include `device_uuid`.
+You should save this identifier, as other registration endpoints will require it (ex. `DELETE`).
 
 When the environment variable `push_security_verifyCustomUserId` is set to true (which is default),
 creating a registration with a custom\_user\_id, it is required that the custom\_user\_id is
 encrypted with a unique HMAC using the device shared secret as the cryptigraphic key.
 
-For more information see [Custom User Id Format](/push/v1_7_0/custom-user-id-format.html).
+For more information see [Registering with a Custom User ID](/push/v1_7_0/custom-user-id-format.html).
 
 **Authentication: HTTP Basic platform\_uuid:platform\_secret**
 

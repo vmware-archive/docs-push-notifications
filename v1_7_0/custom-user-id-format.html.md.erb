@@ -1,17 +1,17 @@
 ---
-title: Registering with a custom user id
+title: Registering with a Custom User ID
 ---
 
-## Specifying a custom user id ##
+## Specifying a Custom User ID ##
 
-By default push expects the custom user id field during a device registration to be specified using 
-a JSON Web Token, signed using the applications's shared secret.
+By default, push expects the custom user ID field during a device registration to be specified using 
+a JSON Web Token, signed using the application's shared secret.
 
 The application's shared secret can be found on the push dashboard, under the configuration tab.
 
-#### Signed Custom User Id Format
+#### Signed Custom User ID Format
 
-Push api expects the custom\_user\_id to be sent as a signed JSON Web Token (JWT).
+Push API expects the `custom_user_id` to be sent as a signed JSON Web Token (JWT).
 This is to validate that the registration request came from a trusted application.
 
 The Token should be signed with HMAC-SHA256, and the content should be as follows:
@@ -56,18 +56,18 @@ The final token is what should be sent as the value of the `custom_user_id` fiel
 }
 ```
 
-For more information on JWT check out https://en.wikipedia.org/wiki/JSON_Web_Token
+For more information on JWT, see https://en.wikipedia.org/wiki/JSON_Web_Token
 
-For an example on how to generate the Custom User Id JWT in Java check out https://github.com/cfmobile/push-tools
+For an example on how to generate the Custom User ID JWT in Java check out https://github.com/cfmobile/push-tools
 
 
 
-#### Unsigned Custom User Id Format ####
+#### Unsigned Custom User ID Format ####
 
-The requirement to sign custom user ids can be disabled by setting the `push_security_verifyCustomUserId` environment 
+The requirement to sign custom user IDs can be disabled by setting the `push_security_verifyCustomUserId` environment 
 variable to false for the push-api servce.
 
-If signed custom user ids are disabled, then the registration call should just contain the custom user id as plain text
+If signed custom user IDs are disabled, then the registration call should just contain the custom user ID as plain text
 
 ```JSON
 {
