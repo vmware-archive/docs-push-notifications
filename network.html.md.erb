@@ -28,3 +28,21 @@ The APNs servers use load balancing so your devices won't always connect to the 
 The push-api backend needs to send requests to "https://gcm-http.googleapis.com/gcm/send" (port 443).
 
 Devices will need direct unproxied connections to Google servers on port 5228.  Android 4.3 and up have fallback capabilities to use port 443.
+
+## <a id="fcm"></a> FCM / Android Push
+
+### Server and Device Settings
+
+The push-api backend needs to send requests to "https://fcm.googleapis.com/fcm/send" (port 443).
+
+Devices will need direct unproxied connections to Google servers on port 5228, 5229, and 5230. FCM typically only uses 5228, but it sometimes uses 5229 and 5230. FCM doesn't provide specific IPs, so you should allow your firewall to accept outgoing connections to all IP addresses contained in the IP blocks listed in Google's ASN of 15169.
+
+Android 4.3 and up have fallback capabilities to use port 443.
+
+## <a id="push-api"></a> Push API &amp; Mobile Devices
+
+Mobile devices require access to push-api backend in order to register and unregister themselves. For example, if the Push API backend is behind a firewall, it should allow incomming connections to the IP address and port of the Push API backend.
+
+## <a id="push-api"></a> Push API &amp; Server Applications
+
+Server applications (or any applications) require access to the push-api backend in order to send pushes to registered devices. For example, if the Push API backend is behind a firewall, it should allow incomming connections to the IP address and port of the Push API backend.

@@ -39,6 +39,28 @@ From Ops Manager click on the Pivotal Push Notification Service tile and go to t
 
 This will produce a salt, key, and initialization vector. Copy the key into the "Encryption Key" field on Ops Manager and click "Save". This key is used for symmetric encryption of push certificates and API keys.
 
+### Configure Deployment Settings
+
+From Ops Manager click on the Push Notification Service tile and go to the "Push Deployment Settings" section.
+
+For standard development environment, select "Development". This will create one instance of each service used by Push Notification Service tile.
+
+For standard production envrionments, select "Production" (this is the default option). This will create two instances of each service used by Push Notification Service tile.
+
+Selecting "Custom" will allow you to customize how many instances are used for each service. Enter the desired number of instances, between 1 and 100, for each service.
+
+The following table outlines the resource requirements each service per instance.
+
+Service           | Memory Usage per instance   | Disk Usage per instance
+------------------|-----------------------------|--------------------------
+Push API          | 2G                          | 1G
+Push Dashboard    | 512M                        | 1G
+Push Broker       | 512M                        | 1G
+Push Analytics    | 1G                          | 1G
+Push Scheduler    | 512M                        | 1G
+
+Ensure the Diego Cell match the resource requirements for running all instances.
+
 ### Configure MySQL
 
 From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use the [Pivotal MySQL service](https://network.pivotal.io/products/p-mysql). If you select this option you must install the Pivotal MySQL service as well. Enter a service plan name into the "[Service Plan](http://docs.pivotal.io/p-mysql/index.html#settings)" field (ex. "100mb-dev").
@@ -104,7 +126,7 @@ The organization is "System" and the space is "push-notifications", both will be
 
 After setting the api and logging in to the CF CLI, type in ``cf a`` to see a listing of all the apps currently under the push-notifications space, with a quick overview of their current status.
 
-![CLI Apps](v1_4_0/assets/installation-cli-apps.png)
+![CLI Apps](assets/installation-cli-apps.png)
 
 The apps that should appear are as follows:
 
@@ -118,7 +140,7 @@ And they should all have their own unique urls.
 
 For the services, typing in ``cf s`` will give a list of the services plus the apps which they are bound to.
 
-![CLI Services](v1_4_0/assets/installation-cli-services.png)
+![CLI Services](assets/installation-cli-services.png)
 
 The services that should appear are as follows:
 
@@ -130,15 +152,15 @@ The services that should appear are as follows:
 
 The second way is to use the developer console. After logging in, select the System organization from the dropdown box. Selecting the organization will then show all of the spaces which are nested within.
 
-![Dev Dashboard](v1_4_0/assets/installation-dev-dashboard.png)
+![Dev Dashboard](assets/installation-dev-dashboard.png)
 
 Click on the push-notifications space, which will then show the apps and services running under that space.
 
-![Dev Dashboard Apps](v1_4_0/assets/installation-dev-dashboard-apps.png)
+![Dev Dashboard Apps](assets/installation-dev-dashboard-apps.png)
 
 The listing of applications show the status, the name, the url to access the app, how many instances of that app is running, and how much memory that app is using. Verify that each apps status is 100%, which means it is running as expected.
 
-![Dev Dashboard Services](v1_4_0/assets/installation-dev-dashboard-services.png)
+![Dev Dashboard Services](assets/installation-dev-dashboard-services.png)
 
 The listing of services show the name, the plan, and how many apps are bound to it. Some services have extra options, such as managing the service, or looking up documentation on the service.
 
