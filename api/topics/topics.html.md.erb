@@ -1,0 +1,176 @@
+---
+title: Topics
+---
+
+A Topic (formerly a [Tag](http://docs.pivotal.io/push/v1_5_0/api/tags/index.html)) is a keyword that users can subscribe to in order to receive pushes sent to the same topic.  
+The topics themselves are free-form, that is, your app defines them as needed and they can be any text that your app needs.
+
+## <a id="get_all_topics"></a> GET /v2/topics ##
+
+Returns all non-expired topics.
+
+**Authentication: HTTP Basic app\_uuid:api\_key**
+
+**Query Parameters:**
+
+Parameter          | Description
+-------------------|------------
+q: string          | Optional — Match all topics that contain the string. Default match all non-expired topics.
+size: integer      | Optional — Maximum number of topics to return. Range between 1 and 50. Default set to 20.
+page: integer      | Optional — Page number to return set of topics. Default set to 1.
+hasExpiry: boolean | Optional — If set to true, filter results to topics that have an expiry. If false, filter results to topics with no expiry. If missing, no filtering is done, all resulting topics are returned. Default returns all resulting topics.
+    
+### Response Data, status: 200 (OK)
+
+Returns a json list of topics.
+
+For example:
+
+```JSON
+
+{
+    "topics": list,             // List of topic objects that match the request
+    "totalTopics": integer,     // Total number of topics that match the request
+    "totalPages": integer,      // Total number of pages of topic results
+    "page": integer,            // Current page returned. Same as page in request
+    "size": integer,            // Current size of page. Same as size in request
+}
+
+// Topic Object
+
+{
+    "id": integer,           // Unique ID of the topic
+    "name": string,          // Topic name
+    "expireAt": long         // Optional - Epoch time, in ms, of when topic will expire. If missing, topic will not expire.
+}
+```
+
+------------------
+
+## <a id="topic_create"></a> POST /v2/topics/ ##
+
+Creates a topic, if not already created, with an optional expiry time.
+
+**Authentication: HTTP Basic app\_uuid:api\_key**
+
+**Query Parameters: None**
+
+### Request Body:
+
+```JSON
+
+{
+    "name": string,         // Name of the topic to create
+    "expireAt": long,       // Optional - Expiry time of the topic, in Unix epoch time in ms
+    "timeToLive":long       // Optional - Duration, in seconds, before expiring the topic. Must be at least 60 seconds.
+}
+```
+
+<p class="note"><strong>Note</strong>: Either expireAt or timeToLove may be present, not both. If both expireAt and timeToLive are missing, then the topic will never expire.
+
+
+### Response: status: 201 (CREATED)
+
+```JSON
+
+{
+    "id": integer,           // Unique ID of the topic
+    "name": string,          // Topic name
+    "expireAt": long,        // Optional - Epoch time, in ms, of when topic will expire. If missing, topic will not expire.
+}
+```
+
+------------------
+
+
+## <a id="topics_delete"></a> DELETE /v2/topics/:topicId ##
+
+Deletes a non-expired topic, defined by its topic ID.
+
+**Authentication: HTTP Basic app\_uuid:api\_key**
+
+**Query Parameters: None**
+
+### Request Body: 
+None.
+
+### Response Data, status: 204 (NO CONTENT)
+
+
+------------------
+
+## <a id="topics_batch_create"></a> POST /v2/topics/batch/ ##
+
+Creates multiple topics in one batch.
+
+**Authentication: HTTP Basic app\_uuid:api\_key**
+
+**Query Parameters: None.**
+
+### Request Body:
+
+```JSON
+
+{
+    "topics": list,               // List of topic objects to create. Maximum size is 1024
+    "returnTopics": boolean       // Optional - If true, the response will return the list of created topics. If false, only the count will be returned. Defaults to false.
+}
+
+//Topic object
+
+{
+    "name": string,         // Name of the topic to create
+    "expireAt": long,       // Optional - Expiry time of the topic, in Unix epoch time in ms
+    "timeToLive":long       // Optional - Duration, in seconds, before expiring the topic. Must be at least 60 seconds.
+}
+```
+<p class="note"><strong>Note</strong>: Either expireAt or timeToLive may be present, not both. If both expireAt and timeToLive are missing, then the topic will never expire.
+
+
+### Response: status: 201 (CREATED)
+
+```JSON
+
+{
+    "numTopicsCreated": integer,      // Number of newly created topics
+    "numTopicsExisted": integer,      // Number of topics that already existed from requests.
+    "topics": list                    // List of topics added. Not present if "returnTopics" in the request is false.
+}
+
+// Topic Object
+
+{
+    "id": integer,          // Unique ID of the topic
+    "name": string,         // Topic name
+    "expireAt": long        // Optional - Epoch time, in ms, of when topic will expire. If missing, topic will not expire.
+}
+```
+
+------------------
+
+## <a id="topics_batch_delete"/></a> DELETE /v2/topics/batch ##
+
+Delete multiple topics in one batch.
+
+**Authentication:  HTTP Basic app\_uuid:api\_key**
+
+**Query Parameters: None.**
+
+### Request Body:
+
+```JSON
+
+{
+    "topicIds": list        // List of topic ids (integer)
+}
+```
+
+
+### Response: status: 200 (OK)
+
+```JSON
+
+{
+    "numTopicsDeleted": integer     // Number of topics deleted
+}
+```

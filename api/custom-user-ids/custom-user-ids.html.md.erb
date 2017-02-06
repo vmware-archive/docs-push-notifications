@@ -1,0 +1,101 @@
+---
+title: Custom User IDs
+---
+
+The Custom User ID feature allows you to register a device under an ID that is
+meaningful to your system such as their login. In addition, the same Custom User ID
+can be used to refer to multiple devices. This means that a push sent to the
+Custom User ID will be sent simultaneously to all devices registered with this Custom User ID.
+
+**Note:** The Custom User ID field is case sensitive for device registrations.
+
+
+### Custom User ID and Topics
+
+Custom User ID works in combination with topics so that you can target a set of
+Custom User IDs as well as topics and the Push Notification Service will ensure that
+all devices receive only 1 copy of the notification.
+
+## <a id="user_ids_list"></a> GET /v2/custom\_user\_ids ##
+
+Get a list of Custom User IDs
+
+**Authentication: HTTP Basic app\_uuid:api\_key**
+
+**Query Parameters: None**
+
+#### Response Body:
+
+```JSON
+  {
+    "custom_user_ids": [
+      "string 1",
+      "string 2"
+    ]
+  }
+```
+
+#### Examples:
+
+* Retrive a list of all Custom User IDs:
+
+```JSON
+  {
+    "custom_user_ids": [
+      "custom-user-id1"
+    ]
+  }
+```
+
+## <a id="user_ids_listi_by_id"></a> GET /v2/custom\_user\_ids?q={query} ##
+
+Get Custom User IDs by Query Parameter
+
+**Authentication: HTTP Basic app\_uuid:api\_key**
+
+**Query Parameters:**
+
+Parameter | Description
+----------|------------
+q         | Returns only the Custom User IDs results containing the query string provided.
+
+
+#### Response Body:
+
+```JSON
+  {
+    "custom_user_ids": [
+      "string 1",
+      "string 2"
+    ]
+  }
+```
+
+#### Examples:
+
+* Retrive Custom User IDs by query parameter (i.e. query parameter is 'id1'):
+
+```JSON
+  {
+    "custom_user_ids": [
+      "custom-user-id1"
+    ]
+  }
+```
+
+**Note:** In order to use the Custom User IDs feature, you will have to
+register a device using the POST method on `/v1/registration` endpoint,
+with a `custom_user_id` field populated as described in Register section of the
+[Registration API](../registration/registration.html#register).
+
+```JSON
+  {
+    ...
+    "custom_user_id": "custom-user-id1"
+    ...
+  }
+```
+
+For additional information regarding Registration,
+please consult the [Registration API](../registration/registration.html) section of our API.
+

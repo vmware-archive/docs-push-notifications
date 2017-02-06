@@ -1,0 +1,78 @@
+---
+title: Registering with a Custom User ID
+---
+
+## Specifying a Custom User ID ##
+
+By default, push expects the custom user ID field during a device registration to be specified using 
+a JSON Web Token, signed using the application's shared secret.
+
+The application's shared secret can be found on the push dashboard, under the configuration tab.
+
+#### Signed Custom User ID Format
+
+Push API expects the `custom_user_id` to be sent as a signed JSON Web Token (JWT).
+This is to validate that the registration request came from a trusted application.
+
+The Token should be signed with HMAC-SHA256, and the content should be as follows:
+
+Header
+
+```JSON
+{
+  "alg": "HS256"
+}
+```
+
+Payload
+
+```JSON
+{
+  "custom_user_id": "<YOUR CUSTOM USER ID>"
+}
+```
+
+Signature
+
+```
+signature = HMAC-SHA256(sharedSecret, unsignedToken)
+unsignedToken = encodeBase64(header) + '.' + encodeBase64(payload)
+sharedSecret = Application Shared Secret
+```
+
+Final Token
+
+```
+token=encodeBase64(header) + '.' + encodeBase64(payload) + '.' + encodeBase64(signature)
+```
+
+The final token is what should be sent as the value of the `custom_user_id` field in the registration call.
+
+```JSON
+{
+  ...
+  "custom_user_id": token
+  ...
+}
+```
+
+For more information on JWT, see https://en.wikipedia.org/wiki/JSON_Web_Token
+
+For an example on how to generate the Custom User ID JWT in Java check out https://github.com/cfmobile/push-tools
+
+
+
+#### Unsigned Custom User ID Format ####
+
+The requirement to sign custom user IDs can be disabled by setting the `push_security_verifyCustomUserId` environment 
+variable to false for the push-api servce.
+
+If signed custom user IDs are disabled, then the registration call should just contain the custom user ID as plain text
+
+```JSON
+{
+  ...
+  "custom_user_id": "<YOUR CUSTOM USER ID>"
+  ...
+}
+```
