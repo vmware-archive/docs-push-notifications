@@ -2,18 +2,18 @@
 title: Installation
 ---
 
-This document describes how to install the Pivotal Cloud Foundry (PCF) Push Notification Service. 
+This document describes how to install the Pivotal Cloud Foundry (PCF) Push Notification Service.
 
 The PCF Push Notification Service installs as a suite of 5 CF apps deployed in the `system` org under the `push-notifications` space.  
 
 
 * API
-* Dashboard 
+* Dashboard
 * Service Broker
 * Scheduler
 * Analytics
 
-A default installation deploys 5 Application Instances (AIs), one for each app show above. 
+A default installation deploys 5 Application Instances (AIs), one for each app show above.
 For **production deployments**, Pivotal recommends deploying a minimum of 2 instances for each push app, 10 AIs total, per PCF environment. Additional API application instances may be required depending on the peak load required, with peak load defined as the maximum number of notifications sent per second.
 
 
@@ -31,7 +31,7 @@ To get started with Push, you need to [add the product](http://docs.pivotal.io/p
 
 Before you can complete the installation you must provide some configuration.
 
-### Set Encryption Key
+### <a id="SetEncryptionKey"></a> Set Encryption Key ###
 
 From Ops Manager click on the Pivotal Push Notification Service tile and go to the "Security Settings" section. Generate an encryption key by running the following command in terminal (you should set your own password here):
 
@@ -39,15 +39,15 @@ From Ops Manager click on the Pivotal Push Notification Service tile and go to t
 
 This will produce a salt, key, and initialization vector. Copy the key into the "Encryption Key" field on Ops Manager and click "Save". This key is used for symmetric encryption of push certificates and API keys.
 
-### Configure Deployment Settings
+### <a id="DeploymentSettings"></a> Configure Deployment Settings ###
 
 From Ops Manager click on the Push Notification Service tile and go to the "Push Deployment Settings" section.
 
-For standard development environment, select "Development". This will create one instance of each service used by Push Notification Service tile.
+The following deployment options are available:
 
-For standard production envrionments, select "Production" (this is the default option). This will create two instances of each service used by Push Notification Service tile.
-
-Selecting "Custom" will allow you to customize how many instances are used for each service. Enter the desired number of instances, between 1 and 100, for each service.
+ - **Development** One instance of each service used by Push Notification Service tile.
+ - **Production (default)** Two instances of each service used by Push Notification Service tile.
+ - **Custom** Customize how many instances are used for each service. Enter the desired number of instances, between 1 and 100, for each service.
 
 The following table outlines the resource requirements each service per instance.
 
@@ -61,7 +61,7 @@ Push Scheduler    | 512M                        | 1G
 
 Ensure the Diego Cell match the resource requirements for running all instances.
 
-### Configure MySQL
+### <a id="ConfigureMySQL"></a> Configure MySQL ###
 
 From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use the [Pivotal MySQL service](https://network.pivotal.io/products/p-mysql). If you select this option you must install the Pivotal MySQL service as well. Enter a service plan name into the "[Service Plan](http://docs.pivotal.io/p-mysql/index.html#settings)" field (ex. "100mb-dev").
 
@@ -69,7 +69,7 @@ To use an external (user provided) MySQL server select "External" and fill in th
 
 Once you have completed this configuration click "Save".
 
-### Configure Redis for Analytics and Logs
+### <a id="ConfigureRedis"></a> Configure Redis for Analytics and Logs ###
 
 From Ops Manager click on the Push Notification Service tile and go to the "Analytics Redis Settings" section.  Select the Redis service to use [Pivotal Redis service](https://network.pivotal.io/products/p-redis).  If you select this option you must install the Pivotal Redis service as well.  Select from the drop-down the type of service plan to use. See more information about the [Pivotal Redis service](http://docs.pivotal.io/redis/index.html)
 
@@ -81,11 +81,11 @@ The same steps will apply to set the "Logs Redis Settings" section as above.
 
 Once you have completed these configurations click "Save".
 
-### Upload Stemcell
+### <a id="UploadStemcell"></a> Upload Stemcell ###
 
 Ops Manager versions greater than 1.5 will require that you upload the stemcell that the Push Notification Service uses. You can acquire this stemcell from the [Bosh Stemcell Directory](https://bosh.io/stemcells). Once you have the stemcell, upload it to Ops Manager via the "Stemcell" tab in the Push Notification Services configuration page.
 
-### Apply Changes
+### <a id="ApplyChanges"></a> Apply Changes ###
 
 Once the security settings and MySQL configuration are complete you can click "Installation Dashboard" to return to the Ops Manager dashboard and then click "Apply Changes" to complete the installation.
 
@@ -163,11 +163,3 @@ The listing of applications show the status, the name, the url to access the app
 ![Dev Dashboard Services](assets/installation-dev-dashboard-services.png)
 
 The listing of services show the name, the plan, and how many apps are bound to it. Some services have extra options, such as managing the service, or looking up documentation on the service.
-
-##<a id="Notes"></a>Notes##
-
-There is no automated upgrade path from version 1.2.x to version 1.3.0. Steps are available to backup and restore data between these versions.
-
-For versions 1.0 - 1.2, the default location for the dashboard `http://push-notifications-dashboard.cf.example.com`
-
-For versions 1.0 - 1.1, the default installation installs the applications to the "Pivotal" org and "push-notifications" space.
