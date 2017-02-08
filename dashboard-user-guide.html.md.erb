@@ -20,8 +20,13 @@ Click on the `Regenerate API Key` button. A new API key will be generated. NOTE:
 
 <img src="assets/dug-regenerate-api-key.png" width="800"/>
 
+###Regenerating the shared secret
+Click on the `Regenerate Shared Secret` button. A new shared secret will be generated for use when registering with a custom user id. See [Registering with a Custom User ID](custom-user-id-format.html) for more information.
+
+<img src="assets/dug-regenerate-shared-secret.png" width="800"/>
+
 ###Deleting an application
-To delete an application, click on the `Configuration` link in the sidebar menu to bring up information about the application. Click on the delete icon under the `Actions` column to delete the application. NOTE: This icon will be disabled if the application has one or more platforms. 
+To delete an application, click on the `Configuration` link in the sidebar menu to bring up information about the application. Click on the delete icon under the `Actions` column to delete the application. NOTE: This icon will be disabled if the application has one or more platforms.
 
 <img src="assets/dug-actions-delete.png" width="800"/>
 
@@ -51,6 +56,11 @@ On the Configuration page, click on the trash icon link next to the platform you
 
 <img src="assets/dug-delete-platform.png" width="800"/>
 
+###iOS expired certificate warning
+If your iOS APNS certificate is expired a warning will be shown next to the platform type icon.
+
+<img src="assets/dug-configuration-invalid-ios-certificate.png" width="800"/>
+
 ##<a id="Devices"></a>Devices
 A device is given a unique identifier which represents a user opting in to receive push notifications. This identifier is not necessarily unique to a device since it might change if the user reinstalls the mobile application, or unsubscribes and resubscribes.
 
@@ -68,7 +78,7 @@ Click on `Push Notifications` in the sidebar menu, and click the button `Create 
 
 <img src="assets/dug-create-push.png" width="800"/>
 
-On the Create Push Message page, fill in the form and click `Send Push Notification`. 
+On the Create Push Message page, fill in the form and click `Send Push Notification`.
 
 * Push Message: The alert body for the message
 * Target Platform: Send the push to all devices belonging to a specific platform (eg. iOS, Android, etc)
@@ -84,7 +94,7 @@ On the Create Push Message page, fill in the form and click `Send Push Notificat
 
 **A Note About Targeting**
 
-`Target Platform` will target all devices of the selected platform. Adding tags to the `Tag(s)` field will refine the target list down, adding only those devices subscribed to one of the listed tags. 
+`Target Platform` will target all devices of the selected platform. Adding tags to the `Tag(s)` field will refine the target list down, adding only those devices subscribed to one of the listed tags.
 
 **A Note About Sending Push With Invalid Certificate**
 
