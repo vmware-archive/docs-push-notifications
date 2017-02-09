@@ -2,6 +2,21 @@
 title: Push Notification Service Release Notes
 ---
 
+##v1.8.0
+**Release Date: February 2017**
+
+**Features**
+
+Ability to customize push app instance counts during deployment. For more information see  [custom deployments](installation.html#DeploymentSettings).
+
+The Push Dashboard will now show a warning when the iOS certificate in use is expired.
+
+Official support for Azure.
+
+**Bug fixes**
+
+**Known issues**
+
 ##v1.7.1
 **Release Date: January 2017**
 
@@ -39,7 +54,7 @@ Updated stemcell to v3263 to address kernel vulnerabilities (includes 4.4 kernel
 
 Fixes:
 
-- Fixed dashboard issue found when upgrading from PCF v1.7 to PCF v1.8 
+- Fixed dashboard issue found when upgrading from PCF v1.7 to PCF v1.8
 
 **Known Issues**
 
@@ -70,10 +85,10 @@ Upgrading to PCF v1.8 exposes a bug in versions of Push v1.6.1 and older. The im
 If installing push v1.6.1 or earlier on PCF v1.8, follow the instructions below
 
 1. To confirm this is the problem you are experiencing, you can check to see if there is a CF app running in the `system` org and `push-notifications` space called `push-notifications-analytics`.
- 
+
 
 2. Replace `push-analytics` with `push-notifications-analytics` and add a matching route as per the commands shown below
- 
+
  ```
  cf delete push-analytics
  cf rename push-notifications-analytics push-analytics
@@ -172,7 +187,7 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
 **Release Date: February 2016**
  - Security release requiring stemcell v3146.8.
 
-## [v1.4.0](v1_4_0/release-notes.html)
+## [v1.4.0](./release-notes/release-notes-1.4.0.html)
 **Release Date: November 2015**
 
  - The Push Notifications Service now supports multiple tenants.
@@ -184,41 +199,41 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
  - The Push SDK for Android now supports Android 6.0 Marshmallow, including the new permissions system.
    - See the Push Sample app for an example of Android 6.0 Marshmallow permissions.
 
-## [v1.3.5](v1_3_5/release-notes.html)
+## [v1.3.5](./release-notes/release-notes-1.3.5.html)
 **Release Date: October 2015**
 
  - Support for PCF v1.6 and Diego.
  - SOCKS proxy bug fix.
 
-## [v1.3.4](v1_3_4/release-notes.html)
+## [v1.3.4](./release-notes/release-notes-1.3.4.html)
 **Release Date: October 2015**
 
  - Bug fixes for smoke tests.
 
-## [v1.3.3](v1_3_3/release-notes.html)
+## [v1.3.3](./release-notes/release-notes-1.3.3.html)
 **Release Date: September 2015**
 
  - Bug fixes for certain scenarios regarding expiry time.
 
-## [v1.3.3 iOS and Android Client SDK](v1_3_3/sdk-release-notes.html)
+## v1.3.3 iOS and Android Client SDK
 
 - Push app analytics.
 - Custom HTTP request headers.
 - Custom SSL authentication.
 
-## [v1.3.2](v1_3_2/release-notes.html)
+## [v1.3.2](./release-notes/release-notes-1.3.2.html)
 **Release Date: August 2015**
 
  - Deprecated lucid64 stack in favour of the new Trusty/cflinuxfs2 stack
  - Proxy Support for iOS push notifications.  Supports SOCKS proxies.
  - Proxy Support for Android push notifications.  Supports HTTP and SOCKS proxies.
 
-## [v1.3.2 iOS and Android Client SDK](v1_3_2/sdk-release-notes.html)
+## v1.3.2 iOS and Android Client SDK
 
 - Enable and disable geofences at runtime.
 - Added a method to read the device UUID at runtime.
 
-## [v1.3.1](v1_3_1/release-notes.html)
+## [v1.3.1](./release-notes/release-notes-1.3.1.html)
 **Release Date: August 2015**
 
   - Support for RabbitMQ Service versions v1.4.0 and later
@@ -227,12 +242,12 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
   - Minor improvements to installation
   - Allow certificate checks to be disabled in cf environments that use self signed certificates
 
-## [v1.3.1 iOS and Android Client SDK](v1_3_1/sdk-release-notes.html)
+## v1.3.1 iOS and Android Client SDK
 
 - SSL Certificate pinning.
 - Any geofences with tags will be monitored only if the user is subscribed to that tag.
 
-## [v1.3.0](v1_3/release-notes.html)
+## [v1.3.0](./release-notes/release-notes-1.3.0.html)
 **Release Date: June 2015**
 
 - Location based notifications
@@ -242,22 +257,22 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
 	- Saved locations and groups of locations
 	- Active geofences view
 
-[Upgrading from version v1.2.x to v1.3.0](v1_3/release-notes.html)
+[Upgrading from version v1.2.x to v1.3.0](./release-notes/release-notes-1.3.0.html)
 
 ## v1.2.1 ##
 **Release Date: April 2015**
 
 - Offline installation support
 
-## [v1.2.0](v1_2/release-notes.html) ##
+## [v1.2.0](./release-notes/release-notes-1.2.0.html) ##
 **Release Date: March 2015**
 
 - Scheduled push notifications
 - Notifications with expiry time
 - Updated UI/UX for dashboard (sending scheduled push with expiry time)
 
-## [v1.1.0 - January 2015](v1_1/release-notes.html) ##
+## [v1.1.0 - January 2015](./release-notes/release-notes-1.1.0.html) ##
 
-## [v1.0.1 - November 2014](v1_0_1/release-notes.html) ##
+## [v1.0.1 - November 2014](./release-notes/release-notes-1.0.1.html) ##
 
-## [v1.0.0 — July 2014](v1_0/release-notes.html) ##
+## [v1.0.0 — July 2014](./release-notes/release-notes-1.0.0.html) ##

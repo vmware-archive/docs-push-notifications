@@ -121,11 +121,15 @@ title: DevOps
   - SSH into the proxy for your Pivotal CF environment.
   - Delete data from Push installation (this should just be empty data) by running the following command from the proxy (using the above credentials):
 
-    		mysql -h hostname -p -u username name -e "drop database database_name; create database database_name;"
+    ```
+    mysql -h hostname -p -u username name -e "drop database database_name; create database database_name;"
+    ```
 
   - Import data from old install by running the following command from the proxy (using the above credentials):
 
-  			mysql -h hostname -p -u username database_name < push_db.sql
+    ```
+    mysql -h hostname -p -u username database_name < push_db.sql
+    ```
 
   - Enable migrations:
 	+ In the Apps Manager console, find the "push-api" application and go to the "Env Variables" tab.
@@ -141,4 +145,4 @@ title: DevOps
 
 ### Backup Redis Data
 
-  - See [redis backup instructions ](redis-backup.html)
+  - See [redis backup instructions ](http://docs.pivotal.io/redis/manual-br.html)
