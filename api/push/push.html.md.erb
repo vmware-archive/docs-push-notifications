@@ -87,8 +87,8 @@ Key              | Description
 -----------------|------------
 devices          | A list of up to 4096 device UUIDs to target. These device UUIDs are the same ones that are returned by the PCF Push Client SDKs after registration or by the __/v1/registration__ HTTP POST call if you are registering your devices without using the Client SDKs.
 topics             | A list of up 1024 topics (formerly tags) to which devices may be subscribed. Only devices subscribed to one of more of the listed topics will be targeted. Devices select which topics to subscribe to by calling the appropriate __subscribeToTopics__ methods in the client SDKs or by calling the /v1/registration HTTP POST or PUT.
-platforms        | A list of platforms to be targeted. Available platforms are 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled).
-platform         | DEPRECATED. Possible values are 'all', 'ios', 'android', 'windows8', 'windowsPhone', 'bb10' (if enabled). If 'platforms' is also populated the platform(s) selected here will be added to list of platforms.
+platforms        | A list of platforms to be targeted. Available platforms are 'ios', 'android', 'windows8', 'windowsPhone'.
+platform         | DEPRECATED. Possible values are 'all', 'ios', 'android', 'windows8', 'windowsPhone'. If 'platforms' is also populated the platform(s) selected here will be added to list of platforms.
 interactive-only | If set to __true__ then only those devices that can accept interactive pushes are targetted. At this time only iOS 8+ or Android 4.1+ devices are considered to support interactive pushes.
 custom\_user\_ids | A list of IDs for devices that is meaningful to your system, such as their login. The same Custom User ID can be used to refer to multiple devices.
 
@@ -214,7 +214,7 @@ Pushing to multiple targets is bounded by the following limits per request:
 
 ## <a id="setting_expiration"></a> Setting Expiration Time on Pushes ##
 
-The "__expiryTime__" field can be used to specify a time after which a push should not be displayed. It should be an __Epoch__ timestamp integer in milliseconds (i.e.: the number of milliseconds since midnight January 1, 1970). If __expiryTime__ is not set the behavior will be the platform default. For iOS, Android and BB10 pushes will be queued for delivery if the target device is unreachable at the time of the push and delivered as soon as it is reachable. If __expiryTime__ is set and the the device becomes reachable AFTER the expiry time, the push will not be delivered.
+The "__expiryTime__" field can be used to specify a time after which a push should not be displayed. It should be an __Epoch__ timestamp integer in milliseconds (i.e.: the number of milliseconds since midnight January 1, 1970). If __expiryTime__ is not set the behavior will be the platform default. For iOS and Android pushes will be queued for delivery if the target device is unreachable at the time of the push and delivered as soon as it is reachable. If __expiryTime__ is set and the the device becomes reachable AFTER the expiry time, the push will not be delivered.
 
 Windows 8 behavior is similar for tile and badge notifications but only one tile and one badge notification will be queued. See the [Push notification service request and response headers](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#pncodes_x_wns_cache) documentation for more information.
 
@@ -322,12 +322,6 @@ Otherwise, you can specify any arbitrary freeform payload data to deliver to the
 Note that the "message" &rarr; "body" field in the Push request body, if present, will be delivered in the "message" field of the GCM push notification payload.
 
 ### Custom Fields for Other Platforms ###
-
-#### BB10 ####
-
-The __bb10__ custom field consists of a string which will override the message body on BlackBerry 10.  Note that PCF Push Notification Service support for Windows 8 is basic.  Pivotal does not provide any up-to-date client SDKs for BlackBerry 10 at this time.
-
-__NOTE__: The PCF Push Notification Service does not ship with BB10 support enabled due to restrictions on redistribution of BlackBerry's push libraries. If you need to enable BB10 pushes please contact [Pivotal Support](https://support.pivotal.io/hc/en-us).
 
 ####  Windows 8 (WNS) ####
 
@@ -453,8 +447,7 @@ Unlike the above examples, these examples will show the complete Push request bo
           "parameter":"text"
         },
         "template": "toast"
-      },
-      "bb10": "BB10 only message body"
+      }
     }
   },
   "target": {
@@ -463,7 +456,7 @@ Unlike the above examples, these examples will show the complete Push request bo
     "devices": [ "device_uuid1", "device_uuid2", ... ],
     "interactive-only": false,     # Either true or false
     "platform": "all"              # One of the following options
-  },                               # (ios, android, windows8, windowsPhone, bb10)
+  },                               # (ios, android, windows8, windowsPhone)
 
   "scheduleAt": 1345852800000,     # Epoch timestamp in milliseconds.
   "scheduleIn": 0,                 # Integer (time delta in seconds)

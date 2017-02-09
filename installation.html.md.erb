@@ -4,7 +4,7 @@ title: Installation
 
 This document describes how to install the Pivotal Cloud Foundry (PCF) Push Notification Service.
 
-The PCF Push Notification Service installs as a suite of 5 CF apps deployed in the `system` org under the `push-notifications` space.  
+The PCF Push Notification Service installs as a suite of 5 CF apps deployed in the `system` org under the `push-notifications` space.
 
 
 * API
@@ -13,7 +13,7 @@ The PCF Push Notification Service installs as a suite of 5 CF apps deployed in t
 * Scheduler
 * Analytics
 
-A default installation deploys 5 Application Instances (AIs), one for each app show above.
+A default installation deploys 10 Application Instances (AIs), two for each app shown above.
 For **production deployments**, Pivotal recommends deploying a minimum of 2 instances for each push app, 10 AIs total, per PCF environment. Additional API application instances may be required depending on the peak load required, with peak load defined as the maximum number of notifications sent per second.
 
 
@@ -23,7 +23,7 @@ The Push Notification service depends on MySQL (optionally [MySQL for Pivotal CF
 
 ##<a id="Download"></a>Download the Product##
 
-Download the Push Notification software from [Pivotal Network](http://network.pivotal.io/)
+Download the Push Notification software from [Pivotal Network](https://network.pivotal.io/products/push-notification-service)
 
 ##<a id="Adding"></a>Adding the Product##
 
@@ -63,7 +63,7 @@ Ensure the Diego Cell match the resource requirements for running all instances.
 
 ### <a id="ConfigureMySQL"></a> Configure MySQL ###
 
-From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use the [Pivotal MySQL service](https://network.pivotal.io/products/p-mysql). If you select this option you must install the Pivotal MySQL service as well. Enter a service plan name into the "[Service Plan](http://docs.pivotal.io/p-mysql/index.html#settings)" field (ex. "100mb-dev").
+From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use the [Pivotal MySQL service](https://network.pivotal.io/products/p-mysql). If you select this option you must install the Pivotal MySQL service as well. Enter a service plan name into the "[Service Plan](http://docs.pivotal.io/p-mysql/index.html#settings)" field (ex. "100mb").
 
 To use an external (user provided) MySQL server select "External" and fill in the required fields.
 
@@ -71,7 +71,7 @@ Once you have completed this configuration click "Save".
 
 ### <a id="ConfigureRedis"></a> Configure Redis for Analytics and Logs ###
 
-From Ops Manager click on the Push Notification Service tile and go to the "Analytics Redis Settings" section.  Select the Redis service to use [Pivotal Redis service](https://network.pivotal.io/products/p-redis).  If you select this option you must install the Pivotal Redis service as well.  Select from the drop-down the type of service plan to use. See more information about the [Pivotal Redis service](http://docs.pivotal.io/redis/index.html)
+From Ops Manager click on the Push Notification Service tile and go to the "Analytics Redis Settings" section.  Select the Redis service to use [Pivotal Redis service](https://network.pivotal.io/products/p-redis).  If you select this option you must install the Pivotal Redis service as well.  Select from the drop-down the type of service plan to use. See [Pivotal Redis Documentation](http://docs.pivotal.io/redis) for more information.
 
 To use an external (user provided) Redis server select "External" and fill in the required fields.
 - NOTE: This release does not support [Redis Cluster](http://redis.io/topics/cluster-spec) if you are using external redis.
@@ -148,7 +148,7 @@ The services that should appear are as follows:
 - RabbitMQ (push-notifications-rabbitmq)
 - Redis for Analytics (push-notifications-analytics-redis)
 - Redis for Logs  (push-notifications-logs-redis)
-- Push Service Broker (push-service-broker)
+- Push Notification (push-service-instance)
 
 The second way is to use the developer console. After logging in, select the System organization from the dropdown box. Selecting the organization will then show all of the spaces which are nested within.
 

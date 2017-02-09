@@ -7,9 +7,11 @@ title: Push Notification Service Release Notes
 
 **Features**
 
-Ability to customize push app instance counts during deployment. For more information see [~~~]
+Ability to customize push app instance counts during deployment. For more information see  [custom deployments](installation.html#DeploymentSettings).
 
 The Push Dashboard will now show a warning when the iOS certificate in use is expired.
+
+Official support for Azure.
 
 **Bug fixes**
 
@@ -52,7 +54,7 @@ Updated stemcell to v3263 to address kernel vulnerabilities (includes 4.4 kernel
 
 Fixes:
 
-- Fixed dashboard issue found when upgrading from PCF v1.7 to PCF v1.8 
+- Fixed dashboard issue found when upgrading from PCF v1.7 to PCF v1.8
 
 **Known Issues**
 
@@ -83,10 +85,10 @@ Upgrading to PCF v1.8 exposes a bug in versions of Push v1.6.1 and older. The im
 If installing push v1.6.1 or earlier on PCF v1.8, follow the instructions below
 
 1. To confirm this is the problem you are experiencing, you can check to see if there is a CF app running in the `system` org and `push-notifications` space called `push-notifications-analytics`.
- 
+
 
 2. Replace `push-analytics` with `push-notifications-analytics` and add a matching route as per the commands shown below
- 
+
  ```
  cf delete push-analytics
  cf rename push-notifications-analytics push-analytics
