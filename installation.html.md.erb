@@ -63,7 +63,9 @@ Ensure the Diego Cell match the resource requirements for running all instances.
 
 ### <a id="ConfigureMySQL"></a> Configure MySQL ###
 
-From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use the [Pivotal MySQL service](https://network.pivotal.io/products/p-mysql). If you select this option you must install the Pivotal MySQL service as well. Enter a service plan name into the "[Service Plan](http://docs.pivotal.io/p-mysql/index.html#settings)" field (ex. "100mb").
+From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use the [Pivotal MySQL service](https://network.pivotal.io/products/p-mysql). Instructions for installing and configuring the Pivotal MySQL service can be found [here](http://docs.pivotal.io/p-mysql)
+
+When using the Pivotal MySQL service for Push Notifications, a Pivotal MySQL service plan name must be provided. For the purposes of installing Push Notifications, it is recommended that the operator creates a custom Pivotal MySQL service plan called "Push". Instructions for creating a custom service plan can be found in the [Pivotal MySQL Service Plans documentation](http://docs.pivotal.io/p-mysql/1-8/index.html#service-plan). Once you have identified the appropriate service plan, simply enter the name of the service plan in the text field (e.g. Push)
 
 To use an external (user provided) MySQL server select "External" and fill in the required fields.
 
