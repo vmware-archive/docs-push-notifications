@@ -63,7 +63,8 @@ Ensure the Diego Cell match the resource requirements for running all instances.
 
 ### <a id="ConfigureMySQL"></a> Configure MySQL ###
 
-From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use the [Pivotal MySQL service](https://network.pivotal.io/products/p-mysql). If you select this option you must install the Pivotal MySQL service as well. Enter a service plan name into the "[Service Plan](http://docs.pivotal.io/p-mysql/index.html#settings)" field (ex. "100mb").
+From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use [MySQL for PCF](https://network.pivotal.io/products/p-mysql). See the [Installation] section of the [MySQL for PCF documentation](http://docs.pivotal.io/p-mysql/#installation) for more information.
+When using the MySQL for PCF service for Push Notifications, you must provide a MySQL for PCF service plan name. Pivotal recommends creating a custom  MySQL for PCF service plan called "Push". You can find instructions for creating a custom service plan in the [MySQL for PCF Service Plans documentation](http://docs.pivotal.io/p-mysql/1-8/index.html#service-plan). After you identify the appropriate service plan, enter its name in the text field, such as "Push".
 
 To use an external (user provided) MySQL server select "External" and fill in the required fields.
 
