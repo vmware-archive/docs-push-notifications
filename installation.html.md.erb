@@ -2,18 +2,18 @@
 title: Installation
 ---
 
-This document describes how to install the Pivotal Cloud Foundry (PCF) Push Notification Service. 
+This document describes how to install the Pivotal Cloud Foundry (PCF) Push Notification Service.
 
-The PCF Push Notification Service installs as a suite of 5 CF apps deployed in the `system` org under the `push-notifications` space.  
+The PCF Push Notification Service installs as a suite of 5 CF apps deployed in the `system` org under the `push-notifications` space.
 
 
 * API
-* Dashboard 
+* Dashboard
 * Service Broker
 * Scheduler
 * Analytics
 
-A default installation deploys 5 Application Instances (AIs), one for each app show above. 
+A default installation deploys 5 Application Instances (AIs), one for each app show above.
 For **production deployments**, Pivotal recommends deploying a minimum of 2 instances for each push app, 10 AIs total, per PCF environment. Additional API application instances may be required depending on the peak load required, with peak load defined as the maximum number of notifications sent per second.
 
 
@@ -41,7 +41,9 @@ This will produce a salt, key, and initialization vector. Copy the key into the 
 
 ### Configure MySQL
 
-From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use the [Pivotal MySQL service](https://network.pivotal.io/products/p-mysql). If you select this option you must install the Pivotal MySQL service as well. Enter a service plan name into the "[Service Plan](http://docs.pivotal.io/p-mysql/index.html#settings)" field (ex. "100mb-dev").
+From Ops Manager click on the Push Notification Service tile and go to the "MySQL Settings" section. Select MySQL Service to use [MySQL for PCF](https://network.pivotal.io/products/p-mysql). See the [Installation] section of the [MySQL for PCF documentation](http://docs.pivotal.io/p-mysql/#installation) for more information.
+
+When using the MySQL for PCF service for Push Notifications, you must provide a MySQL for PCF service plan name. Pivotal recommends creating a custom  MySQL for PCF service plan called "Push". You can find instructions for creating a custom service plan in the [MySQL for PCF Service Plans documentation](http://docs.pivotal.io/p-mysql/1-8/index.html#service-plan). After you identify the appropriate service plan, enter its name in the text field, such as "Push".
 
 To use an external (user provided) MySQL server select "External" and fill in the required fields.
 
