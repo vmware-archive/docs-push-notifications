@@ -82,6 +82,12 @@ The same steps will apply to set the "Logs Redis Settings" section as above.
 
 Once you have completed these configurations click "Save".
 
+### <a id="DefaultErrand"></a> Default Errand Behaviour ###
+
+As of v1.10, PCF's Ops Manager will skip all unnecessary BOSH errands when performing updates to PCF services. For more information about this behaviour, please refer to the Ops Manager documentation on [Managing Errands in Ops Manager](http://docs.pivotal.io/pivotalcf/customizing/managing_errands.html).
+
+For PCF Push Notification services, it is **strongly** recommended that Operators set the default Errand execution behaviour to "On". This can be done through the Errands Form in the Push Notifications tile settings in Ops Manager.
+
 ### <a id="UploadStemcell"></a> Upload Stemcell ###
 
 Ops Manager versions greater than 1.5 will require that you upload the stemcell that the Push Notification Service uses. You can acquire this stemcell from the [Bosh Stemcell Directory](https://bosh.io/stemcells). Once you have the stemcell, upload it to Ops Manager via the "Stemcell" tab in the Push Notification Services configuration page.
