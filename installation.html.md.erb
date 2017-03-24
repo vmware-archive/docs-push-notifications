@@ -4,7 +4,7 @@ title: Installation
 
 This document describes how to install the Pivotal Cloud Foundry (PCF) Push Notification Service.
 
-The PCF Push Notification Service installs as a suite of 5 CF apps deployed in the `system` org under the `push-notifications` space.
+The PCF Push Notification Service installs as a suite of five CF apps deployed in the `system` org under the `push-notifications` space.
 
 
 * API
@@ -13,8 +13,8 @@ The PCF Push Notification Service installs as a suite of 5 CF apps deployed in t
 * Scheduler
 * Analytics
 
-A default installation deploys 5 Application Instances (AIs), one for each app show above.
-For **production deployments**, Pivotal recommends deploying a minimum of 2 instances for each push app, 10 AIs total, per PCF environment. Additional API application instances may be required depending on the peak load required, with peak load defined as the maximum number of notifications sent per second.
+A default installation deploys five Application Instances (AIs), one for each app show above.
+For **production deployments**, Pivotal recommends deploying a minimum of two instances for each push app, 10 AIs total, per PCF environment. Additional API application instances may be required depending on the peak load required, with peak load defined as the maximum number of notifications sent per second.
 
 
 ##<a id="Dependencies"></a>Dependencies##
@@ -37,7 +37,7 @@ From Ops Manager click on the Pivotal Push Notification Service tile and go to t
 
 	openssl enc -aes-128-cbc -k samplepassword -P -md sha1
 
-This will produce a salt, key, and initialization vector. Copy the key into the "Encryption Key" field on Ops Manager and click "Save". This key is used for symmetric encryption of push certificates and API keys.
+This produces a salt, key, and initialization vector. Copy the key into the "Encryption Key" field on Ops Manager and click "Save". This key is used for symmetric encryption of push certificates and API keys.
 
 ### Configure MySQL
 
@@ -47,7 +47,7 @@ When using the MySQL for PCF service for Push Notifications, you must provide a 
 
 To use an external (user provided) MySQL server select "External" and fill in the required fields.
 
-Once you have completed this configuration click "Save".
+After you have completed this configuration click "Save".
 
 ### Configure Redis for Analytics and Logs
 
@@ -57,41 +57,43 @@ To use an external (user provided) Redis server select "External" and fill in th
 - NOTE: This release does not support [Redis Cluster](http://redis.io/topics/cluster-spec) if you are using external redis.
 - If you are using redis behind a tcp proxy, make sure to use Session Persistence.
 
-The same steps will apply to set the "Logs Redis Settings" section as above.
+The same steps apply to set the "Logs Redis Settings" section as above.
 
-Once you have completed these configurations click "Save".
+After you have completed these configurations click "Save".
 
 ### Default Errand Behaviour ###
 
-As of v1.10, PCF's Ops Manager will skip all unnecessary BOSH errands when performing updates to PCF services. For more information about this behaviour, please refer to the Ops Manager documentation on [Managing Errands in Ops Manager](http://docs.pivotal.io/pivotalcf/customizing/managing_errands.html).
+As of v1.10, Ops Manager skips all unnecessary BOSH errands when performing updates to PCF services.
+For more information about this behavior, see the Ops Manager documentation,
+[Managing Errands in Ops Manager](http://docs.pivotal.io/pivotalcf/customizing/managing_errands.html).
 
-For PCF Push Notification services, it is **strongly** recommended that Operators set the default Errand execution behaviour to "On". This can be done through the Errands Form in the Push Notifications tile settings in Ops Manager
-.
+For PCF Push Notification services, Pivotal **strongly** recommends that operators set the default Errand execution behaviour to **On**,
+through the **Errands Form** in the Push Notifications tile settings in Ops Manager.
 
 ### Upload Stemcell
 
-Ops Manager versions greater than 1.5 will require that you upload the stemcell that the Push Notification Service uses. You can acquire this stemcell from the [Bosh Stemcell Directory](https://bosh.io/stemcells). Once you have the stemcell, upload it to Ops Manager via the "Stemcell" tab in the Push Notification Services configuration page.
+Ops Manager versions greater than v1.5 require that you upload the stemcell that the Push Notification Service uses. You can acquire this stemcell from the [Bosh Stemcell Directory](https://bosh.io/stemcells). After you have the stemcell, upload it to Ops Manager via the "Stemcell" tab in the Push Notification Services configuration page.
 
 ### Apply Changes
 
-Once the security settings and MySQL configuration are complete you can click "Installation Dashboard" to return to the Ops Manager dashboard and then click "Apply Changes" to complete the installation.
+After the security settings and MySQL configuration are complete you can click "Installation Dashboard" to return to the Ops Manager dashboard and then click "Apply Changes" to complete the installation.
 
 ##<a id="Tenant"></a>Creating a Tenant##
 
-Since version 1.4, the PCF Push Notification Service supports multiple tenants. Each tenant in the PCF Push Notification Service can have its own set of applications. In order to set up a new
-tenant, you will need to create a new space in your PCF Apps Manager. You can use any org that is appropriate for your needs.
+Since v1.4, the PCF Push Notification Service supports multiple tenants. Each tenant in the PCF Push Notification Service can have its own set of applications. In order to set up a new
+tenant, you need to create a new space in your PCF Apps Manager. You can use any org that is appropriate for your needs.
 
-The applications for the Push Notification Service itself are in the "push-notifications" space in the "system" org. Please don't use this space for your own tenant. Please create a new space
+The applications for the Push Notification Service itself are in the "push-notifications" space in the "system" org. Don't use this space for your own tenant. Create a new space
 instead.
 
-Once you have selected your space you can create your Push service instance by clicking the "Add Service" button. Select the "PCF Push Notification Service" service from the Marketplace. Select the
+After you have selected your space you can create your Push service instance by clicking the "Add Service" button. Select the "PCF Push Notification Service" service from the Marketplace. Select the
 default (free) plan. Give the service a name and add it to your space.
 
-Please only create one instance of the Push Notification Service per space.
+Only create one instance of the Push Notification Service per space.
 
-Once the service instance is created you can click the "Manage" link on the service instance to show the Dashboard for the Push Notification Service.
+After the service instance is created you can click the "Manage" link on the service instance to show the Dashboard for the Push Notification Service.
 
-You can control access to the Push Dashboard by using the using Cloud Controller. Any users with access to see the space will also have access to use the Push Notification Dashboard. You will need
+You can control access to the Push Dashboard by using the using Cloud Controller. Any users with access to see the space also have access to use the Push Notification Dashboard. You need
 to be logged in to the Apps Manager before you can access the Push Dashboard.
 
 ##<a id="Dashboard"></a>Dashboard setup##
@@ -99,7 +101,7 @@ to be logged in to the Apps Manager before you can access the Push Dashboard.
 After the service has been added, verify the successful installation by viewing the dashboard.
 
 ####Note:
-The Push Notification service is a CF Service that is installed in the "System" org and "push-notifications" space. You will see it in the Marketplace. Each instance of the Push Notifications Service will have its own dashboard URL.
+The Push Notification service is a CF Service that is installed in the "System" org and "push-notifications" space. You see it in the Marketplace. Each instance of the Push Notifications Service has its own dashboard URL.
 
 Login as "admin" to the CF console and go to that org and space. To access the Push Dashboard, click on the "Manage" link for the "push-service-instance" service.
 
@@ -109,7 +111,7 @@ There are two different ways to manually verify the installation was successful.
 
 The first way is to use the [CF CLI](https://github.com/cloudfoundry/cli) to view the installed apps and services. Instructions to log in are included on the CF CLI page.
 
-The organization is "System" and the space is "push-notifications", both will be needed to view the apps and services using the CF CLI.
+The organization is "System" and the space is "push-notifications", both are needed to view the apps and services using the CF CLI.
 
 After setting the api and logging in to the CF CLI, type in ``cf a`` to see a listing of all the apps currently under the push-notifications space, with a quick overview of their current status.
 
@@ -125,7 +127,7 @@ The apps that should appear are as follows:
 
 And they should all have their own unique urls.
 
-For the services, typing in ``cf s`` will give a list of the services plus the apps which they are bound to.
+For the services, typing in ``cf s`` gives a list of the services plus the apps which they are bound to.
 
 ![CLI Services](v1_4_0/assets/installation-cli-services.png)
 
@@ -137,11 +139,11 @@ The services that should appear are as follows:
 - Redis for Logs  (push-notifications-logs-redis)
 - Push Service Broker (push-service-broker)
 
-The second way is to use the developer console. After logging in, select the System organization from the dropdown box. Selecting the organization will then show all of the spaces which are nested within.
+The second way is to use the developer console. After logging in, select the System organization from the dropdown box. Selecting the organization shows all of the spaces which are nested within.
 
 ![Dev Dashboard](v1_4_0/assets/installation-dev-dashboard.png)
 
-Click on the push-notifications space, which will then show the apps and services running under that space.
+Click on the push-notifications space, which then shows the apps and services running under that space.
 
 ![Dev Dashboard Apps](v1_4_0/assets/installation-dev-dashboard-apps.png)
 
@@ -153,8 +155,8 @@ The listing of services show the name, the plan, and how many apps are bound to 
 
 ##<a id="Notes"></a>Notes##
 
-There is no automated upgrade path from version 1.2.x to version 1.3.0. Steps are available to backup and restore data between these versions.
+There is no automated upgrade path from v1.2.x to v1.3.0. Steps are available to backup and restore data between these versions.
 
-For versions 1.0 - 1.2, the default location for the dashboard `http://push-notifications-dashboard.cf.example.com`
+For v1.0 - v1.2, the default location for the dashboard `http://push-notifications-dashboard.cf.example.com`
 
-For versions 1.0 - 1.1, the default installation installs the applications to the "Pivotal" org and "push-notifications" space.
+For v1.0 - v1.1, the default installation installs the applications to the "Pivotal" org and "push-notifications" space.
