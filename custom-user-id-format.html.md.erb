@@ -2,14 +2,21 @@
 title: Registering with a Custom User ID
 ---
 
-## Specifying a Custom User ID ##
+## <a id="specifyingCustomeUserID"></a>Specifying a Custom User ID ##
 
 By default, push expects the custom user ID field during a device registration to be specified using 
 a JSON Web Token, signed using the application's shared secret.
 
 The application's shared secret can be found on the push dashboard, under the configuration tab.
 
-#### Signed Custom User ID Format
+## <a id="securityGuidance"></a>Security Guidance
+
+It is recommended for security purposes to implement signing the custom user ID on the backend. 
+
+Avoid storing the shared secret in a mobile application. If the shared secret is compromised in a mobile application, attackers could masquerade as existing users.
+
+
+## <a id="signingCustomUserId"></a>Signed Custom User ID Format
 
 Push API expects the `custom_user_id` to be sent as a signed JSON Web Token (JWT).
 This is to validate that the registration request came from a trusted application.
@@ -62,10 +69,12 @@ For an example on how to generate the Custom User ID JWT in Java check out https
 
 
 
-#### Unsigned Custom User ID Format ####
+### <a id="unsignedCustomUserId"></a>Unsigned Custom User ID Format
 
 The requirement to sign custom user IDs can be disabled by setting the `push_security_verifyCustomUserId` environment 
-variable to false for the push-api servce.
+variable to false for the push-api servce. 
+
+**It is highly recommended for custom user ID signing to remain enabled.**
 
 If signed custom user IDs are disabled, then the registration call should just contain the custom user ID as plain text
 
