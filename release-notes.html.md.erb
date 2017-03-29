@@ -2,6 +2,20 @@
 title: Push Notification Service Release Notes
 ---
 
+##v1.8.2
+**Release Date: April 2017**
+
+**Bug fixes**
+
+Addressed MariaDB migration issue when installing push on PCF 1.10.0
+
+##v1.8.1
+**Release Date: March 2017**
+
+**Bug fixes**
+
+Fix an issue when upgrading the push tile on PCF 1.9.*
+
 ##v1.8.0
 **Release Date: February 2017**
 
@@ -16,6 +30,14 @@ Official support for Azure.
 **Bug fixes**
 
 **Known issues**
+
+Upgrading to Push 1.8.0 when running on PCF 1.9 may fail with an error `Server error, status code: 500, error code: 10001, message: An unknown error occurred.`
+
+This is due to the 1.8 version of the push tile defaulting to 2 app instances for each application it deploys on the system org, push-notifications space. This error is encountered when an app is staged and scaled at the same time.
+
+Please upgrade to version 1.8.1 to fix this issue.
+
+Workaround: Update the instance counts of the apps under the system org, push-notifications space to 2 each before installing Push 1.8.0 (or the custom instance counts if you're using that option.)
 
 ##v1.7.1
 **Release Date: January 2017**
