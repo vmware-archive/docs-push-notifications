@@ -26,19 +26,6 @@ The Push Notification service depends on MySQL (optionally [MySQL for Pivotal CF
 Tailing logs through the push dashboard is now done using websockets.
 Please ensure that websocket traffic is allowed through to the push dashboard (`push.SYSTEM-DOMAIN`) and push-analytics(`push-analytics.SYSTEM-DOMAIN`) addresses.
 
-If you are running PCF on Google Cloud Platform (GCP), then do the following to configure the DNS entries to accommodate web sockets:
-  1. Log in to the GCP console.
-  1. In the menu, navigate to the **Networking** tab and click **Load Balancing**.
-  1. Find the load balancer that corresponds to `ENVIRONMENT-cf-ws`.
-  1. Record the IP address.
-  1. Click **Cloud DNS**, then click **ENVIRONMENT-zone**.
-  1. Click **Add Record Set**.
-  1. Enter a DNS name for push dashboard. The DNS name should be `push.SYSTEM_DOMAIN`. Refer to your ERT Tile’s configuration of the System Domain under the Domains configuration section.
-  1. In the IPv4 address field, enter the IP address of the load balancer that you recorded in Step 4.
-  1. Leave the other fields as default.
-  1. Repeat Steps 6–9 to create DNS records for push-analytics (`push-analytics.SYSTEM_DOMAIN`).
-
-
 ##<a id="Download"></a>Download the Product##
 
 Download the Push Notification software from [Pivotal Network](https://network.pivotal.io/products/push-notification-service)
