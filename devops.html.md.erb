@@ -86,6 +86,17 @@ title: DevOps
   The `push_apns_socksProxyHost` and `push_apns_socksProxyPort` environment variables allow you to specify a SOCKS proxy through which to route APNS push
   requests.
 
+### Push Dashboard
+
+    CREATE_PLATFORM_DIALOG_WHITELIST (String, default: "ios,android,android-fcm,android-baidu")
+
+  The `CREATE_PLATFORM_DIALOG_WHITELIST` environment variable specifies which new push platform are available for creation when using the Push
+  Notification dashboard.
+
+  If this variable is empty, the Push Dashboard will fail to start.
+
+  NOTE: It is strongly suggested to change this setting in the [Push Notification tile through Ops Manager](installation.html#AvailablePlatforms).
+
 ## <a id="backup_and_restore"></a> Backup And Restore
 
 ### Backup MySQL data
