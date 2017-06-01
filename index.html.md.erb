@@ -10,7 +10,14 @@ This is documentation for the [Push Notification Service](https://network.pivota
 	<dt>Current Push Notification Service for PCF Details</dt>
 	<dd><strong>Version</strong>: v1.9.0 </dd>
 	<dd><strong>Release Date</strong>: June 2017</dd>
-	<dd><strong>SDK Versions</strong>: Android v1.9.0, iOS v1.9.1, Baidu v1.9.0</dd>
+	<dd><strong>SDK Versions</strong>:
+		<ul>
+		<li><strong>Android-GCM</strong> io.pivotal.android:push:1.6.2</li>
+		<li><strong>Android-FCM</strong> io.pivotal.android:push-fcm:1.9.0</li>
+		<li><strong>Android-Baidu</strong> io.pivotal.android:push-baidu:1.9.0</li>
+		<li><strong>iOS</strong> v1.9.1</li>
+		</ul>
+	</dd>
 	<dd><strong>Compatible Ops Manager Version(s)</strong>: v1.8.x, v1.9.x, v1.10.x</dd>
 	<dd><strong>Compatible Elastic Runtime Version(s)</strong>: v1.8.x, v1.9.x, v1.10.x</dd>
 	<dd><strong>vSphere support?</strong> Yes</dd>
@@ -25,14 +32,14 @@ See the [Product Compatibility Matrix](http://docs.pivotal.io/resources/product-
 
 ##About
 
-The Pivotal [Push Notification Service](https://network.pivotal.io/products/push-notification-service) for [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) allows developers to create a backend that can be used to send push notifications to mobile apps. The service connects and manages the interface to Apple Push Notification Service, Google Cloud Messaging, Firebase Cloud Messaging and Windows Push Notification Services.
+The Pivotal [Push Notification Service](https://network.pivotal.io/products/push-notification-service) for [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) allows developers to create a backend that can be used to send push notifications to mobile apps. The service connects and manages the interface to Apple Push Notification Service, Google Cloud Messaging, Firebase Cloud Messaging and Baidu Cloud Push.
 
 
 Each mobile app communicates with the service for registrations and notification preferences by using the corresponding client SDK. Back-end business logic servers send push notifications to all users or a subset of them. Users can be targeted by platform, by geolocation, by custom user id or by topics.
 
 <img src="assets/push-notifications-network-diagram.png" />
 
-For installation, a PCF administrator initially imports the Pivotal Push Notifications tile into PCF Operations Manager and configures it via the Dashboard at which point the service becomes available to send notifications. The Dashboard provides the ability to configure apps, platforms, and device-specific service parameters. Client SDKs for iOS and Android provide a simplified way to integrate with the Push Notifications service. Windows Phone 8 and Windows 8 apps can also use the service.
+For installation, a PCF administrator initially imports the Pivotal Push Notifications tile into PCF Operations Manager and configures it via the Dashboard at which point the service becomes available to send notifications. The Dashboard provides the ability to configure apps, platforms, and device-specific service parameters. Client SDKs for iOS and Android provide a simplified way to integrate with the Push Notifications service.
 
 The Push Notifications service requires:
 
