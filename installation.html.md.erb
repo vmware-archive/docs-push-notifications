@@ -38,11 +38,26 @@ Before you can complete the installation you must provide some configuration.
 
 ### <a id="SetEncryptionKey"></a> Set Encryption Key ###
 
-From Ops Manager click on the Pivotal Push Notification Service tile and go to the "Security Settings" section. Generate an encryption key by running the following command in terminal (you should set your own password here):
+From Ops Manager click on the Push Notification Service tile and go to the "Security Settings" section. Generate an encryption key by running the following command in terminal (you should set your own password here):
 
 	openssl enc -aes-128-cbc -k samplepassword -P -md sha1
 
 This produces a salt, key, and initialization vector. Copy the key into the "Encryption Key" field on Ops Manager and click "Save". This key is used for symmetric encryption of push certificates and API keys.
+
+### <a id="AvailablePlatforms"></a> Set Available Platforms ###
+
+From Ops Manager click on the Push Notification Service tile and go to the "Available Platforms" section. Select which new platforms will be available for creation when using the Push Notification dashboard.
+
+One or more of these options must be selected:
+
+- iOS: Allows the creation of iOS APNS push platforms
+- Android: Allows the creation of Android push platforms through Google Cloud Messaging
+- Android (FCM): Allows the creation of Android push platforms through Google Firebase Messaging
+- Android (Baidu): Allows the creation of Android push platforms through Baidu Messaging.
+
+This setting is useful for environments deployed in regions in which certain push platforms may not be available. For example, "Android" and "Android (FCM)" are currently not available in China.
+
+NOTE: This setting will only affect the creation of new platforms; currently existing platforms will not be affected by this setting.
 
 ### <a id="DeploymentSettings"></a> Configure Deployment Settings ###
 
