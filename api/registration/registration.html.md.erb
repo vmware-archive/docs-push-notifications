@@ -14,12 +14,12 @@ Retrieves a device's registration for a specific platform.
 
 ```JSON
 {
-  "os": "",                     # one of [ios|android|windowsPhone|windows8]
+  "os": "",                     # one of [ios|android|android-fcm|android-baidu]
   "device_model": "",           # device model identifier
   "device_manufacturer": "",    # device manufacturer identifier
   "device_alias": "",           # application specific device/user identifier
   "device_uuid": "",            # unique device identifier
-  "registration_token": "",     # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WNS (windows8)
+  "registration_token": "",     # token provided by APNS (ios), GCM (android), FCM (android-fcm), or Baidu (android-baidu)
   "tags": [                     # tags the device/user is subscribed to, this will overwrite any existing tags the device/user was previously subscribed to
     {
       "text": ""
@@ -68,9 +68,9 @@ For more information see [Registering with a Custom User ID](../../custom-user-i
   "device_alias": "string",               # application specific device/user identifier. We recommend that you use the user's device name as device alias
   "device_model": "string",               # device model identifier
   "device_manufacturer": "string",        # device manufacturer identifier
-  "os": "string",                         # device os, one of [ios|android|windowsPhone|windows8]
+  "os": "string",                         # device os, one of [ios|android|android-fcm|android-baidu]
   "os_version": "string",                 # device version string
-  "registration_token": "string",         # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WNS (windows8)
+  "registration_token": "string",         # token provided by APNS (ios), GCM (android), FCM (android-fcm), or Baidu (android-baidu)
   "tags": [ "tag1", "tag2" ],             # tags the device/user is subscribed to, this will overwrite any existing tags the device/user was previously subscribed to
   "custom_user_id": "string"              # allows you to register a device under an ID that is meaningful to your system such as their login
 }
@@ -89,12 +89,12 @@ For more information see [Registering with a Custom User ID](../../custom-user-i
       "text": "tag2"
     }
   ],
-  "os": "",                   # one of [ios|android|windowsPhone|windows8]
+  "os": "",                   # one of [ios|android|android-fcm|android-baidu]
   "device_model": "",         # device model identifier
   "device_manufacturer": "",  # device manufacturer identifier
   "device_alias": "",         # application specific device/user identifier
   "device_uuid": "",          # the unique identifier assigned to the device by Push Notifications
-  "registration_token": "",   # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WPN (windows8)
+  "registration_token": "",   # token provided by APNS (ios), GCM (android), FCM (android-fcm), or Baidu (android-baidu)
   "active": "",               # can the device be targeted for pushes
   "custom_user_id": ""        # device registered with custom user id
 }
@@ -147,7 +147,7 @@ encrypted with a unique HMAC using the device shared secret as the cryptigraphic
   "device_manufacturer": "string",    # device manufacturer identifier
   "device_model": "string",           # device model identifier
   "os_version": "string",             # os version string
-  "registration_token": "string",     # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WPN (windows8)
+  "registration_token": "string",     # token provided by APNS (ios), GCM (android), FCM (android-fcm), or Baidu (android-baidu)
   "tags": {
     "subscribe": ["tag1","tag2"],     # add new tags subscriptions to the device/user
     "unsubscribe": ["tag3","tag4"]    # remove tags that the device/user is subscribed to
@@ -185,4 +185,4 @@ Delete a registration. Requires that the device_uuid returned when you registere
 ### Request Body:
 None.
 
-### Response Data, status: 204 (NO CONTENT) 
+### Response Data, status: 204 (NO CONTENT)

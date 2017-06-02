@@ -17,7 +17,7 @@ Parameters    | Description
 size          | Controls the maximum number of registrations to be returned. This value defaults to 20 if not provided. Values in the range 0-50 are accepted.
 page          | Controls which page of results will be returned with an offset of size  page. This value defaults to 1 if not provided.
 q             | Returns only the registrations results containing the query string provided in either the deviceUuid, the registration token, the custom user id, or the device alias.
-platform      | Returns only the registrations results registered to the given platform. Valid inputs are all, ios, android, and windows8.
+platform      | Returns only the registrations results registered to the given platform. Valid inputs are all, ios, android, android-fcm, or android-baidu.
 platformUuid  | Returns only the registrations results registered to the given platformUuid.
 topic         | Returns only the registrations results registered to the given topic name.
 
@@ -29,13 +29,13 @@ topic         | Returns only the registrations results registered to the given t
   "registrations":
   [
     {
-      "os": "",                   # one of [ios|android|windowsPhone|windows8]
+      "os": "",                   # one of [ios|android|android-fcm|android-baidu]
       "os_version": "",           # device version string
       "device_model": "",         # device model identifier
       "device_manufacturer": "",  # device manufacturer identifier
       "device_alias": "",         # application specific device/user identifier
       "device_uuid": "",          # unique device identifier
-      "registration_token": "",   # token provided by APNS (ios), GCM (android), MPNS (windowsPhone), or WNS (windows8)
+      "registration_token": "",   # token provided by APNS (ios), GCM (android), FCM (android-fcm), or Baidu (android-baidu)
       "active": ""                # can the device be targeted for pushes
     }
   ]
