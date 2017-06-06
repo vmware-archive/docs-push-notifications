@@ -1,0 +1,94 @@
+---
+title: Setting up Push Notifications with Baidu
+owner: Push Notifications
+---
+
+This document describes how developers can set up the Pivotal Cloud Foundry (PCF) Push Notification Service with the Baidu platform so their apps can send push notifications to Android devices.
+
+##<a id="pre"></a>Prerequisites
+
+The procedures in this document require the following:
+
+* You must have access to a PCF environment with the Push Notification Service installed.
+* You must have Android Studio 2.2 or later installed on your machine.
+* You must have the Google Repository from the [Android SDK Manager](https://developer.android.com/tools/help/sdk-manager.html).
+* You must have the Push Android SDK 1.7 or later from [Github](https://github.com/cfmobile/push-android).
+* The devices that you want to send push notifications to must run Android 2.3 (Gingerbread) or later.
+* The devices that you want to send push notifications to must have Google Play Services 9.8.0 or later.
+
+## <a id="prep"></a>Prepare a Baidu Project
+
+Follow these steps to prepare a Baidu application for your app.
+
+1. Navigate to the [Baidu Push website](http://push.baidu.com).
+1. Click on Log in (登录) or Register (注册) at the top right and login or register, respectively.
+1. Click on your username at the top right to get to your application list.
+1. Click on Create a new application (创建新应用) and enter a name, and continue.
+1. On the Application Configuration (应用配置) screen, choose Android, and enter your app's package name and click Save (保存).
+1. Back on the application list page, click on Application Configuration (应用配置) to obtain the API Key and Secret Key.
+
+## <a id="push-service"></a> Configure Your Push Dashboard
+
+Follow the steps below to navigate to the Push dashboard and configure the Push Notification service.
+
+You can navigate to the Push dashboard using either Apps Manager or the Cloud Foundry Command Line Interface (cf CLI). Use the cf CLI instructions if you did not enable the <b>Push Apps Manager</b> errand when deploying Elastic Runtime.
+
+### Navigate to Push Dashboard using Apps Manager
+
+1. In a browser, navigate to `apps.YOUR-SYSTEM-DOMAIN`.
+1. Select the **system** org and the **push-notifications** space.
+1. Click the **Services** tab.
+1. Select the **PCF Push Notification Service** row and click the **Manage** link.
+
+### Navigate to Push Dashboard using cf CLI
+
+1. Open a terminal window and log in:
+
+	<pre class="terminal">$ cf login -a https://api.YOUR-SYSTEM-DOMAIN -u USERNAME -p PASSWORD</pre>
+
+1. Target the correct org and space:
+
+	<pre class="terminal">$ cf target -o system -s push-notifications</pre>
+
+1. Run the following command:
+
+	<pre class="terminal">$ cf service push-service-instance</pre>
+
+1. Copy the URL from the **Dashboard** field and paste it into your browser.
+
+### <a id="backend"></a>Configure the Push Notification Service
+
+Follow these steps to configure the Push backend by creating a new platform for the sample app.
+
+1. In the Push dashboard, select the **+** icon from the left to create a new app to send push notifications to, either the push sample app or push demo app.
+	* Enter a **Name** and **Description**.
+1. Once you create an app, select the **Configuration** tab for that app.
+1. Click **Add New Platform**.
+1. Enter a **Name** and **Description**, and choose a **Mode**.
+1. For **Type**, select `Android-Baidu`.
+1. Once created,  click the pencil icon to edit the platform.
+1. In the **Baidu API Key** field, paste the API key that you recorded earlier.
+1. In the **Baidu Secret** field, paste the secret key that you recorded earlier.
+
+<p class="note"><strong>Note</strong>: You can add multiple Baidu Platforms with keys from different Baidu applications, depending on how your Baidu applications and projects are organized. There is no requirement that all Baidu Platforms use the same keys in the Push backend.</p>
+
+## <a id="backend"></a>Run the App on Your Device
+
+Follow these steps to compile and deploy the app on your Android device.
+
+1. Navigate to the [Push Android Samples](https://github.com/cfmobile/push-android-samples) repository.
+1. Clone the repository to your workspace.
+1. Checkout the `release_v1.9` branch, or the branch of a later version.
+1. Ensure the `baiduDebug` or `baiduRelease` build variant is selected. The Android sample apps are multi-flavor: Baidu and FCM can both be built from this repository.
+1. Provide a keystore location for debug `signingConfigs` in the respective project's `build.gradle` file. Optionally, remove this block.
+1. Populate the `MainActivity` configuration:
+  * `VARIANT_UUID` with the platform UUID of the Baidu platform created in the previous section.
+	* `VARIANT_SECRET` with the platform secret of the Baidu platform created in the previous step.
+	* `BASE_SERVER_URL` with the server address to your push backend API in the form of `https://push-api.YOUR-SYSTEM-DOMAIN`.
+1. Compile and deploy the application to your Android device.
+
+Once the application registers with the Push backend, it can receive push notifications. To verify that your device registered, see the **Devices** tab in the Push dashboard. The device **Type** field displays a Baidu paw logo.
+
+You can also send test pushes to the device from the Push dashboard.
+
+<p class="note"><strong>Note</strong>: If you send a test push to your device from the Push dashboard, ensure the app is not open on your device. You cannot see the test push while the app is open.</p>
