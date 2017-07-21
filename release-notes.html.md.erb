@@ -2,6 +2,19 @@
 title: Push Notification Service Release Notes
 ---
 
+##v1.9.2
+**Release Date: July 2017**
+
+**Features**
+
+Devices that are no longer registered against the FCM Google key are now deactivated
+
+**Bug fixes**
+
+Fix push-service-broker packaging for offline installation of Push Notification Service tile
+
+Fix push-dashboard page "Not Found" error if `Accept-Encoding` is missing in request header
+
 ##v1.9.1
 **Release Date: June 2017**
 
@@ -10,6 +23,10 @@ title: Push Notification Service Release Notes
 Fix RabbitMQ connectivity issue
 
 Ensure push-scheduler and push-service-broker use correct Ruby version in latest CF buildpacks
+
+**Known issues**
+
+In an offline environment, running post-install errands will fail due to push-service-broker package missing local dependencies
 
 ##v1.9.0
 **Release Date: June 2017**
