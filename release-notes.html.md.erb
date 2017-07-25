@@ -15,6 +15,10 @@ Fix push-service-broker packaging for offline installation of Push Notification 
 
 Fix push-dashboard page "Not Found" error if `Accept-Encoding` is missing in request header
 
+**Known issues**
+
+`com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` in push-api log can be ignored as it does not affect sending pushes
+
 ##v1.9.1
 **Release Date: June 2017**
 
