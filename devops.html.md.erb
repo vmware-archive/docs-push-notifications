@@ -61,10 +61,15 @@ title: DevOps
   The `push_gcm_logDeviceTokens` environment variable controls the log verbosity of the Android push handler. When set to `true` the device token for every
   recipient of a push will be logged as the push is sent. Note that this extra logging will reduce push throughput.
 
-#### Installing the push server behind a proxy (available in v1.3.2+)
+#### Installing the push server behind a proxy
 
-  Starting in Push version 1.3.2 you can route communication with push providers (APNS, Google Cloud Messaging) through a proxy server. GCM pushes can use
-  either a HTTP or socks proxy. APNS pushes can only use a socks proxy. Use the following environment variables to specify proxies.
+  You can route communication with push providers (APNS, Google Cloud Messaging, Firebase Cloud Messaging, Baidu Cloud Push) through a proxy server.
+  
+  It is strongly suggested to change this setting in the [Push Notification tile through Ops Manager](installation.html#ProxySettings).
+
+##### GCM Pushes through Proxy
+  
+  GCM pushes can use either a HTTP or socks proxy. Use the following environment variables to specify proxies.
 
     push_gcm_httpProxyHost (String, default: [empty])
     push_gcm_httpProxyPort (Integer, default: [empty])
@@ -78,13 +83,53 @@ title: DevOps
   The `push_gcm_socksProxyHost` and `push_gcm_socksProxyPort` environment variables allow you to specify a SOCKS proxy through which to route Google API
   requests.
 
-  Note: If both HTTP and SOCKS proxies are defined for GCM, SOCKS will be used.
+##### FCM Pushes through Proxy
+  
+  FCM pushes can use either a HTTP or socks proxy. Use the following environment variables to specify proxies.
+
+    push_fcm_httpProxyHost (String, default: [empty])
+    push_fcm_httpProxyPort (Integer, default: [empty])
+
+  The `push_fcm_httpProxyHost` and `push_fcm_httpProxyPort` environment variables allow you to specify an HTTP proxy server through which to route Google API
+  requests (for Android pushes).
+
+    push_fcm_socksProxyHost (String, default: [empty])
+    push_fcm_socksProxyPort (String, default: [empty])
+
+  The `push_fcm_socksProxyHost` and `push_fcm_socksProxyPort` environment variables allow you to specify a SOCKS proxy through which to route Google API
+  requests.
+
+##### Baidu Pushes through Proxy
+  
+  Baidu pushes can use either a HTTP or socks proxy. Use the following environment variables to specify proxies.
+
+    push_baidu_httpProxyHost (String, default: [empty])
+    push_baidu_httpProxyPort (Integer, default: [empty])
+
+  The `push_baidu_httpProxyHost` and `push_baidu_httpProxyPort` environment variables allow you to specify an HTTP proxy server through which to route Baidu API
+  requests (for Android pushes).
+
+    push_baidu_socksProxyHost (String, default: [empty])
+    push_baidu_socksProxyPort (String, default: [empty])
+
+  The `push_gcm_socksProxyHost` and `push_baidu_socksProxyPort` environment variables allow you to specify a SOCKS proxy through which to route Google API
+  requests.
+
+
+##### APNS Pushes Through Proxy
+
+   APNS pushes can only use a socks proxy.
 
     push_apns_socksProxyHost (String, default: [empty])
     push_apns_socksProxyPort (String, default: [empty])
 
   The `push_apns_socksProxyHost` and `push_apns_socksProxyPort` environment variables allow you to specify a SOCKS proxy through which to route APNS push
   requests.
+  
+##### For All Pushes Through Proxy
+
+  If both HTTP and SOCKS proxies are defined for a particular Push service provider (GCM, FCM, and Baidu), SOCKS will be used.
+
 
 ### Push Dashboard
 

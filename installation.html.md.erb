@@ -102,6 +102,17 @@ The same steps apply to set the "Logs Redis Settings" section as above.
 
 After you have completed these configurations click "Save".
 
+### <a id="ProxySettings"></a> Configure Proxy ###
+
+PCF Push Notification Service supports routing communication with push providers (Apple Push Notification Service, Google Cloud Messaging, Firebase Cloud Messaging, Baidu Cloud Push) through a proxy server.
+ 
+For example, to route FCM API request through a SOCKS proxy server running on 10.0.4.2:1080, set `Server Host` and `Server Port` under `SOCKS` of `FCM Proxy Settings` as following:  
+![Proxy Configuration](assets/installation-proxy.png)
+
+Each push providers proxy settings can be configured independently from each other.
+
+For Android based push providers (GCM, FCM, and Baidu), both SOCKS and HTTP proxies are supported. For Apple push provider (APNS), only SOCKS proxy is supported.
+
 ### <a id="DefaultErrand"></a> Default Errand Behavior ###
 
 As of PCF v1.10, Ops Manager skips all unnecessary BOSH errands when performing updates to PCF services.
@@ -115,7 +126,7 @@ through the **Errands Form** in the Push Notifications tile settings in Ops Mana
 
 ### <a id="UploadStemcell"></a> Upload Stemcell ###
 
-Ops Manager versions greater than v1.5 require that you upload the stemcell that the Push Notification Service uses. You can acquire this stemcell from the [Bosh Stemcell Directory](https://bosh.io/stemcells). After you have the stemcell, upload it to Ops Manager via the "Stemcell" tab in the Push Notification Services configuration page.
+Ops Manager requires that you upload the stemcell that the Push Notification Service uses. You can acquire this stemcell from the [Bosh Stemcell Directory](https://bosh.io/stemcells). After you have the stemcell, upload it to Ops Manager via the "Stemcell" tab in the Push Notification Services configuration page.
 
 ### <a id="ApplyChanges"></a> Apply Changes ###
 
@@ -123,7 +134,7 @@ After the security settings and MySQL configuration are complete you can click "
 
 ##<a id="Tenant"></a>Creating a Tenant##
 
-Since v1.4, the PCF Push Notification Service supports multiple tenants. Each tenant in the PCF Push Notification Service can have its own set of applications. In order to set up a new
+PCF Push Notification Service supports multiple tenants. Each tenant in the PCF Push Notification Service can have its own set of applications. In order to set up a new
 tenant, you need to create a new space in your PCF Apps Manager. You can use any org that is appropriate for your needs.
 
 The applications for the Push Notification Service itself are in the "push-notifications" space in the "system" org. Don't use this space for your own tenant. Create a new space
