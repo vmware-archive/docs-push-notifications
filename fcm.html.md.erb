@@ -94,10 +94,10 @@ Follow these steps to compile and deploy the app on your Android device.
 1. Open the `pivotal.properties` file. 
 	* For the sample app, you can find this file in `push-sample/src/main/res/raw/`. 
 	* For the demo app, you can find this file in `push-demo/src/main/assets/`.
-1. Update the file using the following guidance:
+1. Update the file as follows:
 	* `pivotal.push.platformUuid`: This value must match the platform **UUID** of the FCM Platform you created in the previous section. 
 	* `pivotal.push.platformSecret`: This value must match the platform **SECRET** of the FCM Platform you created in the previous step. 
-	* `pivotal.push.serviceUrl`: Enter the server address to your push backend API in the form of `https://push-api.YOUR-SYSTEM-DOMAIN`. See [API Url](./dashboard-user-guide.html#APIURL) for more info.
+	* `pivotal.push.serviceUrl`: Enter the server address to your push backend API in the form of `https://push-api.YOUR-SYSTEM-DOMAIN`. See [API URL](./dashboard-user-guide.html#APIURL) for more info.
 1. Compile and deploy the application to your Android device.
 
 Once the application registers with the Push backend, it can receive push notifications. To verify that your device registered, see the **Devices** tab in the Push dashboard. The device **Type** field displays a Firebase logo.
