@@ -5,13 +5,15 @@ title: Push Notification Service Release Notes
 ##v1.8.1
 **Release Date: March 2017**
 
-**Bug fixes**
+**Bug Fixes**
 
-Fix an issue when upgrading the push tile on PCF 1.9.*
+Fix an issue when upgrading the Push tile on PCF v1.9.
 
-**Known issues**
+**Known Issues**
 
-Push Scheduler and Push Service Broker are not compatible with any PCF that includes ruby-offline-buildpack version greater than 1.6.39. Refer to [Pivotal Elastic Runtime Release Notes](https://docs.pivotal.io/pivotalcf/pcf-release-notes/runtime-rn.html) to see which release contains the appropriate ruby-offline-buildpack.
+Push Scheduler and Push Service Broker are not compatible with any PCF that includes ruby-offline-buildpack version greater than 1.6.39.
+To find out which release contains the appropriate ruby-offline-buildpack,
+see the [Pivotal Elastic Runtime Release Notes](https://docs.pivotal.io/pivotalcf/pcf-release-notes/runtime-rn.html).
 
 ##v1.8.0
 **Release Date: February 2017**
@@ -24,9 +26,9 @@ The Push Dashboard will now show a warning when the iOS certificate in use is ex
 
 Official support for Azure.
 
-**Bug fixes**
+**Bug Fixes**
 
-**Known issues**
+**Known Issues**
 
 Upgrading to Push 1.8.0 when running on PCF 1.9 may fail with an error `Server error, status code: 500, error code: 10001, message: An unknown error occurred.`
 
@@ -39,7 +41,7 @@ Workaround: Update the instance counts of the apps under the system org, push-no
 ##v1.7.1
 **Release Date: January 2017**
 
-**Bug fixes**
+**Bug Fixes**
 
 Fix the ability to edit scheduled pushes
 
@@ -50,11 +52,11 @@ Fix the ability to edit scheduled pushes
 
 Support for Android FCM push notifications
 
-**Bug fixes**
+**Bug Fixes**
 
 Dashboard session timeout error
 
-**Known issues**
+**Known Issues**
 
 Once a scheduled push is created, it cannot be edited (will address this bug in a later release)
 
