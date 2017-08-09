@@ -11,9 +11,12 @@ An application in the Push Dashboard represents a mobile application from the pe
 Click **Create New Application** in left sidebar. Fill in the form and click **Save** to create the application, or optionally click **Add Platform** to add a platform for the application.
 
 ### <a id="APIURL"></a> API URL ###
-The default API URL value of the push backend is `https://push-api.YOUR-SYSTEM-DOMAIN`. However, because the operator can set up multiple routes for network traffic separation, the API URL displayed in the dashboard may be the incorrect endpoint to use, depending on which network the request originates from. 
+The default API URL value of the push backend is `https://push-api.YOUR-SYSTEM-DOMAIN`. 
+However, because the operator can set up multiple routes for network traffic separation,
+the API URL displayed in the dashboard might be the incorrect endpoint to use,
+depending on which network the request originates from. 
 
-The correct value used to communicate with the push backend should be the route that allows the device to reach the push backend.
+The correct value used to communicate with the push backend is the route that allows the device to reach the push backend.
 Use `cf routes push-api` to show all routes for the push backend.
 
 ### <a id="Editinganapplication"></a> Editing an Application ###

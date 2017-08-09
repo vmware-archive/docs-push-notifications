@@ -43,7 +43,8 @@ In an offline environment, running post-install errands will fail due to push-se
 
 Added support for Baidu Cloud Push Service on android.
 
-Removed push logs dependency on redis service instance. Push dashboard now uses websockets for tailing logs. See the [installation](./installation.html#Prerequisites) guide for updated setup instructions.
+Removed push logs dependency on redis service instance. Push dashboard now uses websockets for tailing logs.
+For updated setup instructions, see the [installation](./installation.html#Prerequisites) guide.
 
 Logs redis instance can be removed. Refer to [devops](./devops.html#remove_log_redis) guide for instructions.
 
@@ -61,7 +62,7 @@ Fix an issue when upgrading the push tile on PCF 1.9.*
 
 **Features**
 
-Ability to customize push app instance counts during deployment. For more information see  [custom deployments](installation.html#DeploymentSettings).
+Ability to customize push app instance counts during deployment. For more information, see [custom deployments](installation.html#DeploymentSettings).
 
 The Push Dashboard will now show a warning when the iOS certificate in use is expired.
 
@@ -260,7 +261,7 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
  - The analytics system now configures a second Redis to behave as a cache for storing logs.
  - Update to the Push SDK supports iOS 9 and includes a Swift sample app.
  - The Push SDK for Android now supports Android 6.0 Marshmallow, including the new permissions system.
-   - See the Push Sample app for an example of Android 6.0 Marshmallow permissions.
+   - For an example of Android 6.0 Marshmallow permissions, see the Push Sample app.
 
 ## [v1.3.5](./release-notes/release-notes-1.3.5.html)
 **Release Date: October 2015**
