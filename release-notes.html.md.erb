@@ -17,7 +17,7 @@ Fix push-dashboard page "Not Found" error if `Accept-Encoding` is missing in req
 
 **Known Issues**
 
-- The following message in the `push-api` log can be ignored as it does not affect sending pushes: 
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
   `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
 
 - When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
