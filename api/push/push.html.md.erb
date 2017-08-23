@@ -30,6 +30,9 @@ receive the __message__ &rarr; __body__ field in their payload
 __message__ field unless the __custom__ &rarr; __android__ &rarr;
 __message__ field is populated.
 
+####Limitations
+- iOS: Push Notifications backend uses legacy APNs binary interface which is limited to 2KB (2048 bytes) payload. As such, if __message__ field is too large, APNs will reject these notifications.
+- Android: Push Notification backend is limited to sending push payloads to FCM, GCM, and Baidu to 4KB (4096 bytes). As such, if the __message__ field is too large,  GCM, FCM, and Baidu will reject these notifications.
 
 ### Response Data, status: 200 (OK) ###
 
