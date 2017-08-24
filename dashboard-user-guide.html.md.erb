@@ -151,4 +151,7 @@ Fill in the details of the **Push Notification**, such as **Message**, **Platfor
 ##<a id="Logs"></a>Logs
 The Logs page displays any logged events that occur while the Logs page is open. Clicking **Download Logs** copies the logs displayed into a text file onto your local machine.
 
+By default, the push dashboard app uses the default SSL socket port `443` for streaming logs. If the foundation does not use port `443` for SSL sockets, the 
+environment variable `CFMS_METRICS_LOGS_PORT` must be set to the custom port in push dashboard app.
+
 <img src="assets/dug-logs.png" width="800"/>
