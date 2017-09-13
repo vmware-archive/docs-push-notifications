@@ -1,6 +1,26 @@
 ---
 title: Push Notification Service Release Notes
 ---
+##v1.9.3
+**Release Date: September 2017**
+
+**Bug Fixes**
+
+Improve RabbitMQ connection stability and logging
+
+Improve handling of Redis password with special characters
+
+Fix issue where dashboard shows zero(0) registrations under certain conditions
+
+If push is sent with custom fields, show `[Custom message]` as message body in summary page of push-dashboard instead of blank 
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
 
 ##v1.9.2
 **Release Date: July 2017**
