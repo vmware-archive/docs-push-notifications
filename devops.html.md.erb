@@ -2,6 +2,38 @@
 title: DevOps
 ---
 
+## <a id="monitoring"></a> Monitoring
+
+### Healthcheck
+
+Push provides a healthcheck endpoint which can be polled for monitoring the health of both Push and its connection to dependencies. 
+Access the endpoint at `http://healthcheck.push-api.pcf-top-level-domain.`
+
+See the following sample output of the healthcheck endpoint:
+
+```
+{
+  "database": {
+          "healthy": true,
+          "message": "MySQL"
+  },
+  "rabbitmq": {
+          "healthy": true,
+          "message": "All rabbit nodes (ingest, dispatch, push, audit) are running"
+   },
+   "scheduler-backend": {
+          "healthy": true,
+          "message": "Scheduler is up"
+   }
+}
+```
+
+### Heartbeat Monitoring
+
+At installation time, a pre-configured heartbeat monitor mobile app is created.
+This app sends a regular push notification through the system to a mobile device. 
+See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring Heartbeat Monitor for Android](heartbeat-fcm.html) for more information.
+
 ## <a id="uninstalling"></a> Uninstalling
 
 **IMPORTANT**
