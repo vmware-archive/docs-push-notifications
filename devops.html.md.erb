@@ -6,9 +6,10 @@ title: DevOps
 
 ### Healthcheck
 
-Push provides a healthcheck endpoint which can be polled for monitoring the health of both Push and it's connection to dependencies. The endpoint can be found at `http://healthcheck.push-api.pcf-top-level-domain.`
+Push provides a healthcheck endpoint which can be polled for monitoring the health of both Push and its connection to dependencies. 
+Access the endpoint at `http://healthcheck.push-api.pcf-top-level-domain.`
 
-A sample output of the healthcheck endpoint:
+See the following sample output of the healthcheck endpoint:
 
 ```
 {
@@ -28,8 +29,9 @@ A sample output of the healthcheck endpoint:
 ```
 ### Heartbeat Monitoring
 
-At installation time, a pre-configured heartbeat monitor mobile app is created which will send a regular push notification through the system to a mobile device. See the top level sections on configuring heartbeat monitor for iOS and Android.
-
+At installation time, a pre-configured heartbeat monitor mobile app is created.
+This app sends a regular push notification through the system to a mobile device. 
+See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring Heartbeat Monitor for Android](heartbeat-fcm.html) for more information.
 
 ## <a id="uninstalling"></a> Uninstalling
 
