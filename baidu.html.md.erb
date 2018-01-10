@@ -36,9 +36,9 @@ You can navigate to the Push dashboard using either Apps Manager or the Cloud Fo
 ### Navigate to Push Dashboard using Apps Manager
 
 1. In a browser, navigate to `apps.YOUR-SYSTEM-DOMAIN`.
-1. Select the **system** org and the **push-notifications** space.
-1. Click the **Services** tab.
-1. Select the **PCF Push Notification Service** row and click the **Manage** link.
+1. Select the **System** org and the **Push-notifications** space.
+1. Select the **Services** tab.
+1. Select the **PCF Push Notification Service** row and select the **Manage** link.
 
 ### Navigate to Push Dashboard using cf CLI
 
@@ -60,15 +60,15 @@ You can navigate to the Push dashboard using either Apps Manager or the Cloud Fo
 
 Follow these steps to configure the Push backend by creating a new platform for the sample app.
 
-1. In the Push dashboard, select the **+** icon from the left to create a new app to send push notifications to, either the push sample app or push demo app.
+1. In the Push dashboard, select the **+** icon from the left to create a new app to send push notifications to, either the push sample app or the push demo app.
 	* Enter a **Name** and **Description**.
 1. Once you create an app, select the **Configuration** tab for that app.
-1. Click **Add New Platform**.
+1. Select **Add New Platform**.
 1. Enter a **Name** and **Description**, and choose a **Mode**.
 1. For **Type**, select `Android-Baidu`.
-1. Once created,  click the pencil icon to edit the platform.
-1. In the **Baidu API Key** field, paste the API key that you recorded earlier.
-1. In the **Baidu Secret** field, paste the secret key that you recorded earlier.
+1. Select the pencil icon to edit the platform.
+1. In the **Baidu API Key** field, enter the API key that you recorded earlier.
+1. In the **Baidu Secret** field, enter the secret key that you recorded earlier.
 
 <p class="note"><strong>Note</strong>: You can add multiple Baidu Platforms with keys from different Baidu applications, depending on how your Baidu applications and projects are organized. There is no requirement that all Baidu Platforms use the same keys in the Push backend.</p>
 
