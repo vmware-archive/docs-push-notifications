@@ -166,7 +166,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 
     CREATE_PLATFORM_DIALOG_WHITELIST (String, default: "ios,android,android-fcm,android-baidu")
 
-  The `CREATE_PLATFORM_DIALOG_WHITELIST` environment variable specifies which new push platform are available for creation when using the Push
+  The `CREATE_PLATFORM_DIALOG_WHITELIST` environment variable specifies which new push platforms are available for creation when using the Push
   Notification dashboard.
 
   If this variable is empty, the Push Dashboard will fail to start.
@@ -193,7 +193,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 
 ### Backup encryption key
 
-   - In the Apps Manager console go to the "push-api" app and go to the "Env Variables" tab.
+   - In the Apps Manager console navigate to the **Push-api** app and select the **Env Variables** tab.
    - Get and record the value for `crypto_applicationKey`. You will need this key during the installation.
 	  - The `crypto_applicationKey` environment variable contains the key which will be used to encrypt sensitive information used by the push server (i.e.:
 		iOS push certificates, Google API keys). This value is set at install time and **_should not be modified_**. You will however need to record this value
@@ -201,34 +201,34 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 
 ### Restore MySQL data
 
-  - From the Apps Manager console in the "push notifications" space through the "system" org, stop the "push" and "push-api" applications.
-  - Go to "Services".
-  - Click "&blacktriangleright; Show credentials" for MySQL.
-  - Get "username", "password" and "database name".
+  - From the Apps Manager console in the **Push Notifications** space through the **System** org, stop the push and push-api applications.
+  - Navigate to **Services**.
+  - Select **Show credentials** for MySQL.
+  - Get the username, password and database name.
   - SSH into the proxy for your Pivotal CF environment.
-  - Delete data from Push installation (this should just be empty data) by running the following command from the proxy (using the above credentials):
+  - Delete data from **Push Installation** (this should just be empty data) by running the following command from the proxy using the above credentials:
 
     ```
-    mysql -h hostname -p -u username name -e "drop database database_name; create database database_name;"
+    mysql -h HOSTNAME -p -u USERNAME name -e drop database DATABASE-NAME; create database DATABASE-NAME;"
     ```
 
   - Import data from old install by running the following command from the proxy (using the above credentials):
 
     ```
-    mysql -h hostname -p -u username database_name < push_db.sql
+    mysql -h HOSTNAME -p -u USERNAME DATABASE-NAME < push_db.sql
     ```
 
   - Enable migrations:
-	+ In the Apps Manager console, find the "push-api" application and go to the "Env Variables" tab.
-	+ Edit `liquibase_runMitgations` and set it to `true`.
+	+ In the Apps Manager console, find the **Push-api** application and navigate to the **Env Variables** tab.
+	+ Set the **liquibase_runMitgations** field to true.
 
-  - Start the "push-api" and "push" applications.
+  - Start the **Push-api** and **Push** applications.
 
   - Disable migrations:
-	+ In the Apps Manager console, find the "push-api" application and go to the "Env Variables" tab.
-	+ Edit `liquibase_runMigrations` and set it to 'false'.
+	+ In the Apps Manager console, find the "push-api" application and navigate to the **Env Variables** tab.
+	+ Set the **Liquibase_runMigrations** to false.
 
-  - Restart the "push-api" and "push" applications.
+  - Restart the **Push-api** and **Push** applications.
 
 ### Backup Redis Data
 
