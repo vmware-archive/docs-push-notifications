@@ -125,8 +125,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
   requests (for Android pushes).
 
     push_fcm_socksProxyHost (String, default: [empty])
-    push_fcm_socksProxyPort (String, default: [empty])
-
+    push_fcm_socksProxyPort (String, default: [empty]).
   The `push_fcm_socksProxyHost` and `push_fcm_socksProxyPort` environment variables allow you to specify a SOCKS proxy through which to route Google API
   requests.
 
@@ -233,6 +232,84 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 ### Backup Redis Data
 
   - See [redis backup instructions ](http://docs.pivotal.io/redis/manual-br.html)
+
+## <a id="migrate_mysql"></a> Migrate from MySQL v1 to v2
+
+### Prerequisites
+  MySQL v2 must be installed i.e. `p.mysql` is available on `cf marketplace`
+
+### Steps
+  1. Install MySQL migration plugin. Refer to [mysql-cli-plugin](https://github.com/pivotal-cf/mysql-cli-plugin).
+
+    ```
+    cf install-plugin -r CF-Community "mysql-plugin"
+    ```
+
+  1. Stop `push-api` and `push` app
+
+    ```
+    cf stop push-api
+    cf stop push
+    ```
+
+  1. Run migration command. `db-large` is an example plan name. It is configurable on MySQL v2 tile.
+
+    ```
+    cf mysql-tools migrate push-notifications-mysql db-large
+    ```
+
+    The expected output should be similar to
+
+    ```
+    2018/06/05 11:59:54 Creating new service instance "push-notifications-mysql-new" for service p.mysql using plan db-large
+    2018/06/05 12:03:03 Unpacking assets for migration to /var/folders/6t/syyk38954f1cqyrf246fmh3w0000gp/T/migrate_app_576946222
+    2018/06/05 12:03:03 Started to push app
+    Done uploading
+    2018/06/05 12:03:10 Successfully pushed app
+    2018/06/05 12:03:11 Successfully bound app to v1 instance
+    2018/06/05 12:03:12 Successfully bound app to v2 instance
+    2018/06/05 12:03:12 Starting migration app
+    2018/06/05 12:03:25 Started to run migration task
+    2018/06/05 12:03:29 Migration completed successfully
+    2018/06/05 12:03:30 Cleaning up...
+    ```
+
+  1. Unbind `push-api` and `push` from old mysql service instance
+
+    ```
+    cf unbind-service push-api push-notifications-mysql-old
+    cf unbind-service push push-notifications-mysql-old
+    ```
+
+  1. Bind `push-api` and `push` to new mysql service instance
+
+    ```
+    cf bind-service push-api push-notifications-mysql
+    cf bind-service push push-notifications-mysql
+    ```
+
+  1. Update `push-api` env variable
+
+    ```
+    cf set-env push-api cf_mysqlService p.mysql
+    ```
+
+  1. Restage `push-api` and `push` for new changes
+
+    ```
+    cf restage push-api
+    cf restage push
+    ```
+
+    After restaging, `push-api` should be up and running. App `push` is broken as expected since there is hardcoded dependency of "p-mysql" in push dashboard codebase. Thus push dashboard will be inaccessible, however all PNS backend activities should be functional.
+
+  1. Import Push tile v1.10 and make sure the plan name on PNS mysql setting matches the plan name on step 3. In this example, the plan name should be `db-large`. Run the pcf installation to finish the whole migration. After successful install, `push` app should be running and dashboard should be accessible.
+
+  1. After verifying the installation, i.e. data persistance and PNS behaviour, delete `push-notifications-mysql-old`
+
+    ```
+    cf delete-service -f push-notifications-mysql-old
+    ```
 
 ## <a id="remove_log_redis"></a>Removing Log Redis Instance
 

@@ -4,14 +4,14 @@ title: Registering with a Custom User ID
 
 ## <a id="specifyingCustomeUserID"></a>Specifying a Custom User ID ##
 
-By default, push expects the custom user ID field during a device registration to be specified using 
+By default, push expects the custom user ID field during a device registration to be specified using
 a JSON Web Token, signed using the application's shared secret.
 
 The application's shared secret can be found on the push dashboard, under the configuration tab.
 
 ## <a id="securityGuidance"></a>Security Guidance
 
-Pivotal recommends that you implement signing the custom user ID on the backend. 
+Pivotal recommends that you implement signing the custom user ID on the backend.
 
 Avoid storing the shared secret in a mobile application. If the shared secret is compromised in a mobile application, attackers could masquerade as existing users.
 
@@ -46,6 +46,7 @@ signature = HMAC-SHA256(sharedSecret, unsignedToken)
 unsignedToken = encodeBase64(header) + '.' + encodeBase64(payload)
 sharedSecret = Application Shared Secret
 ```
+NOTE: The application's shared secret that comes from push dashboard is in HEX so it needs to be parsed into 32 bytes array.
 
 Final Token
 
@@ -71,8 +72,8 @@ For an example on how to generate the Custom User ID JWT in Java check out https
 
 ### <a id="unsignedCustomUserId"></a>Unsigned Custom User ID Format
 
-The requirement to sign custom user IDs can be disabled by setting the `push_security_verifyCustomUserId` environment 
-variable to false for the push-api servce. 
+The requirement to sign custom user IDs can be disabled by setting the `push_security_verifyCustomUserId` environment
+variable to false for the push-api servce.
 
 **Pivotal highly recommends that you keep custom user ID signing enabled.**
 
