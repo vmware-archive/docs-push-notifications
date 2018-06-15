@@ -92,13 +92,13 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
   The `push_gcm_logDeviceTokens` environment variable controls the log verbosity of the Android push handler. When set to `true` the device token for every
   recipient of a push will be logged as the push is sent. Note that this extra logging will reduce push throughput.
 
-#### Installing the push server behind a proxy
+#### Installing the Push Server Behind a Proxy
 
   You can route communication with push providers (APNS, Google Cloud Messaging, Firebase Cloud Messaging, Baidu Cloud Push) through a proxy server.
   
   It is strongly suggested to change this setting in the [Push Notification tile through Ops Manager](installation.html#ProxySettings).
 
-##### GCM Pushes through Proxy
+##### GCM Pushes Through Proxy
   
   GCM pushes can use either a HTTP or socks proxy. Use the following environment variables to specify proxies.
 
@@ -114,7 +114,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
   The `push_gcm_socksProxyHost` and `push_gcm_socksProxyPort` environment variables allow you to specify a SOCKS proxy through which to route Google API
   requests.
 
-##### FCM Pushes through Proxy
+##### FCM Pushes Through Proxy
   
   FCM pushes can use either a HTTP or socks proxy. Use the following environment variables to specify proxies.
 
@@ -129,7 +129,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
   The `push_fcm_socksProxyHost` and `push_fcm_socksProxyPort` environment variables allow you to specify a SOCKS proxy through which to route Google API
   requests.
 
-##### Baidu Pushes through Proxy
+##### Baidu Pushes Through Proxy
   
   Baidu pushes can use either a HTTP or socks proxy. Use the following environment variables to specify proxies.
 
@@ -174,7 +174,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 
 ## <a id="backup_and_restore"></a> Backup And Restore
 
-### Backup MySQL data
+### Backup MySQL Data
 
   It is highly recommended that you enable [ automatic backups ](http://docs.pivotal.io/p-mysql/backup.html#automated-backups) with your MySQL Tile (Requires an Amazon s3 Bucket). Additionally, you should always backup 
   your MySQL tile if you are planning on removing Push Notification Service or MySQL. You can perform a manual backup by following the directions found here: [ MySQL Manual Backup ](http://docs.pivotal.io/p-mysql/backup.html#manual-process)
@@ -190,7 +190,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 
   		mysqldump -h hostname -p -u USERNAME DATABASE-NAME > push_db.sql
 
-### Backup encryption key
+### Backup Encryption Key
 
    - In the Apps Manager console navigate to the **Push-api** app and select the **Env Variables** tab.
    - Get and record the value for `crypto_applicationKey`. You will need this key during the installation.
@@ -198,7 +198,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 		iOS push certificates, Google API keys). This value is set at install time and **_should not be modified_**. You will however need to record this value
 		in order save and restore the push notification service database.
 
-### Restore MySQL data
+### Restore MySQL Data
 
   - From the Apps Manager console in the **Push Notifications** space through the **System** org, stop the push and push-api applications.
   - Navigate to **Services**.

@@ -4,18 +4,22 @@ title: Push Notification Service Release Notes
 ##v1.10.0
 **Release Date: June 10, 2018**
 
-**Breaking**
-
-Support PCF MySQL v2. Earlier versions of PNS that installed with MySQL v1 will have to first migrate to v2 for a successful installation.
-  For instructions, see [MySQL Migration](./devops.html#migrate_mysql).
+<p class="note breaking"><strong>Breaking Change</strong>:
+  Support PCF MySQL v2. 
+  Earlier versions of Push Notification Service that installed with MySQL v1 must first migrate to v2 for a successful installation.
+  For instructions, see <a href="./devops.html#migrate_mysql">Migrate from MySQL v1 to v2</a>.</p>
 
 **Known Issues**
 
 - The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
-  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
 
-- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
-  For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
+    <pre class="terminal">
+    com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?
+    </pre> 
+
+- When configuring the push app with multiple routes, the `API Url` under configuration 
+might not show the correct URL to communicate with the backend. 
+For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
 
 ##v1.9.4
 **Release Date: February 2018**

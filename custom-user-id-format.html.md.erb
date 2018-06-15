@@ -23,7 +23,7 @@ This is to validate that the registration request came from a trusted applicatio
 
 The token should be signed with HMAC-SHA256, and the content should be as follows:
 
-Header
+**Header**
 
 ```JSON
 {
@@ -31,24 +31,27 @@ Header
 }
 ```
 
-Payload
+**Payload**
 
 ```JSON
 {
-  "custom_user_id": "<YOUR CUSTOM USER ID>"
+  "custom_user_id": "YOUR-CUSTOM-USER-ID"
 }
 ```
 
-Signature
+**Signature**
 
 ```
 signature = HMAC-SHA256(sharedSecret, unsignedToken)
 unsignedToken = encodeBase64(header) + '.' + encodeBase64(payload)
-sharedSecret = Application Shared Secret
+sharedSecret = APPLICATION-SHARED-SECRET
 ```
-NOTE: The application's shared secret that comes from push dashboard is in HEX so it needs to be parsed into 32 bytes array.
 
-Final Token
+<p class="note"><strong>Note</strong>: 
+	The application's shared secret that comes from the push dashboard is in HEX so 
+	it needs to be parsed into a 32 byte array.</p>
+
+**Final Token**
 
 ```
 token=encodeBase64(header) + '.' + encodeBase64(payload) + '.' + encodeBase64(signature)
@@ -82,7 +85,7 @@ If signed custom user IDs are disabled, then the registration call should just c
 ```JSON
 {
   ...
-  "custom_user_id": "<YOUR CUSTOM USER ID>"
+  "custom_user_id": "YOUR-CUSTOM-USER-ID"
   ...
 }
 ```
