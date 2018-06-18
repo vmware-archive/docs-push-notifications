@@ -236,31 +236,43 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 ## <a id="migrate_mysql"></a> Migrate from MySQL v1 to v2
 
 ### Prerequisites
-  MySQL v2 must be installed i.e. `p.mysql` is available on `cf marketplace`
+
+MySQL v2 must be installed. 
+To find out if this is installed, run `cf marketplace` and search for `p.mysql`.
 
 ### Steps
-  1. Install MySQL migration plugin. Refer to [mysql-cli-plugin](https://github.com/pivotal-cf/mysql-cli-plugin).
+  1. Install the MySQL migration plugin by running:
 
     ```
     cf install-plugin -r CF-Community "mysql-plugin"
     ```
+  For more information about the plugin, see 
+  [mysql-cli-plugin README](https://github.com/pivotal-cf/mysql-cli-plugin/blob/master/README.md).
 
-  1. Stop `push-api` and `push` app
+  1. Stop `push-api` and `push` app by running:
 
     ```
     cf stop push-api
     cf stop push
     ```
 
-  1. Run migration command. `db-large` is an example plan name. It is configurable on MySQL v2 tile.
+  1. Run the migration command. `db-large` is an example plan name. It is configurable on MySQL v2 tile.
 
     ```
-    cf mysql-tools migrate push-notifications-mysql db-large
+      cf mysql-tools migrate V1-INSTANCE V2-PLAN
     ```
+
+    Where:<br>
+    `V1-INSTANCE` is the name of your Push Notifications service instance.
+<br><br>
+    For example:
+    <pre class="terminal">
+    $ cf mysql-tools migrate push-notifications-mysql db-large
+    </pre>
 
     The expected output should be similar to
 
-    ```
+    <pre class="terminal">
     2018/06/05 11:59:54 Creating new service instance "push-notifications-mysql-new" for service p.mysql using plan db-large
     2018/06/05 12:03:03 Unpacking assets for migration to /var/folders/6t/syyk38954f1cqyrf246fmh3w0000gp/T/migrate_app_576946222
     2018/06/05 12:03:03 Started to push app
@@ -272,7 +284,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
     2018/06/05 12:03:25 Started to run migration task
     2018/06/05 12:03:29 Migration completed successfully
     2018/06/05 12:03:30 Cleaning up...
-    ```
+    </pre>
 
   1. Unbind `push-api` and `push` from old mysql service instance
 
@@ -301,11 +313,17 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
     cf restage push
     ```
 
-    After restaging, `push-api` should be up and running. App `push` is broken as expected since there is hardcoded dependency of "p-mysql" in push dashboard codebase. Thus push dashboard will be inaccessible, however all PNS backend activities should be functional.
+    After restaging, `push-api` should be up and running. 
+    App `push` is broken as expected since there is hardcoded dependency of "p-mysql" in push dashboard codebase. 
+    Thus push dashboard will be inaccessible, however all PNS backend activities should be functional.
 
-  1. Import Push tile v1.10 and make sure the plan name on PNS mysql setting matches the plan name on step 3. In this example, the plan name should be `db-large`. Run the pcf installation to finish the whole migration. After successful install, `push` app should be running and dashboard should be accessible.
+  1. Import Push tile v1.10 and make sure the plan name on PNS mysql setting matches 
+  the plan name on step 3. In this example, the plan name should be `db-large`. 
+  Run the pcf installation to finish the whole migration. After successful install, 
+  `push` app should be running and dashboard should be accessible.
 
-  1. After verifying the installation, i.e. data persistance and PNS behaviour, delete `push-notifications-mysql-old`
+  1. After verifying the installation, i.e. data persistance and PNS behaviour, 
+  delete `push-notifications-mysql-old`
 
     ```
     cf delete-service -f push-notifications-mysql-old
