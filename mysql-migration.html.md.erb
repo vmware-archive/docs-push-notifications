@@ -5,7 +5,7 @@ title: Migrating to a MySQL for PCF v2 Database
 
 This topic explains how to perform the migration from a MySQL for PCF v1 database to a MySQL for PCF v2 database.
 
-If your AWS Services Broker is configured to use the MySQL for PCF v1 tile, Pivotal recommends migrating your data to a MySQL for PCF v2 database. Doing this migration reduces dependency on v1 as users move to v2, and prepares you to use TLS (encryption) for  AWS services. 
+If your Push Notification Service is configured to use the MySQL for PCF v1 tile, Pivotal recommends migrating your data to a MySQL for PCF v2 database. Doing this migration reduces dependency on v1 as users move to v2 and prepares you to use Transport Layer Security (TLS) encryption for your Push Notification Service.
 
 ## <a id="prerequisites"></a> Prerequisites
 
@@ -13,7 +13,7 @@ To perform the database migration, you must have the following:
 
 * The latest [Cloud Foundry CLI](https://docs.pivotal.io/pivotalcf/cf-cli/install-go-cli.html)
 
-* Cloud Foundry credentials to access the org and space of the AWS Services Broker
+* Cloud Foundry credentials to access the org and space of the Push Notification Service
 
 ## <a id="install-mysql-plugin"></a> Install the MysqlTools Plugin
 
@@ -53,7 +53,7 @@ You can use the MysqlTools plugin to migrate your data.
 	space:          iaas-brokers
 	```
 
-3. Check the state of the broker using the `cf app MY-BROKER-NAME` command.
+3. Check the state of the broker using the `cf app MY-BROKER-NAME` command. (**EDIT**)
 
 	```bash
 	$ cf app aws-services-broker
@@ -188,7 +188,7 @@ After migrating your data, bind the new database to the broker.
 
 ## <a id="delete-old-db"></a> Delete the Old Database
 
-1. Before deleting the old database instance, confirm that the broker behaves correctly by creating some new AWS service instances. Try binding these services to the v2 database. (You can delete these service instances after running this test.)
+1. Before deleting the old database instance, confirm that the broker behaves correctly by creating some new Push Notification Service service instances. Try binding these services to the v2 database. (You can delete these service instances after running this test.)
 
 2. After confirming that your data is migrated and the broker is running, delete the old database using the `cf delete-service -f SERVICE-INSTANCE-NAME-old` command: 
 

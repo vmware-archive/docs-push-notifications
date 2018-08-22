@@ -237,12 +237,15 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 
 ### Prerequisites
 
-MySQL v2 must be installed. 
-To view available MySQL for PCF v2 service plans, run `cf marketplace` and locate the plans under `p.mysql`.
+Ensure that you have the following:
 
-### Steps
+* Push Notification Service for PCF v1.10
+* A MySQL for PCF v1 service instance with the data you want to migrate
+* MySQL for PCF v2
 
-See the following steps to migrate MySQL v1 to v2:
+### Perform the Migration
+
+To migrate from MySQL for PCF v1 to MySQL to PCF v2, see the following steps:
 
 #### Step 1: Install and Migrate
 
@@ -251,10 +254,10 @@ See the following steps to migrate MySQL v1 to v2:
     ```
     cf install-plugin -r CF-Community "mysql-plugin"
     ```
-  For more information about the plugin, see 
-  [mysql-cli-plugin README](https://github.com/pivotal-cf/mysql-cli-plugin/blob/master/README.md).
+  For more information about the plugin, see the README for the
+  [mysql-cli-plugin](https://github.com/pivotal-cf/mysql-cli-plugin/blob/master/README.md).
 
-  1. Enter the following command to stop `push-api` and `push` app.
+  1. Enter the following commands to stop `push-api` and `push`.
 
     ```
     cf stop push-api
@@ -264,7 +267,7 @@ See the following steps to migrate MySQL v1 to v2:
   1. Enter the following command to migrate the data. 
 
     ```
-      cf mysql-tools migrate V1-INSTANCE V2-PLAN
+    cf mysql-tools migrate V1-INSTANCE V2-PLAN
     ```
 
     Where:<br>
