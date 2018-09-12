@@ -235,6 +235,12 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 
 ## <a id="migrate_mysql"></a> Migrate from MySQL for PCF v1 to v2
 
+Because Push Notification Service for PCF v1.10 does not support MySQL for PCF v1,
+if you are running an earlier version of Push Notification Service using MySQL for PCF v1,
+you must migrate the data to MySQL for PCF v2 before upgrading to Push Notification Service v1.10.
+
+To migrate from MySQL for PCF v1 to MySQL to PCF v2, follow the procedures below.
+
 ### Prerequisites
 
 Ensure that you have the following:
@@ -243,11 +249,7 @@ Ensure that you have the following:
 * A MySQL for PCF v1 service instance with the data you want to migrate
 * MySQL for PCF v2 tile installed
 
-### Perform the Migration
-
-To migrate from MySQL for PCF v1 to MySQL to PCF v2, follow the procedures below:
-
-#### <a name="install"></a>Install and Migrate
+### <a name="install"></a>Install and Migrate
 
   1. Enter the following command to install the MySQL migration plugin.
 
@@ -297,7 +299,7 @@ To migrate from MySQL for PCF v1 to MySQL to PCF v2, follow the procedures below
     2018/06/05 12:03:30 Cleaning up...
     </pre>
 
-#### Bind, Unbind, and Stage
+### Bind, Unbind, and Stage
 
   1. Enter the following command to unbind `push-api` and `push` from the old MySQL service instance.
 
@@ -331,9 +333,9 @@ To migrate from MySQL for PCF v1 to MySQL to PCF v2, follow the procedures below
     This is because the Push Notification dashboard is inaccessible.
     However, all PNS back-end activities should be functional.
 
-#### Import Tile and Deploy
+### Import Tile and Deploy
 
-  1. Import the Push Notification for PCF tile v1.10.
+  1. Import the Push Notification for PCF v1.10 tile.
   Confirm that the plan name on the PNS MySQL setting matches 
   `V2-PLAN` in Step 3 of [Install and Migrate](#install) above.
   For example, `db-large`. 
