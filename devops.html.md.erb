@@ -233,7 +233,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 
   - See [redis backup instructions ](http://docs.pivotal.io/redis/manual-br.html)
 
-## <a id="migrate_mysql"></a> Migrate from MySQL v1 to v2
+## <a id="migrate_mysql"></a> Migrate from MySQL for PCF v1 to v2
 
 ### Prerequisites
 
@@ -241,13 +241,13 @@ Ensure that you have the following:
 
 * Push Notification Service for PCF v1.10
 * A MySQL for PCF v1 service instance with the data you want to migrate
-* MySQL for PCF v2
+* MySQL for PCF v2 tile installed
 
 ### Perform the Migration
 
-To migrate from MySQL for PCF v1 to MySQL to PCF v2, see the following steps:
+To migrate from MySQL for PCF v1 to MySQL to PCF v2, follow the procedures below:
 
-#### Step 1: Install and Migrate
+#### <a name="install"></a>Install and Migrate
 
   1. Enter the following command to install the MySQL migration plugin.
 
@@ -271,19 +271,17 @@ To migrate from MySQL for PCF v1 to MySQL to PCF v2, see the following steps:
     ```
 
     Where:<br>
-    - `V1-INSTANCE` is the name of the Push Notifications service instance using 
-    MySQL v1. For example, `push-notifications-mysql`.
+    - `V1-INSTANCE` is the name of the Push Notification service instance using 
+    MySQL for PCF v1, for example, `push-notifications-mysql`.
     - `V2-PLAN` is the name of the MySQL for PCF v2 service plan to use for the new 
-    MySQL for PCF v2 service instance. For example, `db-large`.
+    MySQL for PCF v2 service instance, for example, `db-large`.
 <br><br>
     For example:
     <pre class="terminal">
     $ cf mysql-tools migrate push-notifications-mysql db-large
     </pre>
 
-  1. See that you have the expected output.
-
-    The expected output should be similar to the following:
+  1. Confirm that you receive the expected output, similar to the following:
 
     <pre class="terminal">
     2018/06/05 11:59:54 Creating new service instance "push-notifications-mysql-new" for service p.mysql using plan db-large
@@ -299,7 +297,7 @@ To migrate from MySQL for PCF v1 to MySQL to PCF v2, see the following steps:
     2018/06/05 12:03:30 Cleaning up...
     </pre>
 
-#### Step 2: Bind, Unbind, and Stage
+#### Bind, Unbind, and Stage
 
   1. Enter the following command to unbind `push-api` and `push` from the old MySQL service instance.
 
@@ -315,7 +313,7 @@ To migrate from MySQL for PCF v1 to MySQL to PCF v2, see the following steps:
     cf bind-service push push-notifications-mysql
     ```
 
-  1. Enter the following command to update `push-api` env variable.
+  1. Enter the following command to update the `push-api` environment variable.
 
     ```
     cf set-env push-api cf_mysqlService p.mysql
@@ -328,18 +326,21 @@ To migrate from MySQL for PCF v1 to MySQL to PCF v2, see the following steps:
     cf restage push
     ```
 
-    After restaging, see that `push-api` is running and `push` is broken. 
-    Push dashboard is inaccessible. However, all PNS back-end 
-    activities should be functional.
+    After restaging, confirm that `push-api` is running.
+    Also, `push` is expected to be broken. 
+    This is because the Push Notification dashboard is inaccessible.
+    However, all PNS back-end activities should be functional.
 
-#### Step 3: Import Tile and Deploy
+#### Import Tile and Deploy
 
-  1. Import the **Push Notification for PCF** tile v1.10. See that the plan name on PNS MySQL setting matches 
-  `V2-PLAN` in step 3. For example, `db-large`. 
+  1. Import the Push Notification for PCF tile v1.10.
+  Confirm that the plan name on the PNS MySQL setting matches 
+  `V2-PLAN` in Step 3 of [Install and Migrate](#install) above.
+  For example, `db-large`. 
 
-  1. **Apply Changes** from the Ops Manager Installation Dashboard to complete the migration.
+  1. Apply changes from the Ops Manager Installation Dashboard to complete the migration.
 
-  1. After successful install, see that `push` app is running and the Push Notifications dashboard is accessible.
+  1. Verify that the `push` app is running and that the Push Notification dashboard is accessible.
 
   1. Enter the following command to delete `push-notifications-mysql-old`.
 
