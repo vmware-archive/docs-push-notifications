@@ -126,11 +126,22 @@ through the **Errands Form** in the Push Notifications tile settings in Ops Mana
 
 ### <a id="UploadStemcell"></a> Upload Stemcell ###
 
-Ops Manager requires that you upload the stemcell that the Push Notification Service uses. You can acquire this stemcell from the [Bosh Stemcell Directory](https://bosh.io/stemcells). After you have the stemcell, upload it to Ops Manager via the "Stemcell" tab in the Push Notification Services configuration page.
+Ops Manager requires that you upload the stemcell that the Push Notification Service uses. 
+
+1. Depending on your Ops Manager version, navigate to the area where you can manage your stemcell for the Push Notification Service:
+    * If you are using Ops Manager v2.0 or earlier, click **Stemcells**.
+    * If you are using Ops Manager v2.1 or later, click **Stemcell Library**.
+    For more information about using the Stemcell Library, see [Importing and Managing Stemcells](https://docs.pivotal.io/pivotalcf/opsguide/managing-stemcells.html).
+        <p class="note"><strong>Note</strong>: As of Ops Manager v2.1, operators manage stemcells for all products from the Stemcell Library.</p>
+
+1. Verify and, if necessary, import a new stemcell version. You can acquire stemcells from [Pivotal Network](https://network.pivotal.io/products/stemcells/).
 
 ### <a id="ApplyChanges"></a> Apply Changes ###
 
-After the security settings and MySQL configuration are complete you can click "Installation Dashboard" to return to the Ops Manager dashboard and then click "Apply Changes" to complete the installation.
+After you complete the security settings and MySQL configuration, perform the following steps to complete the installation.
+
+1. If you are using Ops Manager v2.3 or later, click **Review Pending Changes**. For more information about this Ops Manager page, see [Reviewing Pending Product Changes](https://docs.pivotal.io/pivotalcf/customizing/review-pending-changes.html) in the Pivotal Cloud Foundry documentation.
+1. Click **Apply Changes**.
 
 ##<a id="Tenant"></a>Creating a Tenant##
 
@@ -150,7 +161,7 @@ After the service instance is created you can click the "Manage" link on the ser
 You can control access to the Push Dashboard by using the using Cloud Controller. Any users with access to see the space also have access to use the Push Notification Dashboard. You need
 to be logged in to the Apps Manager before you can access the Push Dashboard.
 
-##<a id="Dashboard"></a>Dashboard setup##
+##<a id="Dashboard"></a>Dashboard Setup##
 
 After the service has been added, verify the successful installation by viewing the dashboard.
 
