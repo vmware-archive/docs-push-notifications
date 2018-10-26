@@ -1,6 +1,22 @@
 ---
 title: Push Notification Service Release Notes
 ---
+##v1.10.2
+**Release Date: October 25, 2018**
+
+**Bug Fixes**
+
+- Handle LZ4 compression exception so it won't block message queue
+- Add registration failure listener to Andoird SDK
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
+
 ##v1.10.1
 **Release Date: August 17, 2018**
 
