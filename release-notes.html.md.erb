@@ -2,6 +2,21 @@
 title: Push Notification Service Release Notes
 ---
 ##v1.10.2
+**Release Date: February 12, 2019**
+
+**Bug Fixes**
+
+- Fixes an issue that causes the broker to not run on cflinux3-based ruby buildpacks.
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
+
+##v1.10.2
 **Release Date: October 25, 2018**
 
 **Bug Fixes**
