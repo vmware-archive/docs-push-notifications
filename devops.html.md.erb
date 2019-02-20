@@ -6,7 +6,7 @@ title: DevOps
 
 ### Healthcheck
 
-Push provides a healthcheck endpoint which can be polled for monitoring the health of both Push and its connection to dependencies. 
+Push provides a healthcheck endpoint which can be polled for monitoring the health of both Push and its connection to dependencies.
 Access the endpoint at `http://push-api.pcf-top-level-domain/healthcheck`
 
 See the following sample output of the healthcheck endpoint:
@@ -30,7 +30,7 @@ See the following sample output of the healthcheck endpoint:
 ### Heartbeat Monitoring
 
 At installation time, a pre-configured heartbeat monitor mobile app is created.
-This app sends a regular push notification through the system to a mobile device. 
+This app sends a regular push notification through the system to a mobile device.
 See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring Heartbeat Monitor for Android](heartbeat-fcm.html) for more information.
 
 ## <a id="uninstalling"></a> Uninstalling
@@ -63,7 +63,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
   Scheduler. This variable is necessary in environments that use self-signed certificates. The default value is `false` unless the CF Runtime is configured to
   trust self-signed certificates.
 
-  _Certificates generated in Elastic Runtime are signed by the Operations Manager Certificate Authority. They are not technically self-signed, but they are
+  _Certificates generated in Pivotal Application Service are signed by the Operations Manager Certificate Authority. They are not technically self-signed, but they are
   referred to as 'Self-Signed Certificates' in the Ops Manager GUI and throughout this documentation._
 
     push_scheduler_sendImmediatelyWithin (Integer, default: 60)
@@ -95,11 +95,11 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 #### Installing the Push Server Behind a Proxy
 
   You can route communication with push providers (APNS, Google Cloud Messaging, Firebase Cloud Messaging, Baidu Cloud Push) through a proxy server.
-  
+
   It is strongly suggested to change this setting in the [Push Notification tile through Ops Manager](installation.html#ProxySettings).
 
 ##### GCM Pushes Through Proxy
-  
+
   GCM pushes can use either a HTTP or socks proxy. Use the following environment variables to specify proxies.
 
     push_gcm_httpProxyHost (String, default: [empty])
@@ -115,7 +115,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
   requests.
 
 ##### FCM Pushes Through Proxy
-  
+
   FCM pushes can use either a HTTP or socks proxy. Use the following environment variables to specify proxies.
 
     push_fcm_httpProxyHost (String, default: [empty])
@@ -130,7 +130,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
   requests.
 
 ##### Baidu Pushes Through Proxy
-  
+
   Baidu pushes can use either a HTTP or socks proxy. Use the following environment variables to specify proxies.
 
     push_baidu_httpProxyHost (String, default: [empty])
@@ -155,7 +155,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 
   The `push_apns_socksProxyHost` and `push_apns_socksProxyPort` environment variables allow you to specify a SOCKS proxy through which to route APNS push
   requests.
-  
+
 ##### For All Pushes Through Proxy
 
   If both HTTP and SOCKS proxies are defined for a particular Push service provider (GCM, FCM, and Baidu), SOCKS will be used.
@@ -176,7 +176,7 @@ See [Configuring Heartbeat Monitor for iOS](heartbeat-ios.html) and [Configuring
 
 ### Backup MySQL Data
 
-  It is highly recommended that you enable [ automatic backups ](http://docs.pivotal.io/p-mysql/backup.html#automated-backups) with your MySQL Tile (Requires an Amazon s3 Bucket). Additionally, you should always backup 
+  It is highly recommended that you enable [ automatic backups ](http://docs.pivotal.io/p-mysql/backup.html#automated-backups) with your MySQL Tile (Requires an Amazon s3 Bucket). Additionally, you should always backup
   your MySQL tile if you are planning on removing Push Notification Service or MySQL. You can perform a manual backup by following the directions found here: [ MySQL Manual Backup ](http://docs.pivotal.io/p-mysql/backup.html#manual-process)
 
   Follow these instructions to backup _solely_ the Push Notification database.
@@ -266,16 +266,16 @@ Ensure that you have the following:
     cf stop push
     ```
 
-  1. Enter the following command to migrate the data. 
+  1. Enter the following command to migrate the data.
 
     ```
     cf mysql-tools migrate V1-INSTANCE V2-PLAN
     ```
 
     Where:<br>
-    - `V1-INSTANCE` is the name of the Push Notification service instance using 
+    - `V1-INSTANCE` is the name of the Push Notification service instance using
     MySQL for PCF v1, for example, `push-notifications-mysql`.
-    - `V2-PLAN` is the name of the MySQL for PCF v2 service plan to use for the new 
+    - `V2-PLAN` is the name of the MySQL for PCF v2 service plan to use for the new
     MySQL for PCF v2 service instance, for example, `db-large`.
 <br><br>
     For example:
@@ -329,21 +329,21 @@ Ensure that you have the following:
     ```
 
     After restaging, confirm that `push-api` is running.
-    Also, `push` is expected to be broken. 
+    Also, `push` is expected to be broken.
     This is because the Push Notification dashboard is inaccessible.
     However, all PNS back-end activities should be functional.
 
 ### Import Tile and Deploy
 
   1. Import the Push Notification for PCF v1.10 tile.
-  Confirm that the plan name on the PNS MySQL setting matches 
+  Confirm that the plan name on the PNS MySQL setting matches
   `V2-PLAN` in Step 3 of [Install and Migrate](#install) above.
-  For example, `db-large`. 
+  For example, `db-large`.
 
-  1. If you are using Ops Manager v2.3 or later, click **Review Pending Changes**. 
-  For more information about this Ops Manager page, see 
+  1. If you are using Ops Manager v2.3 or later, click **Review Pending Changes**.
+  For more information about this Ops Manager page, see
   [Reviewing Pending Product Changes](https://docs.pivotal.io/pivotalcf/customizing/review-pending-changes.html).
-  
+
   1. Click **Apply Changes** to complete the migration.
 
   1. Verify that the `push` app is running and that the Push Notification dashboard is accessible.

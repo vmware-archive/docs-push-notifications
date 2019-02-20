@@ -78,7 +78,7 @@ cf create-security-group gcm gcm.json
 
 ### <a id="LoadBalancer"></a>  Load Balancer ###
 
-If the built-in HAProxy is being used as the load balancer. The IP addresses can be found in Pivotal Elastic Runtime Tile → Settings Tab → Networking under HAProxy IPs, (e.g., 10.68.196.250). Create a file load-balancer-https.json as follows:
+If the built-in HAProxy is being used as the load balancer. The IP addresses can be found in Pivotal Application Service Tile → Settings Tab → Networking under HAProxy IPs, (e.g., 10.68.196.250). Create a file load-balancer-https.json as follows:
 
 ```
 [
@@ -99,7 +99,7 @@ cf create-security-group load-balancer-https load-balancer-https.json
 
 <p class="note"><strong>Note</strong>: If you decide to use external services, the IP addresses, ports, and protocols will be dependent on what you use.</p>
 
-Log into Ops Manager and click on the Pivotal Elastic Runtime Tile → Settings Tab → AZ and Network Assignments. Note the name of the network selected in the drop-down (e.g., "first-network").
+Log into Ops Manager and click on the Pivotal Application Service Tile → Settings Tab → AZ and Network Assignments. Note the name of the network selected in the drop-down (e.g., "first-network").
 Then click on the BOSH Director tile → Settings Tab → Create Networks → "first-network" and note the CIDR in the subnets section (e.g., 10.68.0.0/20). This should allow the space to access `p-mysql`, `p-rabbitmq`, and `p-redis` Then create a file assigned-network.json as follows:
 
 ```
