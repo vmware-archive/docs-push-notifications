@@ -32,7 +32,7 @@ title: DevOps
   Scheduler. This variable is necessary in environments that use self-signed certificates. The default value is `false` unless the CF Runtime is configured to
   trust self-signed certificates.
 
-  _Certificates generated in Elastic Runtime are signed by the Operations Manager Certificate Authority. They are not technically self-signed, but they are
+  _Certificates generated in Pivotal Application Service (PAS) are signed by the Operations Manager Certificate Authority. They are not technically self-signed, but they are
   referred to as 'Self-Signed Certificates' in the Ops Manager GUI and throughout this documentation._
 
     push_scheduler_sendImmediatelyWithin (Integer, default: 60)
@@ -90,7 +90,7 @@ title: DevOps
 
 ### Backup MySQL data
 
-  It is highly recommended that you enable [ automatic backups ](http://docs.pivotal.io/p-mysql/backup.html#automated-backups) with your MySQL Tile (Requires an Amazon s3 Bucket). Additionally, you should always backup 
+  It is highly recommended that you enable [ automatic backups ](http://docs.pivotal.io/p-mysql/backup.html#automated-backups) with your MySQL Tile (Requires an Amazon s3 Bucket). Additionally, you should always backup
   your MySQL tile if you are planning on removing Push Notification Service or MySQL. You can perform a manual backup by following the directions found here: [ MySQL Manual Backup ](http://docs.pivotal.io/p-mysql/backup.html#manual-process)
 
   Follow these instructions to backup _solely_ the Push Notification database.
