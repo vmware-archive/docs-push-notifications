@@ -8,7 +8,6 @@ The book repository uses the **master** branch to build all content branches in 
 
 ## Branches in this (content) repository
 
-For example:
 
 | Branch name     | Use for|
 |-----------------| ------|
