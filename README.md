@@ -13,8 +13,8 @@ The table below contains information about the branches in this repo:
 | Branch name     | Use for|
 |-----------------| ------|
 | master       | Not in use, but do not delete. |
-| v1.10        | live on June 10, 2018 https://docs.pivotal.io/push/1-10/index.html | 
-| v1.9         | not in use, docs are no longer live. PDF available at https://docs.pivotal.io/archives/push-notifications-1.9.pdf.|
-| v1.8         | not in use, docs are no longer live. PDF available at https://docs.pivotal.io/archives/push-notifications-1.8.pdf.|
-| v1.7         | not in use, docs are no longer live. PDF available at https://docs.pivotal.io/archives/push-notifications-1.7.pdf.|
-| v1.6         | not in use, docs are no longer live. PDF available at https://docs.pivotal.io/archives/push-notifications-1.6.pdf. |
+| v1.10        | Live on June 10, 2018 https://docs.pivotal.io/push/1-10/index.html | 
+| v1.9         | Not in use, docs are no longer live. PDF available at https://docs.pivotal.io/archives/push-notifications-1.9.pdf.|
+| v1.8         | Not in use, docs are no longer live. PDF available at https://docs.pivotal.io/archives/push-notifications-1.8.pdf.|
+| v1.7         | Not in use, docs are no longer live. PDF available at https://docs.pivotal.io/archives/push-notifications-1.7.pdf.|
+| v1.6         | Not in use, docs are no longer live. PDF available at https://docs.pivotal.io/archives/push-notifications-1.6.pdf. |
