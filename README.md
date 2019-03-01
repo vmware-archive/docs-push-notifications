@@ -4,7 +4,7 @@
 
 https://github.com/pivotal-cf/docs-book-pcfservices
 
-The book repository uses the **master** branch to build all branches. See the pipeline Pipeline [here](https://concourse.run.pivotal.io/teams/cf-docs/pipelines/cf-current?groups=pcfservices).
+The book repository uses the **master** branch to build all branches. See the pipeline [here](https://concourse.run.pivotal.io/teams/cf-docs/pipelines/cf-current?groups=pcfservices).
 
 ## Branches in this (content) repository
 
