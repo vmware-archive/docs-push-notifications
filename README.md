@@ -1,15 +1,12 @@
 # docs-push-notifications
 
-# Book repo for publishing this content
+## Book repo for publishing this content
 
 https://github.com/pivotal-cf/docs-book-pcfservices
 
 The book repository uses the **master** branch to build all branches. See the pipeline Pipeline [here](https://concourse.run.pivotal.io/teams/cf-docs/pipelines/cf-current?groups=pcfservices).
 
-# How the branches here work
-
-Use **master** for next the unreleased version, and numbered branches for the corresponding live releases.
-The latest version on **master** is routed to "/svc-sdk/odb/0-2n". This is to facilitate ease of access, push quicker to production, and reduce the need for large changes to the associated files.
+## Branches in this (content) repository
 
 For example:
 
