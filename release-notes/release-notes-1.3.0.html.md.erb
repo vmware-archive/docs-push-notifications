@@ -2,6 +2,8 @@
 title: Push Notification Service v1.3.0 Release Notes
 ---
 
+<%= partial './end-of-life' %>
+
 The Push Notification services allows application developers to publish push notifications to devices on various platforms. Integration is done through provided SDKs which implement the device registration flow.
 
 ##Dependencies
@@ -46,8 +48,8 @@ an 1.2 intallation to a 1.3 installation with the following steps:
   - click show credentials for mysql
   - get username, password and database name
   - ssh into the proxy for your pivotal cf environment
-  - From the proxy run 
-  	
+  - From the proxy run
+
   		mysqldump -h hostname -p -u username database_name > push_db.sql
 
 ###Backup encryption key
@@ -57,7 +59,7 @@ an 1.2 intallation to a 1.3 installation with the following steps:
 
 ###Backup Redis
   - See [redis backup instructions ](http://docs.pivotal.io/redis/manual-br.html)
-    
+
 ###Uninstall push 1.2
 
 - Delete Push Notification Service v 1.2.x in Ops Manager
@@ -78,27 +80,27 @@ an 1.2 intallation to a 1.3 installation with the following steps:
 - Get username, password and database name
 - ssh into the proxy for your pivotal cf environment
 - Delete data from push 1.3 install (this should just be empty data)
-	- From the proxy run 
+	- From the proxy run
 
     		mysql -h hostname -p -u username name -e "drop database database_name; create database database_name;"
 
  - Import data from old install
-  	- from the proxy run 
-  	
+  	- from the proxy run
+
   			mysql -h hostname -p -u username database_name > push_db.sql
 
 - Enable migrations
-	- In the developer console, find the "push-api" application and go to the "Env Variables" tab 
+	- In the developer console, find the "push-api" application and go to the "Env Variables" tab
 	- Edit 'liquibase_runMitrations' and set it to 'true'
 
 - Start the "push-api" and "push" applications
 
 - Disable migrations
-	- In the developer console, find the "push-api" application and go to the "Env Variables" tab 
+	- In the developer console, find the "push-api" application and go to the "Env Variables" tab
 	- Edit 'liquibase_runMitrations' and set it to 'false'
 	- Restart the "push-api" application
 
 ###Bind depricated api url for existing apps (if you are using the old route)
 
-- In the developer console, find the "push-api" application, and go to the Routes tab 
+- In the developer console, find the "push-api" application, and go to the Routes tab
 - Click 'Map A Route' add a route named 'push-notifications'

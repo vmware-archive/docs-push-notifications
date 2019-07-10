@@ -2,13 +2,15 @@
 title: Schedule
 ---
 
-This document decscibes the endpoints for managing scheduled pushes.
+<%= partial './end-of-life' %>
+
+This document describes the endpoints for managing scheduled pushes.
 
 Pushes can be scheduled for delivery in the future by providing the
 schedule information in the [/v1/push POST
 API](../push/push.html#push_create).  These pushes return a
 __schedule_id__ field that can be used as the identify for the
-/v1/schedule APIs that are descibed below.
+/v1/schedule APIs that are described below.
 
 ## <a id="schedule_get_all"></a> GET /v1/schedules ##
 

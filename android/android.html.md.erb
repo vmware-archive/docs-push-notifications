@@ -1,6 +1,9 @@
 ---
 title: Android Push Client SDK
 ---
+
+<%= partial './end-of-life' %>
+
 ## <a id="sample_app"></a>Sample App ##
 
 You can find the Android Sample App <a href="https://github.com/cfmobile/push-android-samples">on Github</a>.
@@ -45,7 +48,7 @@ above. After setting up your Android platform in PCF Mobile Services, note down 
 **Platform Secret** parameters. You need them below.  At this time, the Android Push software makes no distinction
 between developer and production modes.
 
-For information on how to create your app and platforms, see 
+For information on how to create your app and platforms, see
 [Using the Dashboard](../dashboard-user-guide.html).
 
 ### <a id="Building"></a> Link to PCF Push SDK ####
@@ -165,7 +168,7 @@ For more information, see [Registering with a Custom User ID](../../custom-user-
 
 The **TAGS** parameter is a `Set<String>` of tags that your app would like to subscribe to. There are many
 possible uses of tags but they are dependent on your particular use cases. Always ensure that you provide all of the
-tags that you'd like to be subscribed to; if you omit tags in future calls to the register method then the SDK 
+tags that you'd like to be subscribed to; if you omit tags in future calls to the register method then the SDK
 thinks that you are trying to unsubscribe from those tags.  If there are no tags that you want to register to then you
 can set this argument to `null`.  Tags are treated as case-insensitive.
 
@@ -448,7 +451,7 @@ In order for this method to take effect you need to call it *before* `startRegis
 
 ### <a id="geofences"></a>  Geofences ###
 
-Geofences are newly supported in v1.3.0 of the Push Notification Service.  Using this service, you can 
+Geofences are newly supported in v1.3.0 of the Push Notification Service.  Using this service, you can
 register push notifications that your app users see when they enter or exit certain geographic regions that you
 define on the Push Notification Service Dashboard.
 
@@ -597,7 +600,7 @@ would like.
 
 In order to enable geofences at runtime you need to pass `true` to the `areGeofencesEnabled` argument when you call the
 `startRegistration` method in your app main activity. If this parameter is set to `false` then no geofences features
-are available at runtime. Any geofences that may have been monitored before are cleared and are no longer 
+are available at runtime. Any geofences that may have been monitored before are cleared and are no longer
 monitored.
 
 The `startPushRegistrationWithGeofencesEnabled` method in the above example will finally initialize the Push SDK.  If
@@ -636,7 +639,7 @@ initialize your Push SDK:
 1. Wait until the project is completed, this might take a couple of minutes.  After this, you are on the
    project page.
 
-1. Note at the top your **Project Number**.  This value should be in light gray text.  Make note of this value because you 
+1. Note at the top your **Project Number**.  This value should be in light gray text.  Make note of this value because you
    need it later. Make sure you use the numeric project number.  Do not use the project ID with the words.
 
 1. On the left, in the **APIs & Auth** section, click **APIs**.

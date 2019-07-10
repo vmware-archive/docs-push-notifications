@@ -2,6 +2,8 @@
 title: Push
 ---
 
+<%= partial './end-of-life' %>
+
 ## <a id="push_create"></a> Push a Message ##
 
 ###<a id="post"></a> POST /v1/push ###
@@ -33,7 +35,7 @@ __message__ field is populated.
 ###<a id="limitations"></a>Message Field Size Limitations
 
 The size limit for the __message__ field depends on the operating system:
- 
+
 - **iOS**: The Push Notifications backend uses legacy APNs binary interface that is limited to 2&nbsp;KB (2048 bytes) payload.
        As such, if __message__ field is too large, APNs will reject these notifications.
 - **Android**: The Push Notification backend is limited to sending push payloads to FCM, GCM, and Baidu to 4&nbsp;KB (4096 bytes).
