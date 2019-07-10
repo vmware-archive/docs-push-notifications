@@ -2,6 +2,8 @@
 title: Using the Dashboard
 ---
 
+<%= partial './end-of-life' %>
+
 ##<a id="Applications"></a>Applications
 An application in the Push Dashboard represents a mobile application from the perspective of the application author, including all supported platforms. Applications are listed in the dropdown at the top of the sidebar.
 
@@ -11,10 +13,10 @@ An application in the Push Dashboard represents a mobile application from the pe
 Click **Create New Application** in left sidebar. Fill in the form and click **Save** to create the application, or optionally click **Add Platform** to add a platform for the application.
 
 ### <a id="APIURL"></a> API URL ###
-The default API URL value of the push backend is `https://push-api.YOUR-SYSTEM-DOMAIN`. 
+The default API URL value of the push backend is `https://push-api.YOUR-SYSTEM-DOMAIN`.
 However, because the operator can set up multiple routes for network traffic separation,
 the API URL displayed in the dashboard might be the incorrect endpoint to use,
-depending on which network the request originates from. 
+depending on which network the request originates from.
 
 The correct value used to communicate with the push backend is the route that allows the device to reach the push backend.
 Use `cf routes push-api` to show all routes for the push backend.
@@ -35,7 +37,7 @@ Click **Regenerate Shared Secret**. A new shared secret will be generated for us
 <img src="assets/dug-regenerate-shared-secret.png" width="800"/>
 
 ### <a id="Deletinganapplication"></a> Deleting an Application ###
-To delete an application, click the **Configuration** link in the sidebar menu to bring up information about the application. Click the delete icon under the **Actions** column to delete the application. 
+To delete an application, click the **Configuration** link in the sidebar menu to bring up information about the application. Click the delete icon under the **Actions** column to delete the application.
 
 <p class='note'><strong>NOTE</strong>: This icon will be disabled if the application has one or more platforms.</p>
 
@@ -61,7 +63,7 @@ On the Configuration page, click the pencil icon link next to the platform you w
 <img src="assets/dug-edit-platform.png" width="800"/>
 
 ### <a id="Deletingaplatform"></a> Deleting a Platform ###
-On the Configuration page, click the trash icon link next to the platform you want to delete. 
+On the Configuration page, click the trash icon link next to the platform you want to delete.
 
 <p class='note'><strong>NOTE</strong>: You cannot delete a platform that has devices. In order to remove devices you must unregister from the device.</p>
 
@@ -142,7 +144,7 @@ Fill in the **Name** and **Description** of the **Location Group**. In the **Tar
 <img src="assets/gw-step5.png" width="800"/>
 
 ### <a id="GeofencePushNotifications"></a> Geofence Push Notifications ###
-Fill in the details of the **Push Notification**, such as **Message**, **Platform**, and **Schedule**. From the **Target Location** drop-down, select either a **Location** or a **Location Group**. 
+Fill in the details of the **Push Notification**, such as **Message**, **Platform**, and **Schedule**. From the **Target Location** drop-down, select either a **Location** or a **Location Group**.
 
 **Trigger Type** field appears on the addition of **Location** or **Location Group**. Select either **Enter** or **Exit**, depending on how you want the Geofence to activate. Once you have set all the details, click **Send Push Notification**.
 

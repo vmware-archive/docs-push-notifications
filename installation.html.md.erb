@@ -2,6 +2,8 @@
 title: Installation
 ---
 
+<%= partial './end-of-life' %>
+
 This document describes how to install the Pivotal Cloud Foundry (PCF) Push Notification Service.
 
 The PCF Push Notification Service installs as a suite of five CF apps deployed in the `system` org under the `push-notifications` space.
@@ -105,8 +107,8 @@ After you have completed these configurations click "Save".
 ### <a id="ProxySettings"></a> Configure Proxy ###
 
 PCF Push Notification Service supports routing communication with push providers (Apple Push Notification Service, Google Cloud Messaging, Firebase Cloud Messaging, Baidu Cloud Push) through a proxy server.
- 
-For example, to route FCM API request through a SOCKS proxy server running on 10.0.4.2:1080, set `Server Host` and `Server Port` under `SOCKS` of `FCM Proxy Settings` as following:  
+
+For example, to route FCM API request through a SOCKS proxy server running on 10.0.4.2:1080, set `Server Host` and `Server Port` under `SOCKS` of `FCM Proxy Settings` as following:
 ![Proxy Configuration](assets/installation-proxy.png)
 
 Each push providers proxy settings can be configured independently from each other.
@@ -126,7 +128,7 @@ through the **Errands Form** in the Push Notifications tile settings in Ops Mana
 
 ### <a id="UploadStemcell"></a> Upload Stemcell ###
 
-Ops Manager requires that you upload the stemcell that the Push Notification Service uses. 
+Ops Manager requires that you upload the stemcell that the Push Notification Service uses.
 
 1. Depending on your Ops Manager version, navigate to the area where you can manage your stemcell for the Push Notification Service:
     * If you are using Ops Manager v2.0 or earlier, click **Stemcells**.
@@ -140,8 +142,8 @@ Ops Manager requires that you upload the stemcell that the Push Notification Ser
 
 After you complete the security settings and MySQL configuration, perform the following steps to complete the installation.
 
-1. If you are using Ops Manager v2.3 or later, click **Review Pending Changes**. 
-For more information about this Ops Manager page, see 
+1. If you are using Ops Manager v2.3 or later, click **Review Pending Changes**.
+For more information about this Ops Manager page, see
 [Reviewing Pending Product Changes](https://docs.pivotal.io/pivotalcf/customizing/review-pending-changes.html).
 1. Click **Apply Changes**.
 

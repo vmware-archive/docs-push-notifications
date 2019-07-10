@@ -2,6 +2,8 @@
 title: Registering with a Custom User ID
 ---
 
+<%= partial './end-of-life' %>
+
 ## <a id="specifyingCustomeUserID"></a>Specifying a Custom User ID ##
 
 By default, push expects the custom user ID field during a device registration to be specified using
@@ -47,8 +49,8 @@ unsignedToken = encodeBase64(header) + '.' + encodeBase64(payload)
 sharedSecret = APPLICATION-SHARED-SECRET
 ```
 
-<p class="note"><strong>Note</strong>: 
-	The application's shared secret that comes from the push dashboard is in HEX so 
+<p class="note"><strong>Note</strong>:
+	The application's shared secret that comes from the push dashboard is in HEX so
 	it needs to be parsed into a 32 byte array.</p>
 
 **Final Token**

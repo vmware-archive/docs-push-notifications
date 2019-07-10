@@ -1,6 +1,9 @@
 ---
 title: Push Notification Service Release Notes
 ---
+
+<%= partial './end-of-life' %>
+
 ##v1.10.3
 **Release Date: February 12, 2019**
 
@@ -10,11 +13,11 @@ title: Push Notification Service Release Notes
 
 **Known Issues**
 
-- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
-  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
 
-- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
-  For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
 
 ##v1.10.2
 **Release Date: October 25, 2018**
@@ -26,11 +29,11 @@ title: Push Notification Service Release Notes
 
 **Known Issues**
 
-- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
-  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
 
-- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
-  For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
 
 ##v1.10.1
 **Release Date: August 17, 2018**
@@ -41,55 +44,55 @@ Add package-lock.json to push-dashboard to allow installing in offline environme
 
 **Bug Fixes**
 
-Fix issue when push-analytics reconnects to RabbitMQ when there are messages in queues that cannot be acked 
+Fix issue when push-analytics reconnects to RabbitMQ when there are messages in queues that cannot be acked
 
 **Known Issues**
 
-- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
-  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
 
-- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
-  For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
 
 ##v1.10.0
 **Release Date: June 10, 2018**
 
 <p class="note breaking"><strong>Breaking Change</strong>:
-  Push Notification Service for PCF v1.10.0 does not support MySQL for PCF v1. 
-  If you have an earlier version of Push Notification Service using MySQL for PCF v1, 
+  Push Notification Service for PCF v1.10.0 does not support MySQL for PCF v1.
+  If you have an earlier version of Push Notification Service using MySQL for PCF v1,
   you must migrate the data to MySQL for PCF v2 before upgrading to Push Notification Service v1.10.0.
   For instructions, see <a href="./devops.html#migrate_mysql">Migrate from MySQL v1 to v2</a>.</p>
 
 **Known Issues**
 
-- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
 
     <pre class="terminal">
     com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?
-    </pre> 
+    </pre>
 
-- When configuring the push app with multiple routes, the `API Url` under configuration 
-might not show the correct URL to communicate with the back end. 
-For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
+- When configuring the push app with multiple routes, the `API Url` under configuration
+might not show the correct URL to communicate with the back end.
+For more information, see [API URL](./dashboard-user-guide.html#APIURL).
 
 ##v1.9.4
 **Release Date: February 2018**
 
 **Features**
 
-Upgrade push-backend and push-analytics to support TLSv1.2 
+Upgrade push-backend and push-analytics to support TLSv1.2
 
 **Bug Fixes**
 
-Fix issue when push-analytics reconnects to RabbitMQ when there are messages in queues that cannot be acked 
+Fix issue when push-analytics reconnects to RabbitMQ when there are messages in queues that cannot be acked
 
 **Known Issues**
 
-- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
-  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
 
-- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
-  For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
 
 ##v1.9.3
 **Release Date: September 2017**
@@ -102,15 +105,15 @@ Improve handling of Redis password with special characters
 
 Fix issue where dashboard shows zero(0) registrations under certain conditions
 
-If push is sent with custom fields, show `[Custom message]` as message body in summary page of push-dashboard instead of blank 
+If push is sent with custom fields, show `[Custom message]` as message body in summary page of push-dashboard instead of blank
 
 **Known Issues**
 
-- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
-  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
 
-- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
-  For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
 
 ##v1.9.2
 **Release Date: July 2017**
@@ -127,11 +130,11 @@ Fix push-dashboard page "Not Found" error if `Accept-Encoding` is missing in req
 
 **Known Issues**
 
-- The following message in the `push-api` log can be ignored because it does not affect sending pushes: 
-  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?` 
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
 
-- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend. 
-  For more information, see [API URL](./dashboard-user-guide.html#APIURL). 
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
 
 ##v1.9.1
 **Release Date: June 2017**
@@ -269,7 +272,7 @@ If installing push v1.6.1 or earlier on PCF v1.8, follow the instructions below
  cf map-route push-analytics $ENV_URL --hostname push-analytics
  ```
 
-where `$ENV_URL` is the value of the domain name used for your PCF environment 
+where `$ENV_URL` is the value of the domain name used for your PCF environment
 
 
 ## v1.6.0
@@ -307,13 +310,13 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
 
    - New Heartbeat Application is deployed with the Push Notifications Service
    - Heartbeat Monitor App available on iOS and Android
-   
+
 ##v1.4.27
 
 **Release Date October 2016**
 
 - Bump to stemcell v3151.3 for CVE as detailed in USN-3106-2: https://www.ubuntu.com/usn/usn-3106-2/
-   
+
 ##v1.4.25
 
 **Release Date October 2016**
