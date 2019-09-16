@@ -2,35 +2,253 @@
 title: Push Notification Service Release Notes
 ---
 
-##v1.7.1
+<%= partial './end-of-life' %>
+
+##<a id="1-10-5"></a> v1.10.5
+
+**Release Date: August 7, 2019**
+
+**Maintenance**
+
+- Adds the ability to specify the Redis service plan used.
+
+- Compatible with on-demand Redis service plans.
+  <p class="note"><strong>Note:</strong> Changing Redis plans causes analytics information to reset.
+  Plans can be changed from a Shared-VM or Dedicated-VM Redis service plan to an on-demand plan
+  or from one on-demand plan to another on-demand plan.
+  </p>
+
+##<a id="1-10-4"></a>v1.10.4
+**Release Date: July 12, 2019**
+
+**Bug Fixes**
+
+- Fixes the `ERR invalid password` issue where the scheduler application was
+unable to accept passwords from some Redis instances.
+
+**Maintenance**
+
+- Updated to use Xenial Stemcells.
+- Now defaults to cflinuxfs3 during initial installation.
+
+##<a id="1-10-3"></a> v1.10.3
+**Release Date: February 12, 2019**
+
+**Bug Fixes**
+
+- Fixes an issue that causes the broker to not run on cflinux3-based ruby buildpacks.
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
+
+##<a id="1-10-2"></a> v1.10.2
+**Release Date: October 25, 2018**
+
+**Bug Fixes**
+
+- Handles the LZ4 compression exception to avoid the exception blocking the message queue.
+- Adds a registration failure listener to the Android SDK.
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
+
+##<a id="1-10-1"></a> v1.10.1
+**Release Date: August 17, 2018**
+
+**Features**
+
+Add package-lock.json to push-dashboard to allow installing in offline environment with latest nodejs-buildpack
+
+**Bug Fixes**
+
+Fix issue when push-analytics reconnects to RabbitMQ when there are messages in queues that cannot be acked
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
+
+##<a id="1-10-0"></a> v1.10.0
+**Release Date: June 10, 2018**
+
+<p class="note breaking"><strong>Breaking Change</strong>:
+  Push Notification Service for PCF v1.10.0 does not support MySQL for PCF v1.
+  If you have an earlier version of Push Notification Service using MySQL for PCF v1,
+  you must migrate the data to MySQL for PCF v2 before upgrading to Push Notification Service v1.10.0.
+  For instructions, see <a href="./devops.html#migrate_mysql">Migrate from MySQL v1 to v2</a>.</p>
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+
+    <pre class="terminal">
+    com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?
+    </pre>
+
+- When configuring the push app with multiple routes, the `API Url` under configuration
+might not show the correct URL to communicate with the back end.
+For more information, see [API URL](./dashboard-user-guide.html#APIURL).
+
+##<a id="1-9-4"></a> v1.9.4
+**Release Date: February 2018**
+
+**Features**
+
+Upgrade push-backend and push-analytics to support TLSv1.2
+
+**Bug Fixes**
+
+Fix issue when push-analytics reconnects to RabbitMQ when there are messages in queues that cannot be acked
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
+
+##<a id="1-9-3"></a> v1.9.3
+**Release Date: September 2017**
+
+**Bug Fixes**
+
+Improve RabbitMQ connection stability and logging
+
+Improve handling of Redis password with special characters
+
+Fix issue where dashboard shows zero(0) registrations under certain conditions
+
+If push is sent with custom fields, show `[Custom message]` as message body in summary page of push-dashboard instead of blank
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
+
+##<a id="1-9-2"></a> v1.9.2
+**Release Date: July 2017**
+
+**Features**
+
+Devices that are no longer registered against the FCM Google key are now deactivated
+
+**Bug Fixes**
+
+Fix push-service-broker packaging for offline installation of Push Notification Service tile
+
+Fix push-dashboard page "Not Found" error if `Accept-Encoding` is missing in request header
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
+
+##<a id="1-9-1"></a> v1.9.1
+**Release Date: June 2017**
+
+**Bug Fixes**
+
+Fix RabbitMQ connectivity issue
+
+Ensure push-scheduler and push-service-broker use correct Ruby version in latest CF buildpacks
+
+**Known Issues**
+
+In an offline environment, running post-install errands will fail due to push-service-broker package missing local dependencies
+
+##<a id="1-9-0"></a> v1.9.0
+**Release Date: June 2017**
+
+**Features**
+
+Added support for Baidu Cloud Push Service on android.
+
+Removed push logs dependency on redis service instance. Push dashboard now uses websockets for tailing logs.
+For updated setup instructions, see the [installation](./installation.html#Prerequisites) guide.
+
+Logs redis instance can be removed. Refer to [devops](./devops.html#remove_log_redis) guide for instructions.
+
+Push Dashboard Configuration page shows iOS certificate status.
+
+##<a id="1-8-1"></a> v1.8.1
+**Release Date: March 2017**
+
+**Bug Fixes**
+
+Fix an issue when upgrading the push tile on PCF 1.9.*
+
+##<a id="1-8-0"></a> v1.8.0
+**Release Date: February 2017**
+
+**Features**
+
+Ability to customize push app instance counts during deployment. For more information, see [custom deployments](installation.html#DeploymentSettings).
+
+The Push Dashboard will now show a warning when the iOS certificate in use is expired.
+
+Official support for Azure.
+
+**Bug Fixes**
+
+**Known Issues**
+
+Upgrading to Push 1.8.0 when running on PCF 1.9 may fail with an error `Server error, status code: 500, error code: 10001, message: An unknown error occurred.`
+
+This is due to the 1.8 version of the push tile defaulting to 2 app instances for each application it deploys on the system org, push-notifications space. This error is encountered when an app is staged and scaled at the same time.
+
+Please upgrade to version 1.8.1 to fix this issue.
+
+Workaround: Update the instance counts of the apps under the system org, push-notifications space to 2 each before installing Push 1.8.0 (or the custom instance counts if you're using that option.)
+
+##<a id="1-7-1"></a> v1.7.1
 **Release Date: January 2017**
 
-**Bug fixes**
+**Bug Fixes**
 
 Fix the ability to edit scheduled pushes
 
-##v1.7.0
+##<a id="1-7-0"></a> v1.7.0
 **Release Date: December 2016**
 
 **Features**
 
 Support for Android FCM push notifications
 
-**Bug fixes**
+**Bug Fixes**
 
 Dashboard session timeout error
 
-**Known issues**
+**Known Issues**
 
 Once a scheduled push is created, it cannot be edited (will address this bug in a later release)
 
-##v1.6.3
+##<a id="1-6-3"></a> v1.6.3
 **Release Date: September 2016**
 
 Updated stemcell to v3263 to address kernel vulnerabilities (includes 4.4 kernel)
 
 
-##v1.6.2
+##<a id="1-6-2"></a> v1.6.2
 **Release Date: September 2016**
 
 <p class="note"><strong>Note</strong>: Update to Push Notification Service v1.6.2 prior to upgrading to Pivotal Cloud Foundry v1.8.</p>
@@ -39,14 +257,14 @@ Updated stemcell to v3263 to address kernel vulnerabilities (includes 4.4 kernel
 
 Fixes:
 
-- Fixed dashboard issue found when upgrading from PCF v1.7 to PCF v1.8 
+- Fixed dashboard issue found when upgrading from PCF v1.7 to PCF v1.8
 
 **Known Issues**
 
 If you installed Push v1.6.2+ after upgrading to PCF v1.8, then remove the app named `push-notifications-analytics` with the following command:
     <pre class="terminal">$ cf delete push-notifications-analytics</pre>
 
-##v1.6.1
+##<a id="1-6-1"></a> v1.6.1
 **Release Date: August 2016**
 
 Features:
@@ -69,21 +287,22 @@ Upgrading to PCF v1.8 exposes a bug in versions of Push v1.6.1 and older. The im
 
 If installing push v1.6.1 or earlier on PCF v1.8, follow the instructions below
 
+
 1. To confirm this is the problem you are experiencing, you can check to see if there is a CF app running in the `system` org and `push-notifications` space called `push-notifications-analytics`.
- 
+
 
 2. Replace `push-analytics` with `push-notifications-analytics` and add a matching route as per the commands shown below
- 
+
  ```
  cf delete push-analytics
  cf rename push-notifications-analytics push-analytics
  cf map-route push-analytics $ENV_URL --hostname push-analytics
  ```
 
-where `$ENV_URL` is the value of the domain name used for your PCF environment 
+where `$ENV_URL` is the value of the domain name used for your PCF environment
 
 
-## v1.6.0
+##<a id="1-6-0"></a> v1.6.0
 
 **Release Date: July 2016**
 
@@ -91,13 +310,13 @@ where `$ENV_URL` is the value of the domain name used for your PCF environment
    - Tags have been replaced by Topics
    - Topics can be created with expiry dates
 
-##1.5.7
+##<a id="1-5-7"></a> v1.5.7
 
 **Release Date: December 2016**
 
 Security release for CVE as detailed in [USN-3156-1](https://www.ubuntu.com/usn/USN-3156-1/)
 
-##1.5.6
+##<a id="1-5-6"></a> v1.5.6
 
 **Release Date: December 2016**
 
@@ -105,74 +324,74 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
 
 
 
-## v1.5.3
+##<a id="1-5-3"></a> v1.5.3
 
 **Release Date: June 2016**
 
    - Bug fix for Service broker bug with HTTPS
 
 
-## v1.5.0
+## <a id="1-5-0"></a> v1.5.0
 
 **Release Date: June 2016**
 
    - New Heartbeat Application is deployed with the Push Notifications Service
    - Heartbeat Monitor App available on iOS and Android
-   
-##v1.4.27
+
+##<a id="1-4-27"></a> v1.4.27
 
 **Release Date October 2016**
 
 - Bump to stemcell v3151.3 for CVE as detailed in USN-3106-2: https://www.ubuntu.com/usn/usn-3106-2/
-   
-##v1.4.25
+
+##<a id="1-4-25"></a>v1.4.25
 
 **Release Date October 2016**
 
 - Bump Ubuntu stemcell for USN-3099-2: Linux kernel (Xenial HWE) vulnerabilities
 
 
-## v1.4.24
+##<a id="1-4-24"></a> v1.4.24
 
 **Release Date: October 2016**
 
    - Updated Ubuntu stemcell for USN-3087-2: OpenSSL regression
 
-## v1.4.12
+##<a id="1-4-12"></a> v1.4.12
 **Release Date: June 2016**
 
    - Updated BOSH stemcell to v3262.2
    - Bug fix for cf CLI
 
-## v1.4.10
+##<a id="1-4-10"></a> v1.4.10
 **Release Date: June 2016**
 
  - Security release requiring stemcell v3232.8
 
-## v1.4.9
+##<a id="1-4-9"></a> v1.4.9
 **Release Date: June 2016**
 
  - Security release requiring stemcell v3232.6
  - Bug fix for Service broker bug with HTTPS
 
-## v1.4.7
+##<a id="1-4-7"></a> v1.4.7
 **Release Date: May 2016**
  - Security release requiring stemcell v3232.2
 
-## v1.4.5
+##<a id="1-4-5"></a> v1.4.5
 **Release Date: May 2016**
  - PCF v1.7 compatibility.
  - Update to this version of push _before_ updating to PCF v1.7.0
 
-## v1.4.3
+##<a id="1-4-3"></a> v1.4.3
 **Release Date: March 2016**
  - Security release requiring stemcell v3146.10.
 
-## v1.4.2
+##<a id="1-4-2"></a> v1.4.2
 **Release Date: February 2016**
  - Security release requiring stemcell v3146.8.
 
-## [v1.4.0](v1_4_0/release-notes.html)
+##<a id="1-4-0" href="./release-notes/release-notes-1.4.0.html">v1.4.0</a>
 **Release Date: November 2015**
 
  - The Push Notifications Service now supports multiple tenants.
@@ -182,43 +401,43 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
  - The analytics system now configures a second Redis to behave as a cache for storing logs.
  - Update to the Push SDK supports iOS 9 and includes a Swift sample app.
  - The Push SDK for Android now supports Android 6.0 Marshmallow, including the new permissions system.
-   - See the Push Sample app for an example of Android 6.0 Marshmallow permissions.
+   - For an example of Android 6.0 Marshmallow permissions, see the Push Sample app.
 
-## [v1.3.5](v1_3_5/release-notes.html)
+##<a id="1-3-5" href="./release-notes/release-notes-1.3.5.html">v1.3.5</a>
 **Release Date: October 2015**
 
  - Support for PCF v1.6 and Diego.
  - SOCKS proxy bug fix.
 
-## [v1.3.4](v1_3_4/release-notes.html)
+##<a id="1-3-4" href="./release-notes/release-notes-1.3.4.html"> v1.3.4</a>
 **Release Date: October 2015**
 
  - Bug fixes for smoke tests.
 
-## [v1.3.3](v1_3_3/release-notes.html)
+##<a id="1-3-3" href="./release-notes/release-notes-1.3.3.html"> v1.3.3</a>
 **Release Date: September 2015**
 
  - Bug fixes for certain scenarios regarding expiry time.
 
-## [v1.3.3 iOS and Android Client SDK](v1_3_3/sdk-release-notes.html)
+##<a id="1-3-3"></a> v1.3.3 iOS and Android Client SDK
 
 - Push app analytics.
 - Custom HTTP request headers.
 - Custom SSL authentication.
 
-## [v1.3.2](v1_3_2/release-notes.html)
+##<a id="1-3-2" href="./release-notes/release-notes-1.3.2.html">v1.3.2</a>
 **Release Date: August 2015**
 
  - Deprecated lucid64 stack in favour of the new Trusty/cflinuxfs2 stack
  - Proxy Support for iOS push notifications.  Supports SOCKS proxies.
  - Proxy Support for Android push notifications.  Supports HTTP and SOCKS proxies.
 
-## [v1.3.2 iOS and Android Client SDK](v1_3_2/sdk-release-notes.html)
+##<a id="1-3-2"></a> v1.3.2 iOS and Android Client SDK
 
 - Enable and disable geofences at runtime.
 - Added a method to read the device UUID at runtime.
 
-## [v1.3.1](v1_3_1/release-notes.html)
+##<a id="1-3-1" href="./release-notes/release-notes-1.3.1.html">v1.3.1</a>
 **Release Date: August 2015**
 
   - Support for RabbitMQ Service versions v1.4.0 and later
@@ -227,12 +446,12 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
   - Minor improvements to installation
   - Allow certificate checks to be disabled in cf environments that use self signed certificates
 
-## [v1.3.1 iOS and Android Client SDK](v1_3_1/sdk-release-notes.html)
+##<a id="1-3-3"></a> v1.3.1 iOS and Android Client SDK
 
 - SSL Certificate pinning.
 - Any geofences with tags will be monitored only if the user is subscribed to that tag.
 
-## [v1.3.0](v1_3/release-notes.html)
+##<a id="1-3-0" href="./release-notes/release-notes-1.3.0.html"> v1.3.0</a>
 **Release Date: June 2015**
 
 - Location based notifications
@@ -242,22 +461,22 @@ Security release for CVE as detailed in [USN-3151-2](https://www.ubuntu.com/usn/
 	- Saved locations and groups of locations
 	- Active geofences view
 
-[Upgrading from version v1.2.x to v1.3.0](v1_3/release-notes.html)
+[Upgrading from version v1.2.x to v1.3.0](./release-notes/release-notes-1.3.0.html)
 
-## v1.2.1 ##
+##<a id="1-2-1"></a> v1.2.1 ##
 **Release Date: April 2015**
 
 - Offline installation support
 
-## [v1.2.0](v1_2/release-notes.html) ##
+##<a id="1-2-0" href="./release-notes/release-notes-1.2.0.html">v1.2.0</a>
 **Release Date: March 2015**
 
 - Scheduled push notifications
 - Notifications with expiry time
 - Updated UI/UX for dashboard (sending scheduled push with expiry time)
 
-## [v1.1.0 - January 2015](v1_1/release-notes.html) ##
+##<a id="1-1-0" href="./release-notes/release-notes-1.1.0.html>v1.1.0 — January 2015</a>
 
-## [v1.0.1 - November 2014](v1_0_1/release-notes.html) ##
+##<a id="1-0-1" href="./release-notes/release-notes-1.0.1.html>v1.0.1 — November 2014</a>
 
-## [v1.0.0 — July 2014](v1_0/release-notes.html) ##
+##<a id="1-0-0" href="./release-notes/release-notes-1.0.0.html">v1.0.0 — July 2014</a>
