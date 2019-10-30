@@ -12,6 +12,14 @@ title: Push Notification Service Release Notes
 
 - Updates compatibility to support ruby 2.6.x
 
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
+
 ##<a id="1-10-5"></a> v1.10.5
 **Release Date: August 7, 2019**
 
@@ -25,6 +33,14 @@ title: Push Notification Service Release Notes
   or from one on-demand plan to another on-demand plan.
   </p>
 
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
+
 ##<a id="1-10-4"></a>v1.10.4
 **Release Date: July 12, 2019**
 
@@ -37,6 +53,14 @@ unable to accept passwords from some Redis instances.
 
 - Updated to use Xenial Stemcells.
 - Now defaults to cflinuxfs3 during initial installation.
+
+**Known Issues**
+
+- The following message in the `push-api` log can be ignored because it does not affect sending pushes:
+  `com.squareup.okhttp.OkHttpClient - ALPN callback dropped: SPDY and HTTP/2 are disabled. Is alpn-boot on the boot class path?`
+
+- When configuring the push app with multiple routes, the `API Url` under configuration might not show the correct URL to communicate with the backend.
+  For more information, see [API URL](./dashboard-user-guide.html#APIURL).
 
 ##<a id="1-10-3"></a> v1.10.3
 **Release Date: February 12, 2019**
